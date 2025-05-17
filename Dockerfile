@@ -1,6 +1,8 @@
 # Base image
 FROM node:18
 
+ENV PORT 8080
+ENV HOST 0.0.0.0
 
 # Create app directory
 WORKDIR /usr/src/app
