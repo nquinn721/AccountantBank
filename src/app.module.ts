@@ -7,12 +7,12 @@ import { CompaniesModule } from './Company/Company.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: '10.11.32.2',
-      port: 5432,
-      username: 'postgres',
-      password: 'Alloydb1234',
-      database: 'postgres',
+      type: 'mysql',
+      host: '35.226.98.160',
+      port: 3306,
+      username: 'nate',
+      password: 'Nate1234',
+      database: 'accountant',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
