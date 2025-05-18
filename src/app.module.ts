@@ -4,12 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppService } from './app.service';
 import { CompaniesModule } from './Company/Company.module';
 
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: '34.70.169.242',
+      host: '10.11.32.2',
       port: 5432,
       username: 'postgres',
       password: 'Alloydb1234',
