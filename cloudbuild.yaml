@@ -1,0 +1,12 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - '[SERVICE-NAME]'
+      - '--image'
+      - 'gcr.io/cloudrun/hello'
+      - '--region'
+      - '[REGION]'
+      - '--platform'
+      - 'managed'
