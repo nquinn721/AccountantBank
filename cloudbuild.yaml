@@ -1,9 +1,12 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: 'gcr.io/cloud-builders/gcloud'
     args:
-      [
-        'build',
-        '-t',
-        'gcr.io/heroic-footing-460117-k8/github.com/nquinn721/grantaccount:$COMMIT_SHA',
-        '.',
-      ]
+      - 'run'
+      - 'deploy'
+      - '[SERVICE-NAME]'
+      - '--image'
+      - 'gcr.io/cloudrun/hello'
+      - '--region'
+      - '[REGION]'
+      - '--platform'
+      - 'managed'
