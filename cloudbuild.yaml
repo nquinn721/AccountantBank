@@ -1,12 +1,7 @@
 steps:
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - 'run'
-      - 'deploy'
-      - '[SERVICE-NAME]'
-      - '--image'
-      - 'gcr.io/cloudrun/hello'
-      - '--region'
-      - '[REGION]'
-      - '--platform'
-      - 'managed'
+  - name: 'gcr.io/cloud-builders/docker'
+    script: |
+      docker build -t us-east5-docker.pkg.dev/heroic-footing-460117-k8/grant-accountant/$PROJECT_ID
+    automapSubstitutions: true
+images:
+  - 'us-east5-docker.pkg.dev/heroic-footing-460117-k8/grant-accountant/$PROJECT_ID'
