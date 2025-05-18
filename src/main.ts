@@ -8,7 +8,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
   });
-  app.setGlobalPrefix('api/v1');
+  // app.setGlobalPrefix('api/v1');
   // app.useGlobalPipes(new ValidationPipe({ transform: true }));
   // app.useGlobalInterceptors(new TransformInterceptor());
   // app.useGlobalFilters(new HttpExceptionFilter());
@@ -19,5 +19,6 @@ async function bootstrap() {
   // });
 
   await app.listen(process.env.PORT || 8080);
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
