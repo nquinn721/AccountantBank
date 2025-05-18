@@ -8,7 +8,7 @@ import { CompaniesModule } from './Company/Company.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'heroic-footing-460117-k8:us-east1:accountant',
+      host: '34.75.151.116',
       port: 3306,
       username: 'nate',
       password: 'nate1234',
