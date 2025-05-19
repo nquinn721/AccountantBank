@@ -1,19 +1,24 @@
 import React from "react";
 import "./App.css";
-import Login from "./pages/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PlayerSearch from "./pages/PlayerSearch";
-
+import Home from "./pages/Home";
+import { createTheme, ThemeProvider } from "@mui/material";
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 function App() {
   return (
-    <Router>
-      <div className="App">
+    <ThemeProvider theme={darkTheme}>
+      <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Home />} />
           <Route path="/playersearch" element={<PlayerSearch />} />
         </Routes>
-      </div>
-    </Router>
+      </Router>
+    </ThemeProvider>
   );
 }
 

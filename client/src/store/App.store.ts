@@ -14,19 +14,19 @@ class AppStore {
   error: string | null = null;
   baseUrl: string = "http://localhost:8080";
   players: Player[] = [];
+  currentSearchedPlayerID: number | null = null;
 
   constructor() {
     makeAutoObservable(this);
-    this.fetchPlayers();
+    this.getPlayers();
   }
   // Example action to fetch players
-  async fetchPlayers() {
+  async getPlayers() {
     this.setLoading(true);
     try {
       const response = await fetch(`${this.baseUrl}/player`);
       const data = await response.json();
       this.players = data;
-      console.log("Fetched players:", data);
     } catch (error) {
       this.setError("Failed to fetch players");
     } finally {
@@ -35,13 +35,19 @@ class AppStore {
   }
 
   async AddPlayer(name: string) {
+    const playerNames = this.players.map((player) => player.name);
+    if (playerNames.includes(name)) {
+      this.setError("Player already exists");
+      return;
+    }
     if (!name.trim()) return;
     try {
       const response = await fetch(`${this.baseUrl}/player`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name }),
+        body: JSON.stringify({ name }),
       });
+      this.getPlayers();
     } catch (error) {
       // Handle error if needed
     }
