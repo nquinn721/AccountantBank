@@ -2,8 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppService } from './app.service';
-import { CompaniesModule } from './Company/Company.module';
-
+import { PlayerModule } from './Players/Player.module';
+import { TransactionModule } from './Transaction/Transaction.module';
+import { RakeModule } from './Rake/Rake.module';
+import { TipoutModule } from './Tipout/Tipout.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -12,11 +14,14 @@ import { CompaniesModule } from './Company/Company.module';
       port: 3306,
       username: 'admin',
       password: 'password',
-      database: 'test',
+      database: 'accountant',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    CompaniesModule,
+    PlayerModule,
+    TransactionModule,
+    RakeModule,
+    TipoutModule,
   ],
   controllers: [AppController],
   providers: [AppService],
