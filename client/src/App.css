@@ -42,6 +42,8 @@ header {
   align-content: center;
   cursor: pointer;
   position: relative;
+  font-size: 40px;
+  font-weight: bold;
 }
 .buyin-card {
   background-image: linear-gradient(
@@ -82,10 +84,17 @@ header {
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
-.modal-form {
-  width: 400px;
+@media screen and (min-width: 400px) {
+  .modal-form {
+    width: 300px;
+  }
 }
+@media screen and (min-width: 600px) {
+  .modal-form {
+    width: 500px;
+  }
+}
+
 .modal-content {
   display: flex;
   flex-direction: column;
@@ -115,7 +124,6 @@ header {
 }
 .player-search-autocomplete {
   width: 100%;
-  margin-right: 10px;
 }
 
 .player-search-button {

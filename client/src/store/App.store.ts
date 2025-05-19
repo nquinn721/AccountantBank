@@ -15,6 +15,7 @@ class AppStore {
   baseUrl: string = "http://localhost:8080";
   players: Player[] = [];
   currentSearchedPlayerID: number | null = null;
+  currentSearchedPlayerName: string = "";
 
   constructor() {
     makeAutoObservable(this);
@@ -24,8 +25,7 @@ class AppStore {
   async getPlayers() {
     this.setLoading(true);
     try {
-      const response = await fetch(`${this.baseUrl}/player`);
-      const data = await response.json();
+      const data = await this.get("/player");
       this.players = data;
     } catch (error) {
       this.setError("Failed to fetch players");
@@ -34,34 +34,58 @@ class AppStore {
     }
   }
 
-  async AddPlayer(name: string) {
-    const playerNames = this.players.map((player) => player.name);
-    if (playerNames.includes(name)) {
-      this.setError("Player already exists");
-      return;
+  async AddPlayer() {
+    const player = await this.post("/player", {
+      name: this.currentSearchedPlayerName,
+    });
+    return player;
+  }
+
+  async AddPlayerTransaction(
+    type: string,
+    paytype: string = "cash",
+    amount: number
+  ) {
+    let player = this.currentSearchedPlayerID;
+
+    if (!this.currentSearchedPlayerID && this.currentSearchedPlayerName) {
+      const p = await this.AddPlayer();
+      player = p.id;
     }
-    if (!name.trim()) return;
     try {
-      const response = await fetch(`${this.baseUrl}/player`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name }),
+      await this.post("/transaction", {
+        player,
+        type,
+        paytype,
+        amount,
       });
+      this.currentSearchedPlayerID = null;
+      this.currentSearchedPlayerName = "";
       this.getPlayers();
     } catch (error) {
       // Handle error if needed
     }
   }
 
-  async AddPlayerBuyIn(player: number, amount: number) {
+  async get(url: string) {
     try {
-      const response = await fetch(`${this.baseUrl}/buyIn`, {
+      const response = await fetch(`${this.baseUrl}${url}`);
+      return response.json();
+    } catch (error) {
+      this.setError("Failed to fetch data");
+    }
+  }
+
+  async post(url: string, data: any) {
+    try {
+      const response = await fetch(`${this.baseUrl}${url}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ player, amount, paid: 0 }),
+        body: JSON.stringify(data),
       });
+      return response.json();
     } catch (error) {
-      // Handle error if needed
+      this.setError("Failed to post data");
     }
   }
 

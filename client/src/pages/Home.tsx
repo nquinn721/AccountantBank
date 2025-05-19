@@ -4,7 +4,12 @@ import BuyInForm from "../components/forms/BuyIn.form";
 import CashoutForm from "../components/forms/Cashout.form";
 import DealerTipForm from "../components/forms/DealerTip.form";
 import RakeForm from "../components/forms/Rake.form";
-import PaymentsIcon from "@mui/icons-material/Payments";
+import {
+  AddShoppingCart,
+  Savings,
+  AccountBalanceWallet,
+  AccountBalance,
+} from "@mui/icons-material";
 const Home: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [currentForm, setCurrentForm] = useState("buyin");
@@ -29,22 +34,62 @@ const Home: React.FC = () => {
       </header>
       <div className="content">
         <Card onClick={() => handleOpen("buyin")} className="buyin-card card">
-          <h1>Buy In</h1>
+          <AddShoppingCart
+            id="buyin-icon"
+            sx={{
+              position: "absolute",
+              top: 30,
+              left: 30,
+              fontSize: 150,
+              opacity: 0.1,
+            }}
+          />
+          <div>Buy In</div>
         </Card>
         <Card
           onClick={() => handleOpen("cashout")}
           className="card cashout-card"
         >
-          <h1>Cash Out</h1>
+          <Savings
+            id="cashout-icon"
+            sx={{
+              position: "absolute",
+              top: 30,
+              left: 30,
+              fontSize: 150,
+              opacity: 0.1,
+            }}
+          />
+          <div>Cash Out</div>
         </Card>
         <Card
           onClick={() => handleOpen("dealerTip")}
           className="card dealer-tip-card"
         >
-          <h1>Dealer Tip</h1>
+          <AccountBalanceWallet
+            id="dealerTip-icon"
+            sx={{
+              position: "absolute",
+              top: 30,
+              left: 30,
+              fontSize: 150,
+              opacity: 0.1,
+            }}
+          />
+          <div>Dealer Tip</div>
         </Card>
         <Card onClick={() => handleOpen("rake")} className="card rake-card">
-          <h1>Rake</h1>
+          <AccountBalance
+            id="rake-icon"
+            sx={{
+              position: "absolute",
+              top: 30,
+              left: 30,
+              fontSize: 150,
+              opacity: 0.1,
+            }}
+          />
+          <div>Rake</div>
         </Card>
       </div>
       <Dialog

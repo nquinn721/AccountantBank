@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import PlayerSearch from "./components/PlayerSearch";
 import { AddShoppingCart } from "@mui/icons-material";
 import { appStore } from "../../store/App.store";
+import { observer } from "mobx-react";
 interface BuyInFormProps {
   onSubmit: (amount: number) => void;
 }
@@ -13,12 +14,9 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount > 0) {
+      appStore.AddPlayerTransaction("buyin", "cash", amount);
       setAmount(0);
       onSubmit(amount);
-      if (appStore.currentSearchedPlayerID) {
-        appStore.AddPlayerBuyIn(appStore.currentSearchedPlayerID, amount);
-      }
-      appStore.currentSearchedPlayerID = null;
     }
   };
 
@@ -32,14 +30,17 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
         <TextField
           id="buyin-amount"
           type="number"
-          variant="filled"
           value={amount}
           label="Amount"
           onChange={(e) => setAmount(Number(e.target.value))}
           required
         />
         <br />
-        <Button variant="contained" type="submit" disabled={amount <= 0}>
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={amount <= 0 || !appStore.currentSearchedPlayerName}
+        >
           Submit
         </Button>
       </div>
@@ -47,4 +48,4 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
   );
 };
 
-export default BuyInForm;
+export default observer(BuyInForm);

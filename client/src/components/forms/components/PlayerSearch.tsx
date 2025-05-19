@@ -11,16 +11,19 @@ interface PlayerOption {
 }
 
 const PlayerSearch = () => {
-  const [playerName, setPlayerName] = useState("");
   const options = appStore.players;
   const label = "Player Name";
   const placeholder = "Search for a player...";
-
   const handleInputChange = (value: string) => {
     if (value) {
-      setPlayerName(value);
-      appStore.currentSearchedPlayerID =
-        options.find((option) => option.name === value)?.id || null;
+      const player = options.find((option) => option.name === value);
+      if (player) {
+        appStore.currentSearchedPlayerID = player.id;
+        appStore.currentSearchedPlayerName = player.name;
+      } else {
+        appStore.currentSearchedPlayerID = null;
+        appStore.currentSearchedPlayerName = value;
+      }
     }
   };
 
@@ -28,8 +31,8 @@ const PlayerSearch = () => {
     <div className="player-search">
       <Autocomplete
         className="player-search-autocomplete"
-        options={options}
-        getOptionLabel={(option) => option.name}
+        options={options.map((option) => option.name)}
+        freeSolo
         onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
         renderInput={(params) => (
           <TextField
@@ -39,10 +42,9 @@ const PlayerSearch = () => {
             variant="outlined"
           />
         )}
-        isOptionEqualToValue={(option, value) => option.id === value.id}
         fullWidth
       />
-      <Button
+      {/* <Button
         variant="contained"
         color="primary"
         className="player-search-button"
@@ -51,7 +53,7 @@ const PlayerSearch = () => {
         }}
       >
         +
-      </Button>
+      </Button> */}
     </div>
   );
 };
