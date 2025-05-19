@@ -1,5 +1,5 @@
 import { LocalAtm, Savings } from "@mui/icons-material";
-import { Button, MenuItem, Select, TextField } from "@mui/material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import React, { useState } from "react";
 import PlayerSearch from "./components/PlayerSearch";
 import { appStore } from "../../store/App.store";
@@ -20,7 +20,7 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount > 0) {
-      appStore.AddPlayerTransaction("cashout", paymentMethod, amount);
+      appStore.addPlayerTransaction("cashout", paymentMethod, amount);
       setAmount(0);
       onSubmit(amount);
     }

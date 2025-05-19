@@ -18,6 +18,8 @@ header {
   padding: 20px;
   height: 30px;
   align-items: center;
+  box-shadow: 0 0 5px 2px #000;
+  /* background-image: linear-gradient(to bottom right, #000000, #3c3c3c); */
 }
 
 .content {
@@ -96,12 +98,23 @@ header {
 }
 
 .modal-content {
-  display: flex;
   flex-direction: column;
   justify-content: center;
   color: white;
   background-color: #222;
   padding: 20px;
+}
+.tab-content {
+  background-color: #222;
+  color: white;
+  justify-content: center;
+  color: white;
+  flex-direction: column;
+  display: flex;
+}
+.css-13xfq8m-MuiTabPanel-root {
+  padding: 0 !important;
+  padding-top: 20px !important;
 }
 
 .modal-header {

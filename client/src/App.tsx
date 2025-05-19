@@ -11,6 +11,15 @@ const darkTheme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
+      <header>
+        {/* <img
+          src="poker-chip.png"
+          alt="Logo"
+          width={40}
+          height={40}
+          style={{ marginRight: "10px" }}
+        /> */}
+      </header>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />

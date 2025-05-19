@@ -14,7 +14,7 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount > 0) {
-      appStore.AddPlayerTransaction("buyin", "cash", amount);
+      appStore.addPlayerTransaction("buyin", "cash", amount);
       setAmount(0);
       onSubmit(amount);
     }

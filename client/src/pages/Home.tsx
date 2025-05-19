@@ -22,16 +22,6 @@ const Home: React.FC = () => {
   };
   return (
     <div className="app">
-      <header>
-        <img
-          src="poker-chip.png"
-          alt="Logo"
-          width={40}
-          height={40}
-          style={{ marginRight: "10px" }}
-        />
-        Poker
-      </header>
       <div className="content">
         <Card onClick={() => handleOpen("buyin")} className="buyin-card card">
           <AddShoppingCart

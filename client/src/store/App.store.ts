@@ -1,47 +1,46 @@
-import { makeAutoObservable } from "mobx";
-interface Player {
+import { makeObservable, observable, action } from "mobx";
+import { BaseStore } from "./Store.base";
+export interface Player {
   id: number;
   name: string;
-  buyIns: Array<{
+  transactions: Array<{
     amount: number;
     date: Date;
   }>;
 }
 
-class AppStore {
-  // Example state
-  isLoading: boolean = false;
-  error: string | null = null;
-  baseUrl: string = "http://localhost:8080";
+class AppStore extends BaseStore {
   players: Player[] = [];
   currentSearchedPlayerID: number | null = null;
   currentSearchedPlayerName: string = "";
 
   constructor() {
-    makeAutoObservable(this);
+    super();
+    makeObservable(this, {
+      players: observable,
+      currentSearchedPlayerID: observable,
+      currentSearchedPlayerName: observable,
+      getPlayers: action,
+      addPlayer: action,
+      addPlayerTransaction: action,
+    });
     this.getPlayers();
   }
   // Example action to fetch players
   async getPlayers() {
     this.setLoading(true);
-    try {
-      const data = await this.get("/player");
-      this.players = data;
-    } catch (error) {
-      this.setError("Failed to fetch players");
-    } finally {
-      this.setLoading(false);
-    }
+    const data = await this.get("/player");
+    this.players = data;
   }
 
-  async AddPlayer() {
+  async addPlayer() {
     const player = await this.post("/player", {
       name: this.currentSearchedPlayerName,
     });
     return player;
   }
 
-  async AddPlayerTransaction(
+  async addPlayerTransaction(
     type: string,
     paytype: string = "cash",
     amount: number
@@ -49,52 +48,24 @@ class AppStore {
     let player = this.currentSearchedPlayerID;
 
     if (!this.currentSearchedPlayerID && this.currentSearchedPlayerName) {
-      const p = await this.AddPlayer();
+      const p = await this.addPlayer();
       player = p.id;
     }
-    try {
-      await this.post("/transaction", {
-        player,
-        type,
-        paytype,
-        amount,
-      });
-      this.currentSearchedPlayerID = null;
-      this.currentSearchedPlayerName = "";
-      this.getPlayers();
-    } catch (error) {
-      // Handle error if needed
-    }
+    await this.post("/transaction", {
+      player,
+      type,
+      paytype,
+      amount,
+    });
+    this.currentSearchedPlayerID = null;
+    this.currentSearchedPlayerName = "";
+    this.getPlayers();
   }
 
-  async get(url: string) {
-    try {
-      const response = await fetch(`${this.baseUrl}${url}`);
-      return response.json();
-    } catch (error) {
-      this.setError("Failed to fetch data");
-    }
-  }
-
-  async post(url: string, data: any) {
-    try {
-      const response = await fetch(`${this.baseUrl}${url}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      return response.json();
-    } catch (error) {
-      this.setError("Failed to post data");
-    }
-  }
-
-  setLoading(value: boolean) {
-    this.isLoading = value;
-  }
-
-  setError(message: string | null) {
-    this.error = message;
+  async DealerTip(amount: number) {
+    this.post("/tipout", {
+      amount,
+    });
   }
 }
 
