@@ -12,14 +12,13 @@ body {
   height: 40vmin;
   pointer-events: none;
 }
-header {
+#main-header {
   display: flex;
   background-color: #151414;
   padding: 20px;
   height: 30px;
   align-items: center;
   box-shadow: 0 0 5px 2px #000;
-  /* background-image: linear-gradient(to bottom right, #000000, #3c3c3c); */
 }
 
 .content {

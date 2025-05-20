@@ -12,7 +12,11 @@ const BackButton: React.FC = () => {
 
   return (
     <Box>
-      <Button variant="text" sx={{ cursor: "pointer" }} onClick={handleBack}>
+      <Button
+        variant="text"
+        sx={{ cursor: "pointer", padding: "8px 0px", color: "#426d4b" }}
+        onClick={handleBack}
+      >
         <ChevronLeft /> Back to Home
       </Button>
     </Box>

@@ -7,6 +7,7 @@ import DealerTip from "./pages/DealerTipPage";
 import RakePage from "./pages/RakePage";
 import BuyInPage from "./pages/BuyInPage";
 import CashOutPage from "./pages/CashOutPage";
+import NavBar from "./pages/components/Nav";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -16,7 +17,8 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <div className="app">
-        <header></header>
+        <header id="main-header"></header>
+        {/* <NavBar /> */}
         <div className="content">
           <Router>
             <Routes>
