@@ -2,6 +2,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { appStore } from "../../../store/App.store";
 import { observer } from "mobx-react";
+import { on } from "events";
 
 interface PlayerOption {
   id: number;
@@ -10,8 +11,10 @@ interface PlayerOption {
 
 const PlayerSearch = ({
   playerFound,
+  onClear,
 }: {
   playerFound?: (player: PlayerOption) => void;
+  onClear?: () => void;
 }) => {
   const options = appStore.players || [];
   const label = "Player Name";
@@ -27,6 +30,10 @@ const PlayerSearch = ({
         appStore.currentSearchedPlayerID = null;
         appStore.currentSearchedPlayerName = value;
       }
+    } else {
+      appStore.currentSearchedPlayerID = null;
+      appStore.currentSearchedPlayerName = "";
+      onClear?.();
     }
   };
 

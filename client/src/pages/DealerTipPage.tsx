@@ -3,13 +3,12 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import { dealerTipStore } from "../store/DealerTip.store";
 import PlayerSearch from "../components/forms/components/PlayerSearch";
 import { observer } from "mobx-react";
-import moment from "moment";
-import { Box, Button } from "@mui/material";
-import { ChevronLeft } from "@mui/icons-material";
+import { Box } from "@mui/material";
 import BackButton from "./components/BackButton";
 
 const DealerTipPage: React.FC = () => {
   const [playerData, setPlayerData] = useState<{ [key: string]: number }>({});
+  const [playerName, setPlayerName] = useState<string>("");
 
   const [dataSet, setDataSet] = useState<
     { date: string; player: number; total: number }[]
@@ -22,6 +21,7 @@ const DealerTipPage: React.FC = () => {
       playerTipObject[date] = tts.amounts[index];
     });
     setPlayerData(playerTipObject);
+    setPlayerName(player.name);
   };
 
   useEffect(() => {
@@ -32,28 +32,22 @@ const DealerTipPage: React.FC = () => {
       player: playerData[date] || 0,
       total: allTips[index],
     }));
-    console.log("Data", data);
     setDataSet(data);
   }, [dealerTipStore.dealerTips, playerData]);
 
+  const series = [{ label: "Total", area: true, dataKey: "total" }];
+
+  if (playerName)
+    series.push({ label: playerName, area: true, dataKey: "player" });
   return (
     <Box sx={{ width: "100%", padding: 2 }}>
       <BackButton />
       <h1>Dealer Tip</h1>
       <p>Choose a player to see historical Tips.</p>
-      <PlayerSearch playerFound={onPlayerFound} />
-      <h2>Player Tips</h2>
-      {/* <LineChart
-        xAxis={[
-          {
-            scaleType: "point",
-            data: dates,
-            label: "Date",
-          },
-        ]}
-        series={[{ data: tips, label: "Amount", area: true }]}
-        height={200}
-      /> */}
+      <PlayerSearch
+        playerFound={onPlayerFound}
+        onClear={() => setPlayerName("")}
+      />
       <h2>All Player Tips</h2>
       <LineChart
         dataset={dataSet}
@@ -64,10 +58,7 @@ const DealerTipPage: React.FC = () => {
             dataKey: "date",
           },
         ]}
-        series={[
-          { label: "Total", area: true, dataKey: "total" },
-          { label: "Player", area: true, dataKey: "player" },
-        ]}
+        series={series}
         height={200}
       />
     </Box>
