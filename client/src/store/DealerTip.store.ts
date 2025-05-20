@@ -2,6 +2,7 @@ import { action, makeAutoObservable, makeObservable, observable } from "mobx";
 import { BaseStore } from "./Store.base";
 import moment from "moment";
 import { appStore, Player } from "./App.store";
+import { LogicHelper } from "./LogicHelper";
 export interface DealerTip {
   id: number;
   amount: number;
@@ -27,33 +28,12 @@ class DealerTipStore extends BaseStore {
     this.getDealerTips();
   }
 
-  getAllTips(tips: DealerTip[] = this.dealerTips) {
-    const dealerTips = this.getAllTipsPerDate(tips);
-    const allTips = Object.values(dealerTips);
-    return allTips.map((tip) => {
-      return tip.reduce((acc, amount) => acc + amount, 0);
-    });
+  getAllTipAmounts() {
+    return LogicHelper.GetAllAmounts(this.dealerTips);
   }
 
-  getAllTipsPerDate(tips: DealerTip[] = this.dealerTips) {
-    return tips.reduce((acc, tip) => {
-      const date = moment(tip.created_at).format("MM/DD/YYYY");
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(tip.amount);
-      return acc;
-    }, {} as { [key: string]: number[] });
-  }
-  getAllDates(tips: DealerTip[] = this.dealerTips) {
-    return tips
-      .map((tip) => moment(tip.created_at).format("MM/DD/YYYY"))
-      .reduce((acc, date) => {
-        if (!acc.includes(date)) {
-          acc.push(date);
-        }
-        return acc;
-      }, [] as string[]);
+  getAllTipDates() {
+    return LogicHelper.GetAllDates(this.dealerTips);
   }
 
   getDealer() {
@@ -94,8 +74,8 @@ class DealerTipStore extends BaseStore {
 
   getPlayerTipsByDate(playerId: number) {
     const playerTips = this.getDealerTipsByPlayer(playerId);
-    const dates = this.getAllDates(playerTips);
-    const amounts = this.getAllTips(playerTips);
+    const dates = LogicHelper.GetAllDates(playerTips);
+    const amounts = LogicHelper.GetAllAmounts(playerTips);
     return { dates, amounts };
   }
 }

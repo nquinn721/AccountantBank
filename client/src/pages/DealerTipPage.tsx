@@ -9,24 +9,32 @@ import { ChevronLeft } from "@mui/icons-material";
 import BackButton from "./components/BackButton";
 
 const DealerTipPage: React.FC = () => {
-  const [tips, setTips] = useState<number[]>([]);
-  const [dates, setDates] = useState<string[]>([]);
+  const [playerData, setPlayerData] = useState<{ [key: string]: number }>({});
 
-  const [allTips, setAllTips] = useState<number[]>([]);
-  const [allDates, setAllDates] = useState<string[]>([]);
+  const [dataSet, setDataSet] = useState<
+    { date: string; player: number; total: number }[]
+  >([]);
 
   const onPlayerFound = (player: { id: number; name: string }) => {
+    const playerTipObject: { [key: string]: number } = {};
     const tts = dealerTipStore.getPlayerTipsByDate(player.id);
-    setTips(tts.amounts);
-    setDates(tts.dates);
+    tts.dates.forEach((date, index) => {
+      playerTipObject[date] = tts.amounts[index];
+    });
+    setPlayerData(playerTipObject);
   };
 
   useEffect(() => {
-    const allTips = dealerTipStore.getAllTips();
-    const allDates = dealerTipStore.getAllDates();
-    setAllTips(allTips);
-    setAllDates(allDates);
-  }, [dealerTipStore.dealerTips]);
+    const allTips = dealerTipStore.getAllTipAmounts();
+    const allDates = dealerTipStore.getAllTipDates();
+    const data = allDates.map((date, index) => ({
+      date,
+      player: playerData[date] || 0,
+      total: allTips[index],
+    }));
+    console.log("Data", data);
+    setDataSet(data);
+  }, [dealerTipStore.dealerTips, playerData]);
 
   return (
     <Box sx={{ width: "100%", padding: 2 }}>
@@ -35,7 +43,7 @@ const DealerTipPage: React.FC = () => {
       <p>Choose a player to see historical Tips.</p>
       <PlayerSearch playerFound={onPlayerFound} />
       <h2>Player Tips</h2>
-      <LineChart
+      {/* <LineChart
         xAxis={[
           {
             scaleType: "point",
@@ -43,18 +51,24 @@ const DealerTipPage: React.FC = () => {
             label: "Date",
           },
         ]}
-        series={[{ data: tips, label: "Amount" }]}
-      />
+        series={[{ data: tips, label: "Amount", area: true }]}
+        height={200}
+      /> */}
       <h2>All Player Tips</h2>
       <LineChart
+        dataset={dataSet}
         xAxis={[
           {
             scaleType: "point",
-            data: allDates,
             label: "Date",
+            dataKey: "date",
           },
         ]}
-        series={[{ data: allTips, label: "Amount" }]}
+        series={[
+          { label: "Total", area: true, dataKey: "total" },
+          { label: "Player", area: true, dataKey: "player" },
+        ]}
+        height={200}
       />
     </Box>
   );

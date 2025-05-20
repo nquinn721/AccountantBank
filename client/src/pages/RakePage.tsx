@@ -9,8 +9,8 @@ const RakePage: React.FC = () => {
   const [dates, setDates] = useState<string[]>([]);
 
   useEffect(() => {
-    setRakes(rakeStore.getAllRakes());
-    setDates(rakeStore.getAllDates());
+    setRakes(rakeStore.getAllRakeAmounts());
+    setDates(rakeStore.getAllRakeDates());
   }, [rakeStore.rakes]);
   return (
     <Box sx={{ width: "100%", padding: 2 }}>
@@ -25,7 +25,8 @@ const RakePage: React.FC = () => {
             label: "Date",
           },
         ]}
-        series={[{ data: rakes, label: "Amount" }]}
+        series={[{ data: rakes, label: "Amount", area: true }]}
+        height={300}
       />
     </Box>
   );
