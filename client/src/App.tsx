@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import { createTheme, ThemeProvider } from "@mui/material";
 import DealerTip from "./pages/DealerTipPage";
 import RakePage from "./pages/RakePage";
+import BuyInPage from "./pages/BuyInPage";
+import CashOutPage from "./pages/CashOutPage";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -21,6 +23,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/dealer-tips" element={<DealerTip />} />
               <Route path="/rakes" element={<RakePage />} />
+              <Route path="/buy-ins" element={<BuyInPage />} />
+              <Route path="/cash-out" element={<CashOutPage />} />
             </Routes>
           </Router>
         </div>

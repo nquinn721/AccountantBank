@@ -5,6 +5,7 @@ import { appStore } from "../../store/App.store";
 import { observer } from "mobx-react";
 import BuyInIcon from "../sectionIcons/BuyInIcon";
 import PaymentTypeList from "./components/PaymentTypeList"; // Make sure the path is correct
+import FormHeader from "./FormHeader";
 interface BuyInFormProps {
   onSubmit: (amount: number) => void;
 }
@@ -25,9 +26,12 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className="modal-form">
-      <div className="buyin-card modal-header">
-        <BuyInIcon /> &nbsp; Buy In
-      </div>
+      <FormHeader
+        title="Buy In"
+        className="buyin-card"
+        icon={<BuyInIcon />}
+        href="buy-ins"
+      />
       <div className="modal-content">
         <PlayerSearch />
         <TextField

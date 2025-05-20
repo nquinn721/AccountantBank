@@ -10,6 +10,7 @@ import { VenmoIcon } from "./components/VenmoIcon";
 import { observer } from "mobx-react";
 import CashOutIcon from "../sectionIcons/CashOutIcon";
 import PaymentTypeList from "./components/PaymentTypeList";
+import FormHeader from "./FormHeader";
 
 interface CashoutFormProps {
   onSubmit: (amount: number) => void;
@@ -37,9 +38,12 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className="modal-form">
-      <div className="cashout-card modal-header">
-        <CashOutIcon /> &nbsp; Cash Out
-      </div>
+      <FormHeader
+        title="Cash Out"
+        className="cashout-card"
+        icon={<CashOutIcon />}
+        href="cash-out"
+      />
       <div className="modal-content">
         <PlayerSearch />
         <Box>
