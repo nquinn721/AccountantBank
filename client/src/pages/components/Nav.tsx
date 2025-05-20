@@ -55,7 +55,6 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -65,6 +64,7 @@ function ResponsiveAppBar() {
               color: "inherit",
               textDecoration: "none",
             }}
+            onClick={() => handleCloseNavMenu("/")}
           >
             Admin
           </Typography>
@@ -113,7 +113,6 @@ function ResponsiveAppBar() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -124,6 +123,7 @@ function ResponsiveAppBar() {
               color: "inherit",
               textDecoration: "none",
             }}
+            onClick={() => handleCloseNavMenu("/")}
           >
             Admin
           </Typography>

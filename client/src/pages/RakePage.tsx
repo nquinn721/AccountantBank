@@ -15,8 +15,7 @@ const RakePage: React.FC = () => {
   return (
     <Box sx={{ width: "100%", padding: 2 }}>
       <BackButton />
-      <h1>Rake Page</h1>
-      <p>Welcome to the Rake Page.</p>
+      <h1>Historical Rakes</h1>
       <LineChart
         xAxis={[
           {
