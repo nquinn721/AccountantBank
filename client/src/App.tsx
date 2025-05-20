@@ -17,16 +17,16 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <div className="app">
-        <header id="main-header"></header>
-        {/* <NavBar /> */}
+        {/* <header id="main-header"></header> */}
         <div className="content">
           <Router>
+            <NavBar />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/dealer-tips" element={<DealerTip />} />
               <Route path="/rakes" element={<RakePage />} />
               <Route path="/buy-ins" element={<BuyInPage />} />
-              <Route path="/cash-out" element={<CashOutPage />} />
+              <Route path="/cash-outs" element={<CashOutPage />} />
             </Routes>
           </Router>
         </div>
