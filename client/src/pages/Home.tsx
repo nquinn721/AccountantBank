@@ -13,10 +13,12 @@ import BuyInIcon from "../components/sectionIcons/BuyInIcon";
 import CashOutIcon from "../components/sectionIcons/CashOutIcon";
 import DealerTipIcon from "../components/sectionIcons/DealerTipIcon";
 import RakeIcon from "../components/sectionIcons/RakeIcon";
+import { appStore } from "../store/App.store";
 const Home: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [currentForm, setCurrentForm] = useState("buyin");
   const handleClose = () => {
+    appStore.clearCurrentSearchedPlayer();
     setOpen(false);
   };
   const handleOpen = (form: string) => {
@@ -24,63 +26,58 @@ const Home: React.FC = () => {
     setOpen(true);
   };
   return (
-    <div className="app">
-      <div className="content">
-        <Card onClick={() => handleOpen("buyin")} className="buyin-card card">
-          <BuyInIcon
-            sx={{
-              position: "absolute",
-              top: 30,
-              left: 30,
-              fontSize: 150,
-              opacity: 0.1,
-            }}
-          />
-          <div>Buy In</div>
-        </Card>
-        <Card
-          onClick={() => handleOpen("cashout")}
-          className="card cashout-card"
-        >
-          <CashOutIcon
-            sx={{
-              position: "absolute",
-              top: 30,
-              left: 30,
-              fontSize: 150,
-              opacity: 0.1,
-            }}
-          />
-          <div>Cash Out</div>
-        </Card>
-        <Card
-          onClick={() => handleOpen("dealerTip")}
-          className="card dealer-tip-card"
-        >
-          <DealerTipIcon
-            sx={{
-              position: "absolute",
-              top: 30,
-              left: 30,
-              fontSize: 150,
-              opacity: 0.1,
-            }}
-          />
-          <div>Dealer Tip</div>
-        </Card>
-        <Card onClick={() => handleOpen("rake")} className="card rake-card">
-          <RakeIcon
-            sx={{
-              position: "absolute",
-              top: 30,
-              left: 30,
-              fontSize: 150,
-              opacity: 0.1,
-            }}
-          />
-          <div>Rake</div>
-        </Card>
-      </div>
+    <>
+      <Card onClick={() => handleOpen("buyin")} className="buyin-card card">
+        <BuyInIcon
+          sx={{
+            position: "absolute",
+            top: 30,
+            left: 30,
+            fontSize: 150,
+            opacity: 0.1,
+          }}
+        />
+        <div>Buy In</div>
+      </Card>
+      <Card onClick={() => handleOpen("cashout")} className="card cashout-card">
+        <CashOutIcon
+          sx={{
+            position: "absolute",
+            top: 30,
+            left: 30,
+            fontSize: 150,
+            opacity: 0.1,
+          }}
+        />
+        <div>Cash Out</div>
+      </Card>
+      <Card
+        onClick={() => handleOpen("dealerTip")}
+        className="card dealer-tip-card"
+      >
+        <DealerTipIcon
+          sx={{
+            position: "absolute",
+            top: 30,
+            left: 30,
+            fontSize: 150,
+            opacity: 0.1,
+          }}
+        />
+        <div>Dealer Tip</div>
+      </Card>
+      <Card onClick={() => handleOpen("rake")} className="card rake-card">
+        <RakeIcon
+          sx={{
+            position: "absolute",
+            top: 30,
+            left: 30,
+            fontSize: 150,
+            opacity: 0.1,
+          }}
+        />
+        <div>Rake</div>
+      </Card>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -94,7 +91,7 @@ const Home: React.FC = () => {
         )}
         {currentForm === "rake" && <RakeForm onSubmit={handleClose} />}
       </Dialog>
-    </div>
+    </>
   );
 };
 

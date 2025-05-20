@@ -1,5 +1,5 @@
 import { LocalAtm } from "@mui/icons-material";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Box, Button, Checkbox, MenuItem, TextField } from "@mui/material";
 import React, { useState } from "react";
 import PlayerSearch from "./components/PlayerSearch";
 import { appStore } from "../../store/App.store";
@@ -9,6 +9,7 @@ import { PayPalIcon } from "./components/PayPalIcon";
 import { VenmoIcon } from "./components/VenmoIcon";
 import { observer } from "mobx-react";
 import CashOutIcon from "../sectionIcons/CashOutIcon";
+import PaymentTypeList from "./components/PaymentTypeList";
 
 interface CashoutFormProps {
   onSubmit: (amount: number) => void;
@@ -16,12 +17,19 @@ interface CashoutFormProps {
 
 const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const buyIns = appStore.getPlayerBuyIns(appStore.currentSearchedPlayerName);
+  const totalOwed = buyIns.reduce((acc, buyIn) => {
+    if (!buyIn.isSettled) {
+      return acc + buyIn.amount;
+    }
+    return acc;
+  }, 0);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount > 0) {
-      appStore.addPlayerTransaction("cashout", paymentMethod, amount);
+      appStore.cashOutPlayer("cashout", paymentMethod, true, amount, totalOwed);
       setAmount(0);
       onSubmit(amount);
     }
@@ -34,51 +42,65 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
       </div>
       <div className="modal-content">
         <PlayerSearch />
-
+        <Box>
+          <Box
+            sx={{
+              mb: 1,
+            }}
+          >
+            Buy In's
+          </Box>
+          <Box
+            sx={{
+              mb: 1,
+            }}
+          >
+            {appStore.currentSearchedPlayerName &&
+              buyIns.map((buyIn, idx) => (
+                <Box
+                  key={idx}
+                  sx={{
+                    mb: 1,
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Box>
+                    {" "}
+                    Settled <Checkbox checked={buyIn.isSettled} />
+                  </Box>
+                  <Box>${buyIn.amount}</Box>
+                </Box>
+              ))}
+            <Box
+              sx={{
+                mb: 1,
+                display: "flex",
+                justifyContent: "flex-end ",
+                borderTop: "1px solid #555",
+                paddingTop: 1,
+              }}
+            >
+              Owed: ${totalOwed}
+            </Box>
+          </Box>
+        </Box>
+        <br />
         <TextField
           type="number"
-          value={amount}
+          defaultValue={amount}
           label="Cash Out Amount"
           onChange={(e) => setAmount(Number(e.target.value))}
         />
         <br />
+        <PaymentTypeList onSelect={setPaymentMethod} />
 
-        <TextField
-          select
-          value={paymentMethod}
-          onChange={(e) => setPaymentMethod(e.target.value)}
-          label="Payment Method"
-          required
-        >
-          <MenuItem value={"cash"}>
-            <LocalAtm />
-            Cash
-          </MenuItem>
-          <MenuItem value={"zelle"}>
-            <ZelleIcon />
-            Zelle
-          </MenuItem>
-          <MenuItem value={"paypal"}>
-            <PayPalIcon />
-            PayPal
-          </MenuItem>
-          <MenuItem value={"venmo"}>
-            <VenmoIcon />
-            Venmo
-          </MenuItem>
-          <MenuItem value={"cashapp"}>
-            <CashAppIcon />
-            Cash App
-          </MenuItem>
-        </TextField>
         <br />
 
         <Button
           variant="contained"
           type="submit"
-          disabled={
-            amount <= 0 || !paymentMethod || !appStore.currentSearchedPlayerName
-          }
+          disabled={amount <= 0 || !appStore.currentSearchedPlayerName}
         >
           Cash Out
         </Button>

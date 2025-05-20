@@ -10,7 +10,7 @@ import { PlayerService } from './Player.service';
   },
   query: {
     join: {
-      buyIns: {
+      transactions: {
         eager: true,
       },
     },

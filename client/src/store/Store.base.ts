@@ -31,6 +31,36 @@ export class BaseStore {
     }
   }
 
+  async put(url: string, data: any) {
+    this.setLoading(true);
+    try {
+      const response = await fetch(`${this.baseUrl}${url}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      this.setLoading(false);
+      return response.json();
+    } catch (error) {
+      this.setError("Failed to update data");
+      this.setLoading(false);
+    }
+  }
+
+  async delete(url: string) {
+    this.setLoading(true);
+    try {
+      const response = await fetch(`${this.baseUrl}${url}`, {
+        method: "DELETE",
+      });
+      this.setLoading(false);
+      return response.json();
+    } catch (error) {
+      this.setError("Failed to delete data");
+      this.setLoading(false);
+    }
+  }
+
   setLoading(value: boolean) {
     this.isLoading = value;
   }

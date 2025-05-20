@@ -147,3 +147,7 @@ header {
   font-size: 20px !important;
   height: 54px !important;
 }
+
+.MuiSelect-select {
+  display: flex !important;
+}

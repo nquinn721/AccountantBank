@@ -8,7 +8,11 @@ interface PlayerOption {
   name: string;
 }
 
-const PlayerSearch = () => {
+const PlayerSearch = ({
+  playerFound,
+}: {
+  playerFound?: (player: PlayerOption) => void;
+}) => {
   const options = appStore.players || [];
   const label = "Player Name";
   const placeholder = "Search for a player...";
@@ -18,6 +22,7 @@ const PlayerSearch = () => {
       if (player) {
         appStore.currentSearchedPlayerID = player.id;
         appStore.currentSearchedPlayerName = player.name;
+        playerFound?.(player);
       } else {
         appStore.currentSearchedPlayerID = null;
         appStore.currentSearchedPlayerName = value;

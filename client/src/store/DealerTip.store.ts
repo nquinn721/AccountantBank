@@ -27,6 +27,35 @@ class DealerTipStore extends BaseStore {
     this.getDealerTips();
   }
 
+  getAllTips(tips: DealerTip[] = this.dealerTips) {
+    const dealerTips = this.getAllTipsPerDate(tips);
+    const allTips = Object.values(dealerTips);
+    return allTips.map((tip) => {
+      return tip.reduce((acc, amount) => acc + amount, 0);
+    });
+  }
+
+  getAllTipsPerDate(tips: DealerTip[] = this.dealerTips) {
+    return tips.reduce((acc, tip) => {
+      const date = moment(tip.created_at).format("MM/DD/YYYY");
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(tip.amount);
+      return acc;
+    }, {} as { [key: string]: number[] });
+  }
+  getAllDates(tips: DealerTip[] = this.dealerTips) {
+    return tips
+      .map((tip) => moment(tip.created_at).format("MM/DD/YYYY"))
+      .reduce((acc, date) => {
+        if (!acc.includes(date)) {
+          acc.push(date);
+        }
+        return acc;
+      }, [] as string[]);
+  }
+
   getDealer() {
     if (this.currentDealer) {
       return appStore.players.find(
@@ -36,7 +65,6 @@ class DealerTipStore extends BaseStore {
   }
   clearCurrentDealer() {
     this.currentDealer = null;
-    console.log("clearCurrentDealer", this.currentDealer);
   }
 
   getTodayDealerTips() {
@@ -52,12 +80,23 @@ class DealerTipStore extends BaseStore {
   }
 
   async addDealerTip(amount: number) {
-    const dealerTip = await this.post(this.url, {
+    this.currentDealer = appStore.currentSearchedPlayerID || null;
+    await this.post(this.url, {
       amount,
       player: this.currentDealer || appStore.currentSearchedPlayerID,
     });
     this.getDealerTips();
-    this.currentDealer = appStore.currentSearchedPlayerID || null;
+  }
+
+  getDealerTipsByPlayer(playerId: number) {
+    return this.dealerTips.filter((tip) => tip.player.id === playerId);
+  }
+
+  getPlayerTipsByDate(playerId: number) {
+    const playerTips = this.getDealerTipsByPlayer(playerId);
+    const dates = this.getAllDates(playerTips);
+    const amounts = this.getAllTips(playerTips);
+    return { dates, amounts };
   }
 }
 

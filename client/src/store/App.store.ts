@@ -1,11 +1,15 @@
 import { makeObservable, observable, action } from "mobx";
 import { BaseStore } from "./Store.base";
+import moment from "moment";
 export interface Player {
   id: number;
   name: string;
   transactions: Array<{
+    id: number;
     amount: number;
-    date: Date;
+    type: string; // "buyin" | "cashout"
+    created_at: Date;
+    isSettled: boolean;
   }>;
 }
 
@@ -40,9 +44,44 @@ class AppStore extends BaseStore {
     return player;
   }
 
+  getPlayerBuyIns(name: string) {
+    const player = this.players.find((p) => p.name === name);
+    console.log("Player", player);
+    return player
+      ? player.transactions.filter(
+          (t) =>
+            t.type === "buyin" && moment(t.created_at).isSame(moment(), "day")
+        )
+      : [];
+  }
+
+  async cashOutPlayer(
+    type: string,
+    paytype: string = "cash",
+    isSettled: boolean = false,
+    amount: number,
+    amountOwed: number = 0
+  ) {
+    const player = this.players.find(
+      (p) => p.id === this.currentSearchedPlayerID
+    );
+    if (!player) {
+      throw new Error("Player not found");
+    }
+    player.transactions.forEach(async (transaction) => {
+      if (transaction.type === "buyin" && !transaction.isSettled) {
+        await this.put(`/transaction/${transaction.id}`, {
+          isSettled: true,
+        });
+      }
+    });
+    this.addPlayerTransaction(type, paytype, isSettled, amount - amountOwed);
+  }
+
   async addPlayerTransaction(
     type: string,
     paytype: string = "cash",
+    isSettled: boolean = false,
     amount: number
   ) {
     let player = this.currentSearchedPlayerID;
@@ -56,6 +95,7 @@ class AppStore extends BaseStore {
       type,
       paytype,
       amount,
+      isSettled,
     });
     this.currentSearchedPlayerID = null;
     this.currentSearchedPlayerName = "";
@@ -66,6 +106,11 @@ class AppStore extends BaseStore {
     this.post("/tipout", {
       amount,
     });
+  }
+
+  clearCurrentSearchedPlayer() {
+    this.currentSearchedPlayerID = null;
+    this.currentSearchedPlayerName = "";
   }
 }
 

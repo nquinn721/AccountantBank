@@ -21,5 +21,7 @@ export class Transaction {
 
   @Column({ default: '' }) notes: string;
 
+  @Column({ default: false }) isSettled: boolean;
+
   @CreateDateColumn() created_at: Date;
 }

@@ -7,6 +7,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Box from "@mui/material/Box";
 import RakesTable from "./components/tables/RakesTable";
 import RakeIcon from "../sectionIcons/RakeIcon";
+import FormHeader from "./FormHeader";
 interface RakeFormProps {
   onSubmit: (amount: number) => void;
 }
@@ -26,9 +27,12 @@ const RakeForm: React.FC<RakeFormProps> = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className="modal-form">
-      <div className="rake-card modal-header">
-        <RakeIcon /> &nbsp; Rake
-      </div>
+      <FormHeader
+        title="Rake"
+        icon={<RakeIcon />}
+        className="rake-card"
+        href="/rakes"
+      />
       <div className="modal-content">
         <TabContext value={tabValue}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -46,7 +50,7 @@ const RakeForm: React.FC<RakeFormProps> = ({ onSubmit }) => {
               <TextField
                 type="number"
                 label="Rake Amount"
-                value={amount}
+                defaultValue={amount}
                 onChange={(e) => setAmount(Number(e.target.value))}
                 required
               />
