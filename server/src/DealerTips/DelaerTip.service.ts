@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@dataui/crud-typeorm';
 
-import { Tipout } from './Tipout.entity';
+import { DealerTip } from './DealerTip.entity';
 
 @Injectable()
-export class TipoutService extends TypeOrmCrudService<Tipout> {
-  constructor(@InjectRepository(Tipout) repo) {
+export class DealerTipService extends TypeOrmCrudService<DealerTip> {
+  constructor(@InjectRepository(DealerTip) repo) {
     super(repo);
   }
 }

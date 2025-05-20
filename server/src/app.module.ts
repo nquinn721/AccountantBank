@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { PlayerModule } from './Players/Player.module';
 import { TransactionModule } from './Transaction/Transaction.module';
 import { RakeModule } from './Rake/Rake.module';
-import { TipoutModule } from './Tipout/Tipout.module';
+import { DealerTipModule } from './DealerTips/DealerTip.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -21,7 +21,7 @@ import { TipoutModule } from './Tipout/Tipout.module';
     PlayerModule,
     TransactionModule,
     RakeModule,
-    TipoutModule,
+    DealerTipModule,
   ],
   controllers: [AppController],
   providers: [AppService],

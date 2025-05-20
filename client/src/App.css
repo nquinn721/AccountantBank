@@ -86,9 +86,10 @@ header {
   font-size: calc(10px + 2vmin);
   color: white;
 }
-@media screen and (min-width: 400px) {
+@media screen and (max-width: 400px) {
   .modal-form {
-    width: 300px;
+    width: 100%;
+    margin: 0 !important;
   }
 }
 @media screen and (min-width: 600px) {

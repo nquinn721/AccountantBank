@@ -2,12 +2,11 @@ import { TextField, Button, Box, Tab } from "@mui/material";
 import React, { useState } from "react";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import DeallerTipsTodayTable from "./components/tables/DeallerTipsTodayTable";
-import DealerTipsAllTable from "./components/tables/DealerTipsAllTable";
 import { dealerTipStore } from "../../store/DealerTip.store";
 import PlayerSearch from "./components/PlayerSearch";
 import { appStore } from "../../store/App.store";
 import { observer } from "mobx-react";
+import DealerTipsTable from "./components/tables/DealerTipsTable";
 
 interface DealerTipFormProps {
   onSubmit: (amount: number) => void;
@@ -102,11 +101,11 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
           </TabPanel>
           <TabPanel value="2">
             <div className="tab-content">
-              <DeallerTipsTodayTable />
+              <DealerTipsTable data={dealerTipStore.getTodayDealerTips()} />
             </div>
           </TabPanel>
           <TabPanel value="3">
-            <DealerTipsAllTable />
+            <DealerTipsTable data={dealerTipStore.dealerTips} />
           </TabPanel>
         </TabContext>
       </div>

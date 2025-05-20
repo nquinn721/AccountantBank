@@ -5,8 +5,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { rakeStore } from "../../store/Rake.store";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Box from "@mui/material/Box";
-import RakesTodayTable from "./components/tables/RakesTodayTable";
-import RakesAllTable from "./components/tables/RakesAllTable";
+import RakesTable from "./components/tables/RakesTable";
 interface RakeFormProps {
   onSubmit: (amount: number) => void;
 }
@@ -14,7 +13,6 @@ interface RakeFormProps {
 const RakeForm: React.FC<RakeFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState<number>(0);
   const [tabValue, setTabValue] = useState("1");
-  const rakes = rakeStore.rakes;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,11 +58,11 @@ const RakeForm: React.FC<RakeFormProps> = ({ onSubmit }) => {
           </TabPanel>
           <TabPanel value="2">
             <div className="tab-content">
-              <RakesTodayTable />
+              <RakesTable data={rakeStore.getTodayRakes()} />
             </div>
           </TabPanel>
           <TabPanel value="3">
-            <RakesAllTable />
+            <RakesTable data={rakeStore.rakes} />
           </TabPanel>
         </TabContext>
       </div>
