@@ -1,9 +1,9 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import PlayerSearch from "./components/PlayerSearch";
-import { AddShoppingCart } from "@mui/icons-material";
 import { appStore } from "../../store/App.store";
 import { observer } from "mobx-react";
+import BuyInIcon from "../sectionIcons/BuyInIcon";
 interface BuyInFormProps {
   onSubmit: (amount: number) => void;
 }
@@ -23,7 +23,7 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="modal-form">
       <div className="buyin-card modal-header">
-        <AddShoppingCart /> &nbsp; Buy In
+        <BuyInIcon /> &nbsp; Buy In
       </div>
       <div className="modal-content">
         <PlayerSearch />

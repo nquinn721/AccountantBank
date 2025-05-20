@@ -1,4 +1,4 @@
-import { LocalAtm, Savings } from "@mui/icons-material";
+import { LocalAtm } from "@mui/icons-material";
 import { Button, MenuItem, TextField } from "@mui/material";
 import React, { useState } from "react";
 import PlayerSearch from "./components/PlayerSearch";
@@ -8,6 +8,7 @@ import { ZelleIcon } from "./components/ZelleIcon";
 import { PayPalIcon } from "./components/PayPalIcon";
 import { VenmoIcon } from "./components/VenmoIcon";
 import { observer } from "mobx-react";
+import CashOutIcon from "../sectionIcons/CashOutIcon";
 
 interface CashoutFormProps {
   onSubmit: (amount: number) => void;
@@ -26,12 +27,10 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
     }
   };
 
-  console.log(appStore.currentSearchedPlayerName);
-
   return (
     <form onSubmit={handleSubmit} className="modal-form">
       <div className="cashout-card modal-header">
-        <Savings /> &nbsp; Cash Out
+        <CashOutIcon /> &nbsp; Cash Out
       </div>
       <div className="modal-content">
         <PlayerSearch />

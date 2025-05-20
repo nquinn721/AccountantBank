@@ -7,6 +7,7 @@ import PlayerSearch from "./components/PlayerSearch";
 import { appStore } from "../../store/App.store";
 import { observer } from "mobx-react";
 import DealerTipsTable from "./components/tables/DealerTipsTable";
+import DealerTipIcon from "../sectionIcons/DealerTipIcon";
 
 interface DealerTipFormProps {
   onSubmit: (amount: number) => void;
@@ -37,7 +38,7 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="modal-form">
       <div className="dealer-tip-card modal-header">
-        <AccountBalanceWalletIcon /> &nbsp; Dealer Tip
+        <DealerTipIcon /> &nbsp; Dealer Tip
       </div>
       <div className="modal-content">
         <TabContext value={tabValue}>

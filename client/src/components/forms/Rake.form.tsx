@@ -6,6 +6,7 @@ import { rakeStore } from "../../store/Rake.store";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Box from "@mui/material/Box";
 import RakesTable from "./components/tables/RakesTable";
+import RakeIcon from "../sectionIcons/RakeIcon";
 interface RakeFormProps {
   onSubmit: (amount: number) => void;
 }
@@ -26,7 +27,7 @@ const RakeForm: React.FC<RakeFormProps> = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="modal-form">
       <div className="rake-card modal-header">
-        <AccountBalanceIcon /> &nbsp; Rake
+        <RakeIcon /> &nbsp; Rake
       </div>
       <div className="modal-content">
         <TabContext value={tabValue}>

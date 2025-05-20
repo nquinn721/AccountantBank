@@ -5,11 +5,14 @@ import CashoutForm from "../components/forms/Cashout.form";
 import DealerTipForm from "../components/forms/DealerTip.form";
 import RakeForm from "../components/forms/Rake.form";
 import {
-  AddShoppingCart,
   Savings,
   AccountBalanceWallet,
   AccountBalance,
 } from "@mui/icons-material";
+import BuyInIcon from "../components/sectionIcons/BuyInIcon";
+import CashOutIcon from "../components/sectionIcons/CashOutIcon";
+import DealerTipIcon from "../components/sectionIcons/DealerTipIcon";
+import RakeIcon from "../components/sectionIcons/RakeIcon";
 const Home: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [currentForm, setCurrentForm] = useState("buyin");
@@ -24,8 +27,7 @@ const Home: React.FC = () => {
     <div className="app">
       <div className="content">
         <Card onClick={() => handleOpen("buyin")} className="buyin-card card">
-          <AddShoppingCart
-            id="buyin-icon"
+          <BuyInIcon
             sx={{
               position: "absolute",
               top: 30,
@@ -40,8 +42,7 @@ const Home: React.FC = () => {
           onClick={() => handleOpen("cashout")}
           className="card cashout-card"
         >
-          <Savings
-            id="cashout-icon"
+          <CashOutIcon
             sx={{
               position: "absolute",
               top: 30,
@@ -56,8 +57,7 @@ const Home: React.FC = () => {
           onClick={() => handleOpen("dealerTip")}
           className="card dealer-tip-card"
         >
-          <AccountBalanceWallet
-            id="dealerTip-icon"
+          <DealerTipIcon
             sx={{
               position: "absolute",
               top: 30,
@@ -69,8 +69,7 @@ const Home: React.FC = () => {
           <div>Dealer Tip</div>
         </Card>
         <Card onClick={() => handleOpen("rake")} className="card rake-card">
-          <AccountBalance
-            id="rake-icon"
+          <RakeIcon
             sx={{
               position: "absolute",
               top: 30,

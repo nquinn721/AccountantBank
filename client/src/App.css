@@ -104,6 +104,7 @@ header {
   color: white;
   background-color: #222;
   padding: 20px;
+  display: flex;
 }
 .tab-content {
   background-color: #222;
