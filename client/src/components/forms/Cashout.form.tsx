@@ -18,6 +18,7 @@ interface CashoutFormProps {
 
 const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState(0);
+  const [payOut, setPayOut] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const buyIns = appStore.getPlayerBuyIns(appStore.currentSearchedPlayerName);
   const totalOwed = buyIns.reduce((acc, buyIn) => {
@@ -30,7 +31,7 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount > 0) {
-      appStore.cashOutPlayer("cashout", paymentMethod, true, amount, totalOwed);
+      appStore.cashOutPlayer("cashout", paymentMethod, true, amount, payOut);
       setAmount(0);
       onSubmit(amount);
     }
@@ -93,11 +94,20 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
         <TextField
           type="number"
           defaultValue={amount}
-          label="Cash Out Amount"
-          onChange={(e) => setAmount(Number(e.target.value))}
+          label={`${appStore.currentSearchedPlayerName} is giving`}
+          onChange={(e) => {
+            setAmount(Number(e.target.value));
+            setPayOut(Number(e.target.value) - totalOwed);
+          }}
         />
         <br />
-        <PaymentTypeList onSelect={setPaymentMethod} />
+        <TextField
+          disabled
+          type="number"
+          value={payOut}
+          label="Pay Out Amount"
+        />
+        {/* <PaymentTypeList onSelect={setPaymentMethod} /> */}
 
         <br />
 

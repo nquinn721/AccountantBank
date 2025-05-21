@@ -6,6 +6,7 @@ import { appStore } from "../../store/App.store";
 import { observer } from "mobx-react";
 import DealerTipIcon from "../sectionIcons/DealerTipIcon";
 import FormHeader from "./FormHeader";
+import DefaultDenominations from "./components/DefaultDenominations";
 
 interface DealerTipFormProps {
   onSubmit: (amount: number) => void;
@@ -13,8 +14,7 @@ interface DealerTipFormProps {
 
 const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState(0);
-  const dealer = dealerTipStore.getDealer();
-  console.log("DealerTipForm dealer", dealer);
+  const dealer = dealerTipStore.currentDealer;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(Number(e.target.value));
@@ -64,12 +64,17 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
             </Button>
           </Box>
         ) : (
-          <PlayerSearch />
+          <PlayerSearch
+            playerFound={(player) => dealerTipStore.setCurrentDealer(player)}
+          />
         )}
+        <br />
+        <DefaultDenominations onChange={(value) => setAmount(value)} />
+        <br />
         <TextField
           type="number"
           label="Dealer Tip Amount"
-          defaultValue={amount}
+          value={amount}
           onChange={(e) => setAmount(Number(e.target.value))}
           required
         />
@@ -78,7 +83,7 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
         <Button
           variant="contained"
           type="submit"
-          disabled={amount <= 0 || !appStore.currentSearchedPlayerName}
+          disabled={amount <= 0 || !dealer}
         >
           Submit
         </Button>

@@ -60,7 +60,7 @@ class AppStore extends BaseStore {
     paytype: string = "cash",
     isSettled: boolean = false,
     amount: number,
-    amountOwed: number = 0
+    payOut: number = 0
   ) {
     const player = this.players.find(
       (p) => p.id === this.currentSearchedPlayerID
@@ -75,14 +75,15 @@ class AppStore extends BaseStore {
         });
       }
     });
-    this.addPlayerTransaction(type, paytype, isSettled, amount - amountOwed);
+    this.addPlayerTransaction(type, paytype, isSettled, amount, payOut);
   }
 
   async addPlayerTransaction(
     type: string,
     paytype: string = "cash",
     isSettled: boolean = false,
-    amount: number
+    amount: number,
+    payOut: number = 0
   ) {
     let player = this.currentSearchedPlayerID;
 
@@ -96,6 +97,7 @@ class AppStore extends BaseStore {
       paytype,
       amount,
       isSettled,
+      payOut,
     });
     this.currentSearchedPlayerID = null;
     this.currentSearchedPlayerName = "";

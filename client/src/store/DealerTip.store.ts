@@ -12,7 +12,7 @@ export interface DealerTip {
 class DealerTipStore extends BaseStore {
   dealerTips: DealerTip[] = [];
   url: string = "/dealer-tip";
-  currentDealer: number | null = null;
+  currentDealer: Player | null = null;
 
   constructor() {
     super();
@@ -23,7 +23,7 @@ class DealerTipStore extends BaseStore {
       currentDealer: observable,
       clearCurrentDealer: action,
       getTodayDealerTips: action,
-      getDealer: action,
+      setCurrentDealer: action,
     });
     this.getDealerTips();
   }
@@ -36,13 +36,10 @@ class DealerTipStore extends BaseStore {
     return LogicHelper.GetAllDates(this.dealerTips);
   }
 
-  getDealer() {
-    if (this.currentDealer) {
-      return appStore.players.find(
-        (player) => player.id === this.currentDealer
-      );
-    }
+  setCurrentDealer(dealer: Player) {
+    this.currentDealer = dealer;
   }
+
   clearCurrentDealer() {
     this.currentDealer = null;
   }
@@ -60,7 +57,6 @@ class DealerTipStore extends BaseStore {
   }
 
   async addDealerTip(amount: number) {
-    this.currentDealer = appStore.currentSearchedPlayerID || null;
     await this.post(this.url, {
       amount,
       player: this.currentDealer || appStore.currentSearchedPlayerID,

@@ -13,7 +13,9 @@ export class Transaction {
 
   @ManyToOne(() => Player, (player) => player.transactions) player: Player;
 
-  @Column() amount: number;
+  @Column({ default: 0 }) amount: number;
+
+  @Column({ default: 0 }) payOut: number;
 
   @Column({ default: 'buyin' }) type: string; // 'buyin' | 'cashout'
 

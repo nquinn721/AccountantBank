@@ -1,19 +1,13 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { appStore } from "../../../store/App.store";
+import { appStore, Player } from "../../../store/App.store";
 import { observer } from "mobx-react";
-import { on } from "events";
-
-interface PlayerOption {
-  id: number;
-  name: string;
-}
 
 const PlayerSearch = ({
   playerFound,
   onClear,
 }: {
-  playerFound?: (player: PlayerOption) => void;
+  playerFound?: (player: Player) => void;
   onClear?: () => void;
 }) => {
   const options = appStore.players || [];
