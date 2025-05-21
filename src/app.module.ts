@@ -6,6 +6,8 @@ import { UserModule } from './User/User.module';
 import { TransactionModule } from './Transaction/Transaction.module';
 import { RakeModule } from './Rake/Rake.module';
 import { TipModule } from './Tip/Tip.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -18,6 +20,9 @@ import { TipModule } from './Tip/Tip.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'client', 'build'),
+    }),
     UserModule,
     TransactionModule,
     RakeModule,
@@ -27,3 +32,4 @@ import { TipModule } from './Tip/Tip.module';
   providers: [AppService],
 })
 export class AppModule {}
+console.log(join(__dirname, '..', '..', 'client', 'build'));
