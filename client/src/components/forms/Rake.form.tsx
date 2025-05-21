@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import RakesTable from "./components/tables/RakesTable";
 import RakeIcon from "../sectionIcons/RakeIcon";
 import FormHeader from "./FormHeader";
+import DefaultDenominations from "./components/DefaultDenominations";
 interface RakeFormProps {
   onSubmit: (amount: number) => void;
 }
@@ -34,42 +35,21 @@ const RakeForm: React.FC<RakeFormProps> = ({ onSubmit }) => {
         href="/rakes"
       />
       <div className="modal-content">
-        <TabContext value={tabValue}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList
-              aria-label="lab API tabs example"
-              onChange={handleTabChange}
-            >
-              <Tab label="Add Rake" value="1" />
-              <Tab label="Rakes Today" value="2" />
-              <Tab label="All Rakes" value="3" />
-            </TabList>
-          </Box>
-          <TabPanel value="1">
-            <div className="tab-content">
-              <TextField
-                type="number"
-                label="Rake Amount"
-                defaultValue={amount}
-                onChange={(e) => setAmount(Number(e.target.value))}
-                required
-              />
-              <br />
-
-              <Button variant="contained" type="submit" disabled={amount <= 0}>
-                Submit
-              </Button>
-            </div>
-          </TabPanel>
-          <TabPanel value="2">
-            <div className="tab-content">
-              <RakesTable data={rakeStore.getTodayRakes()} />
-            </div>
-          </TabPanel>
-          <TabPanel value="3">
-            <RakesTable data={rakeStore.rakes} />
-          </TabPanel>
-        </TabContext>
+        <div className="tab-content">
+          <DefaultDenominations onChange={setAmount} />
+          <br />
+          <TextField
+            type="number"
+            label="Rake Amount"
+            value={amount}
+            onChange={(e) => setAmount(Number(e.target.value))}
+            required
+          />
+          <br />
+          <Button variant="contained" type="submit" disabled={amount <= 0}>
+            Submit
+          </Button>
+        </div>
       </div>
     </form>
   );
