@@ -34,8 +34,8 @@ const RakeForm: React.FC<RakeFormProps> = ({ onSubmit }) => {
         className="rake-card"
         href="/rakes"
       />
-      <div className="modal-content">
-        <div className="tab-content">
+      <Box className="modal-content">
+        <Box className="tab-content">
           <DefaultDenominations onChange={setAmount} />
           <br />
           <TextField
@@ -49,8 +49,8 @@ const RakeForm: React.FC<RakeFormProps> = ({ onSubmit }) => {
           <Button variant="contained" type="submit" disabled={amount <= 0}>
             Submit
           </Button>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </form>
   );
 };
