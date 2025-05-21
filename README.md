@@ -34,6 +34,9 @@ $ npm install
 ## Compile and run the project
 
 ```bash
+# SETUP CLIENT FIRST
+$ npm run setup:client
+
 # development
 $ npm run start
 
