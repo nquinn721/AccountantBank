@@ -5,13 +5,13 @@ import {
   ManyToOne,
   CreateDateColumn,
 } from 'typeorm';
-import { Player } from '../Players/Player.entity';
+import { User } from '../User/User.entity';
 
 @Entity()
 export class Transaction {
   @PrimaryGeneratedColumn() id: number;
 
-  @ManyToOne(() => Player, (player) => player.transactions) player: Player;
+  @ManyToOne(() => User, (user) => user.transactions) user: User;
 
   @Column({ default: 0 }) amount: number;
 

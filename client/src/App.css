@@ -90,6 +90,11 @@ body {
     width: 100%;
     margin: 0 !important;
   }
+  .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm.css-16bx961-MuiPaper-root-MuiDialog-paper {
+    width: 100%;
+    margin: 10px !important;
+    padding: 0 !important;
+  }
 }
 @media screen and (min-width: 600px) {
   .modal-form {

@@ -1,16 +1,11 @@
-import { LocalAtm } from "@mui/icons-material";
-import { Box, Button, Checkbox, MenuItem, TextField } from "@mui/material";
+import { Box, Button, Checkbox, TextField } from "@mui/material";
 import React, { useState } from "react";
 import PlayerSearch from "./components/PlayerSearch";
-import { appStore } from "../../store/App.store";
-import { CashAppIcon } from "./components/CashAppIcon";
-import { ZelleIcon } from "./components/ZelleIcon";
-import { PayPalIcon } from "./components/PayPalIcon";
-import { VenmoIcon } from "./components/VenmoIcon";
 import { observer } from "mobx-react";
-import CashOutIcon from "../sectionIcons/CashOutIcon";
-import PaymentTypeList from "./components/PaymentTypeList";
 import FormHeader from "./FormHeader";
+import transactionStore from "../../store/Transaction.store";
+import userStore, { IUser } from "../../store/User.store";
+import CashOutIcon from "../sectionIcons/CashOutIcon";
 
 interface CashoutFormProps {
   onSubmit: (amount: number) => void;
@@ -19,8 +14,8 @@ interface CashoutFormProps {
 const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState(0);
   const [payOut, setPayOut] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState("cash");
-  const buyIns = appStore.getPlayerBuyIns(appStore.currentSearchedPlayerName);
+  const [playerName, setPlayerName] = useState<string>("");
+  const buyIns = userStore.getPlayerBuyIns(playerName);
   const totalOwed = buyIns.reduce((acc, buyIn) => {
     if (!buyIn.isSettled) {
       return acc + buyIn.amount;
@@ -30,8 +25,14 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (amount > 0) {
-      appStore.cashOutPlayer("cashout", paymentMethod, true, amount, payOut);
+    if (amount > 0 && playerName) {
+      transactionStore.cashOutPlayer({
+        userName: playerName,
+        type: "cashout",
+        isSettled: true,
+        amount,
+        payOut,
+      });
       setAmount(0);
       onSubmit(amount);
     }
@@ -46,7 +47,7 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
         href="cash-outs"
       />
       <div className="modal-content">
-        <PlayerSearch />
+        <PlayerSearch playerFound={setPlayerName} />
         <Box>
           <Box
             sx={{
@@ -60,41 +61,44 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
               mb: 1,
             }}
           >
-            {appStore.currentSearchedPlayerName &&
-              buyIns.map((buyIn, idx) => (
+            {playerName && (
+              <Box>
+                {buyIns.map((buyIn, idx) => (
+                  <Box
+                    key={idx}
+                    sx={{
+                      mb: 1,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Box>
+                      {" "}
+                      Settled <Checkbox checked={buyIn.isSettled} />
+                    </Box>
+                    <Box>${buyIn.amount}</Box>
+                  </Box>
+                ))}
                 <Box
-                  key={idx}
                   sx={{
                     mb: 1,
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-end ",
+                    borderTop: "1px solid #555",
+                    paddingTop: 1,
                   }}
                 >
-                  <Box>
-                    {" "}
-                    Settled <Checkbox checked={buyIn.isSettled} />
-                  </Box>
-                  <Box>${buyIn.amount}</Box>
+                  {playerName}: ${totalOwed}
                 </Box>
-              ))}
-            <Box
-              sx={{
-                mb: 1,
-                display: "flex",
-                justifyContent: "flex-end ",
-                borderTop: "1px solid #555",
-                paddingTop: 1,
-              }}
-            >
-              Owed: ${totalOwed}
-            </Box>
+              </Box>
+            )}
           </Box>
         </Box>
         <br />
         <TextField
           type="number"
           defaultValue={amount}
-          label={`${appStore.currentSearchedPlayerName} is giving`}
+          label={`${playerName || "Player"} is giving`}
           onChange={(e) => {
             setAmount(Number(e.target.value));
             setPayOut(Number(e.target.value) - totalOwed);
@@ -107,14 +111,12 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
           value={payOut}
           label="Pay Out Amount"
         />
-        {/* <PaymentTypeList onSelect={setPaymentMethod} /> */}
-
         <br />
 
         <Button
           variant="contained"
           type="submit"
-          disabled={amount <= 0 || !appStore.currentSearchedPlayerName}
+          disabled={amount <= 0 || !playerName}
         >
           Cash Out
         </Button>

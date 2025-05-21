@@ -10,10 +10,10 @@ import {
   TablePagination,
 } from "@mui/material";
 import { observer } from "mobx-react";
-import { DealerTip } from "../../../../store/DealerTip.store";
+import { ITip } from "../../../../store/Tip.store";
 
 interface DealerTipsTableProps {
-  data: DealerTip[];
+  data: ITip[];
 }
 
 const DealerTipsTable: React.FC<DealerTipsTableProps> = ({ data }) => {
@@ -46,7 +46,7 @@ const DealerTipsTable: React.FC<DealerTipsTableProps> = ({ data }) => {
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.player.name}</TableCell>
+                <TableCell>{row.user.name}</TableCell>
                 <TableCell>${row.amount}</TableCell>
                 <TableCell>
                   {new Intl.DateTimeFormat("en-US").format(

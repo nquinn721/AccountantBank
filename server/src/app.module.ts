@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppService } from './app.service';
-import { PlayerModule } from './Players/Player.module';
+import { UserModule } from './User/User.module';
 import { TransactionModule } from './Transaction/Transaction.module';
 import { RakeModule } from './Rake/Rake.module';
-import { DealerTipModule } from './DealerTips/DealerTip.module';
+import { TipModule } from './Tip/Tip.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -18,10 +18,10 @@ import { DealerTipModule } from './DealerTips/DealerTip.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    PlayerModule,
+    UserModule,
     TransactionModule,
     RakeModule,
-    DealerTipModule,
+    TipModule,
   ],
   controllers: [AppController],
   providers: [AppService],

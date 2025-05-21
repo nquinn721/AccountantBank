@@ -6,19 +6,28 @@ import { observer } from "mobx-react";
 import BuyInIcon from "../sectionIcons/BuyInIcon";
 import PaymentTypeList from "./components/PaymentTypeList"; // Make sure the path is correct
 import FormHeader from "./FormHeader";
+import transactionStore from "../../store/Transaction.store";
+import { IUser } from "../../store/User.store";
 interface BuyInFormProps {
   onSubmit: (amount: number) => void;
 }
 
 const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState<number>(0);
+  const [playerName, setPlayerName] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<string>("cash");
   const [isSettled, setSettled] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount > 0) {
-      appStore.addPlayerTransaction("buyin", paymentMethod, isSettled, amount);
+      transactionStore.addUserTransaction({
+        userName: playerName,
+        type: "buyin",
+        paytype: paymentMethod,
+        isSettled: isSettled,
+        amount: amount,
+      });
       setAmount(0);
       onSubmit(amount);
     }
@@ -33,7 +42,7 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
         href="buy-ins"
       />
       <div className="modal-content">
-        <PlayerSearch />
+        <PlayerSearch playerFound={setPlayerName} />
         <TextField
           id="buyin-amount"
           type="number"
@@ -42,8 +51,6 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
           onChange={(e) => setAmount(Number(e.target.value))}
           required
         />
-        <br />
-        <PaymentTypeList onSelect={setPaymentMethod} />
         <br />
         <FormControlLabel
           sx={{ marginLeft: 2 }}
@@ -59,7 +66,7 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
         <Button
           variant="contained"
           type="submit"
-          disabled={amount <= 0 || !appStore.currentSearchedPlayerName}
+          disabled={amount <= 0 || !playerName}
         >
           Submit
         </Button>

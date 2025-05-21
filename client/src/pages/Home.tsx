@@ -14,7 +14,6 @@ const Home: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [currentForm, setCurrentForm] = useState("buyin");
   const handleClose = () => {
-    appStore.clearCurrentSearchedPlayer();
     setOpen(false);
   };
   const handleOpen = (form: string) => {

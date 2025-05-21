@@ -1,4 +1,4 @@
-import { Player } from 'src/Players/Player.entity';
+import { User } from 'src/User/User.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -8,13 +8,13 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class DealerTip {
+export class Tip {
   @PrimaryGeneratedColumn() id: number;
 
   @Column() amount: number;
 
-  @ManyToOne(() => Player, (player) => player.id)
-  player: Player;
+  @ManyToOne(() => User, (user) => user.id)
+  user: User;
 
   @Column({ default: '' }) notes: string;
 
