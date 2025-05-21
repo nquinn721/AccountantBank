@@ -19,6 +19,5 @@ async function bootstrap() {
   // });
 
   await app.listen(process.env.PORT || 8080);
-  console.log(` DONT DONT Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

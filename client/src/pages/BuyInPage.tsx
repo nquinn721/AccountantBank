@@ -1,18 +1,11 @@
 import { observer } from "mobx-react";
+import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { appStore } from "../store/App.store";
 import moment from "moment";
-import {
-  Box,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { Box, Paper, TableContainer } from "@mui/material";
 import BackButton from "./components/BackButton";
+import userStore from "../store/User.store";
 
 const BuyInPage: React.FC = () => {
   return (
@@ -20,38 +13,34 @@ const BuyInPage: React.FC = () => {
       <BackButton />
       <h1>Buy In</h1>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Amount</TableCell>
-              <TableCell>Is Settled</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell>Date</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {appStore.players.flatMap((player) =>
-              player.transactions
-                .filter((tx) => tx.type === "buyin")
-                .map((transaction) => (
-                  <TableRow key={transaction.id}>
-                    <TableCell>{player.name}</TableCell>
-                    <TableCell>${transaction.amount}</TableCell>
-                    <TableCell>
-                      {transaction.isSettled ? "Settled" : "Pending"}
-                    </TableCell>
-                    <TableCell>{transaction.type}</TableCell>
-                    <TableCell>
-                      {moment(transaction.created_at).format(
-                        "MMMM Do YYYY, h:mm:ss a"
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))
-            )}
-          </TableBody>
-        </Table>
+        <DataGrid
+          rows={userStore.users.flatMap((user) =>
+            user.transactions
+              .filter((tx) => tx.type === "buyin")
+              .map((transaction) => ({
+                id: transaction.id,
+                name: user.name,
+                amount: transaction.amount,
+                isSettled: transaction.isSettled ? "Settled" : "Pending",
+                type: transaction.type,
+                date: moment(transaction.created_at).format(
+                  "MMMM Do YYYY, h:mm:ss a"
+                ),
+              }))
+          )}
+          columns={[
+            { field: "name", headerName: "Name", flex: 1 },
+            {
+              field: "amount",
+              headerName: "Amount",
+              flex: 1,
+              renderCell: (params) => `$${params.value}`,
+            },
+            { field: "isSettled", headerName: "Is Settled", flex: 1 },
+            { field: "type", headerName: "Type", flex: 1 },
+            { field: "date", headerName: "Date", flex: 2 },
+          ]}
+        />
       </TableContainer>
     </Box>
   );

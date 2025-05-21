@@ -1,34 +1,21 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { appStore, Player } from "../../../store/App.store";
 import { observer } from "mobx-react";
+import userStore, { IUser } from "../../../store/User.store";
 
 const PlayerSearch = ({
   playerFound,
   onClear,
 }: {
-  playerFound?: (player: Player) => void;
+  playerFound?: (playerName: string) => void;
   onClear?: () => void;
 }) => {
-  const options = appStore.players || [];
+  const options = userStore.users || [];
   const label = "Player Name";
   const placeholder = "Search for a player...";
   const handleInputChange = (value: string) => {
-    if (value) {
-      const player = options.find((option) => option.name === value);
-      if (player) {
-        appStore.currentSearchedPlayerID = player.id;
-        appStore.currentSearchedPlayerName = player.name;
-        playerFound?.(player);
-      } else {
-        appStore.currentSearchedPlayerID = null;
-        appStore.currentSearchedPlayerName = value;
-      }
-    } else {
-      appStore.currentSearchedPlayerID = null;
-      appStore.currentSearchedPlayerName = "";
-      onClear?.();
-    }
+    if (value) playerFound?.(value);
+    else onClear?.();
   };
 
   return (
@@ -48,16 +35,6 @@ const PlayerSearch = ({
         )}
         fullWidth
       />
-      {/* <Button
-        variant="contained"
-        color="primary"
-        className="player-search-button"
-        onClick={() => {
-          appStore.AddPlayer(playerName);
-        }}
-      >
-        +
-      </Button> */}
     </div>
   );
 };

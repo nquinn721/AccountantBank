@@ -1,6 +1,6 @@
 import { TextField, Button, Box, styled } from "@mui/material";
 import React, { useState } from "react";
-import { dealerTipStore } from "../../store/DealerTip.store";
+import { tipStore } from "../../store/Tip.store";
 import PlayerSearch from "./components/PlayerSearch";
 import { appStore } from "../../store/App.store";
 import { observer } from "mobx-react";
@@ -14,7 +14,7 @@ interface DealerTipFormProps {
 
 const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState(0);
-  const dealer = dealerTipStore.currentDealer;
+  const dealer = tipStore.currentDealer;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(Number(e.target.value));
@@ -23,7 +23,7 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount > 0) {
-      dealerTipStore.addDealerTip(amount);
+      tipStore.addTip(amount);
       onSubmit(amount);
       setAmount(0);
     }
@@ -40,7 +40,7 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
       <Box className="modal-content">
         {dealer ? (
           <Box
-            className={dealerTipStore.currentDealer ? "1" : ""}
+            className={tipStore.currentDealer ? "1" : ""}
             sx={{
               marginBottom: 5,
               display: "flex",
@@ -57,7 +57,7 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
               color="error"
               variant="contained"
               onClick={() => {
-                dealerTipStore.clearCurrentDealer();
+                tipStore.clearCurrentDealer();
               }}
             >
               X
@@ -65,7 +65,7 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
           </Box>
         ) : (
           <PlayerSearch
-            playerFound={(player) => dealerTipStore.setCurrentDealer(player)}
+            playerFound={(player) => tipStore.setCurrentDealer(player)}
           />
         )}
         <br />

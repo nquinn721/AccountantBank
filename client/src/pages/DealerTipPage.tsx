@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LineChart } from "@mui/x-charts/LineChart";
-import { dealerTipStore } from "../store/DealerTip.store";
+import { tipStore } from "../store/Tip.store";
 import PlayerSearch from "../components/forms/components/PlayerSearch";
 import { observer } from "mobx-react";
 import { Box } from "@mui/material";
@@ -14,26 +14,26 @@ const DealerTipPage: React.FC = () => {
     { date: string; player: number; total: number }[]
   >([]);
 
-  const onPlayerFound = (player: { id: number; name: string }) => {
+  const onPlayerFound = (playerName: string) => {
     const playerTipObject: { [key: string]: number } = {};
-    const tts = dealerTipStore.getPlayerTipsByDate(player.id);
+    const tts = tipStore.getPlayerTipsByDate(playerName);
     tts.dates.forEach((date, index) => {
       playerTipObject[date] = tts.amounts[index];
     });
     setPlayerData(playerTipObject);
-    setPlayerName(player.name);
+    setPlayerName(playerName);
   };
 
   useEffect(() => {
-    const allTips = dealerTipStore.getAllTipAmounts();
-    const allDates = dealerTipStore.getAllTipDates();
+    const allTips = tipStore.getAllTipAmounts();
+    const allDates = tipStore.getAllTipDates();
     const data = allDates.map((date, index) => ({
       date,
       player: playerData[date] || 0,
       total: allTips[index],
     }));
     setDataSet(data);
-  }, [dealerTipStore.dealerTips, playerData]);
+  }, [tipStore.tips, playerData]);
 
   const series = [{ label: "Total", area: true, dataKey: "total" }];
 
