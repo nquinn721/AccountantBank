@@ -28,6 +28,7 @@
 ## Project setup
 
 ```bash
+$ Have SQL setup with database `accountant`
 $ npm install
 ```
 
