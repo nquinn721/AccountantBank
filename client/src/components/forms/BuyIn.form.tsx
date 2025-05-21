@@ -28,7 +28,7 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
     <form onSubmit={handleSubmit} className="modal-form">
       <FormHeader
         title="Buy In"
-        className="buyin-card"
+        className="buy-in-card"
         icon={<BuyInIcon />}
         href="buy-ins"
       />

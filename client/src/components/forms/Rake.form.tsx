@@ -22,9 +22,6 @@ const RakeForm: React.FC<RakeFormProps> = ({ onSubmit }) => {
     rakeStore.addRake(amount);
     onSubmit(amount);
   };
-  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
-    setTabValue(newValue);
-  };
 
   return (
     <form onSubmit={handleSubmit} className="modal-form">
