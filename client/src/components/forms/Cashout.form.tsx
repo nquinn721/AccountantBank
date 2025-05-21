@@ -41,7 +41,7 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
     <form onSubmit={handleSubmit} className="modal-form">
       <FormHeader
         title="Cash Out"
-        className="cashout-card"
+        className="cash-out-card"
         icon={<CashOutIcon />}
         href="cash-outs"
       />

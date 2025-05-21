@@ -46,14 +46,14 @@ body {
   font-size: 40px;
   font-weight: bold;
 }
-.buyin-card {
+.buy-in-card {
   background-image: linear-gradient(
     to bottom right,
     #051f00,
     #14882b
   ) !important;
 }
-.cashout-card {
+.cash-out-card {
   background-image: linear-gradient(
     to bottom right,
     #2c0505,

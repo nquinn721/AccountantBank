@@ -9,6 +9,7 @@ import CashOutIcon from "../components/sectionIcons/CashOutIcon";
 import DealerTipIcon from "../components/sectionIcons/DealerTipIcon";
 import RakeIcon from "../components/sectionIcons/RakeIcon";
 import { appStore } from "../store/App.store";
+import ActionCard from "../components/AcionCard";
 const Home: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [currentForm, setCurrentForm] = useState("buyin");
@@ -22,57 +23,27 @@ const Home: React.FC = () => {
   };
   return (
     <>
-      <Card onClick={() => handleOpen("buyin")} className="buyin-card card">
-        <BuyInIcon
-          sx={{
-            position: "absolute",
-            top: 30,
-            left: 30,
-            fontSize: 150,
-            opacity: 0.1,
-          }}
-        />
-        <div>Buy In</div>
-      </Card>
-      <Card onClick={() => handleOpen("cashout")} className="card cashout-card">
-        <CashOutIcon
-          sx={{
-            position: "absolute",
-            top: 30,
-            left: 30,
-            fontSize: 150,
-            opacity: 0.1,
-          }}
-        />
-        <div>Cash Out</div>
-      </Card>
-      <Card
+      <ActionCard
+        title="Buy In"
+        icon={<BuyInIcon />}
+        onClick={() => handleOpen("buyin")}
+      />
+      <ActionCard
+        title="Cash Out"
+        icon={<CashOutIcon />}
+        onClick={() => handleOpen("cashout")}
+      />
+      <ActionCard
+        title="Dealer Tip"
+        icon={<DealerTipIcon />}
         onClick={() => handleOpen("dealerTip")}
-        className="card dealer-tip-card"
-      >
-        <DealerTipIcon
-          sx={{
-            position: "absolute",
-            top: 30,
-            left: 30,
-            fontSize: 150,
-            opacity: 0.1,
-          }}
-        />
-        <div>Dealer Tip</div>
-      </Card>
-      <Card onClick={() => handleOpen("rake")} className="card rake-card">
-        <RakeIcon
-          sx={{
-            position: "absolute",
-            top: 30,
-            left: 30,
-            fontSize: 150,
-            opacity: 0.1,
-          }}
-        />
-        <div>Rake</div>
-      </Card>
+      />
+      <ActionCard
+        title="Rake"
+        icon={<RakeIcon />}
+        onClick={() => handleOpen("rake")}
+      />
+
       <Dialog
         open={open}
         onClose={handleClose}
