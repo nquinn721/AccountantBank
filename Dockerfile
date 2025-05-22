@@ -12,11 +12,11 @@ RUN npm install
     
 # Bundle app source
 COPY . .
+RUN npm run setup:client
 
 # Creates a "dist" folder with the production build
 RUN npm run build
 
-RUN npm run setup:client
 
 ENV PORT=8080
 ENV HOST=0.0.0.0

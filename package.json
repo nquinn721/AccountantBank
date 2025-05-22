@@ -8,9 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "setup:client": "npm run install:client && npm run build:client",
-    "install:client": "cd client && npm install && cd ..",
-    "build:client": "cd client && npm run build && cd ..",
+    "setup:client": "cd client && npm install &&  npm run build && cd ..",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -20,7 +18,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "docker:build": "docker build -t nest-crud .",
+    "docker:run": "docker run -p 8080:8080 nest-crud"
   },
   "dependencies": {
     "@dataui/crud": "^5.3.4",
