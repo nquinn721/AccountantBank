@@ -1,7 +1,7 @@
 body {
   background-color: #181818;
   color: white;
-  font-family: "Courier New", Courier, monospace;
+  font-family: 'Courier New', Courier, monospace;
   height: 100%;
 }
 .app {
@@ -72,6 +72,13 @@ body {
     to bottom right,
     #0b052c,
     #3c27c7
+  ) !important;
+}
+.user-card {
+  background-image: linear-gradient(
+    to bottom right,
+    #1d0418,
+    #801563
   ) !important;
 }
 
