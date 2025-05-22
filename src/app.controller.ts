@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Res } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -8,7 +8,7 @@ export class AppController {
   @Get()
   home(@Res() res) {
     console.log('appp controleler');
-    res.send('Hello World!');
-    // res.sendFile('index.html', { root: 'client/build' });
+    // res.send('Hello World!');
+    res.sendFile('index.html', { root: 'client/build' });
   }
 }
