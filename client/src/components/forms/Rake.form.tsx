@@ -32,7 +32,6 @@ const RakeForm: React.FC<RakeFormProps> = ({ onSubmit }) => {
         href="/rakes"
       />
       <Box className="modal-content">
-        <DefaultDenominations onChange={setAmount} />
         <br />
         <TextField
           type="number"

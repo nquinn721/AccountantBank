@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { LineChart } from "@mui/x-charts/LineChart";
-import { tipStore } from "../store/Tip.store";
-import PlayerSearch from "../components/forms/components/PlayerSearch";
-import { observer } from "mobx-react";
-import { Box } from "@mui/material";
-import BackButton from "./components/BackButton";
+import React, { useEffect, useState } from 'react';
+import { LineChart } from '@mui/x-charts/LineChart';
+import { tipStore } from '../store/Tip.store';
+import PlayerSearch from '../components/forms/components/PlayerSearch';
+import { observer } from 'mobx-react';
+import { Box } from '@mui/material';
+import BackButton from './components/BackButton';
+import DealerTipIcon from '../components/sectionIcons/DealerTipIcon';
+import PageHeader from './components/PageHeader';
 
 const DealerTipPage: React.FC = () => {
   const [playerData, setPlayerData] = useState<{ [key: string]: number }>({});
-  const [playerName, setPlayerName] = useState<string>("");
+  const [playerName, setPlayerName] = useState<string>('');
 
   const [dataSet, setDataSet] = useState<
     { date: string; player: number; total: number }[]
@@ -35,27 +37,31 @@ const DealerTipPage: React.FC = () => {
     setDataSet(data);
   }, [tipStore.tips, playerData]);
 
-  const series = [{ label: "Total", area: true, dataKey: "total" }];
+  const series = [{ label: 'Total', area: true, dataKey: 'total' }];
 
   if (playerName)
-    series.push({ label: playerName, area: true, dataKey: "player" });
+    series.push({ label: playerName, area: true, dataKey: 'player' });
   return (
-    <Box sx={{ width: "100%", padding: 2 }}>
+    <Box sx={{ width: '100%', padding: 2 }}>
       <BackButton />
-      <h1>Dealer Tip</h1>
+      <PageHeader
+        title="Dealer Tips"
+        className="dealer-tip-card"
+        icon={<DealerTipIcon />}
+      />
       <p>Choose a player to see historical Tips.</p>
       <PlayerSearch
         playerFound={onPlayerFound}
-        onClear={() => setPlayerName("")}
+        onClear={() => setPlayerName('')}
       />
       <h2>All Player Tips</h2>
       <LineChart
         dataset={dataSet}
         xAxis={[
           {
-            scaleType: "point",
-            label: "Date",
-            dataKey: "date",
+            scaleType: 'point',
+            label: 'Date',
+            dataKey: 'date',
           },
         ]}
         series={series}

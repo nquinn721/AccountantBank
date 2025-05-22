@@ -8,6 +8,8 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ConfirmBox from '../components/ConfirmBox';
+import UserIcon from '../components/sectionIcons/UserIcon';
+import PageHeader from './components/PageHeader';
 
 const UserPage: React.FC = () => {
   const [confirmNeeded, setConfirmNeeded] = useState(false);
@@ -65,9 +67,9 @@ const UserPage: React.FC = () => {
 
   const rows = userStore.users;
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', padding: 2 }}>
       <BackButton />
-      <h1>Users</h1>
+      <PageHeader title="Users" className="user-card" icon={<UserIcon />} />
       <TableContainer component={Paper}>
         <DataGrid rows={rows} columns={columns} />
       </TableContainer>

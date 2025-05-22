@@ -1,4 +1,4 @@
-import { Card, Dialog } from '@mui/material';
+import { Dialog } from '@mui/material';
 import React, { useState } from 'react';
 import BuyInForm from '../components/forms/BuyIn.form';
 import CashoutForm from '../components/forms/Cashout.form';
@@ -8,7 +8,7 @@ import BuyInIcon from '../components/sectionIcons/BuyInIcon';
 import CashOutIcon from '../components/sectionIcons/CashOutIcon';
 import DealerTipIcon from '../components/sectionIcons/DealerTipIcon';
 import RakeIcon from '../components/sectionIcons/RakeIcon';
-import ActionCard from '../components/AcionCard';
+import ActionCard from '../components/ActionCard';
 import UserIcon from '../components/sectionIcons/UserIcon';
 import UserForm from '../components/forms/UserForm';
 const Home: React.FC = () => {
