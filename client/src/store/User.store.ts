@@ -1,8 +1,8 @@
-import { makeObservable } from "mobx";
-import { BaseStore } from "./Store.base";
-import { observable } from "mobx";
-import moment from "moment";
-import { ITransaction } from "./Transaction.store";
+import { makeObservable } from 'mobx';
+import { BaseStore } from './Store.base';
+import { observable } from 'mobx';
+import moment from 'moment';
+import { ITransaction } from './Transaction.store';
 
 export interface IUser {
   id: number;
@@ -22,10 +22,10 @@ class User implements IUser {
 
   constructor(
     id: number = 0,
-    name: string = "",
+    name: string = '',
     isPlayer: boolean = false,
     isAdmin: boolean = false,
-    isEmployee: boolean = false
+    isEmployee: boolean = false,
   ) {
     this.id = id;
     this.name = name;
@@ -37,7 +37,7 @@ class User implements IUser {
 }
 
 class UserStore extends BaseStore {
-  url: string = "/user";
+  url: string = '/user';
   users: IUser[] = [];
 
   constructor() {
@@ -59,8 +59,16 @@ class UserStore extends BaseStore {
     const data = await this.get(this.url);
     this.users = data;
   }
-  async addUser(name: string, isPlayer: boolean = false) {
-    const data = await this.post(this.url, { name, isPlayer });
+  async addUser({
+    name,
+    isPlayer,
+    isEmployee,
+  }: {
+    name: string;
+    isPlayer: boolean;
+    isEmployee: boolean;
+  }) {
+    const data = await this.post(this.url, { name, isPlayer, isEmployee });
     this.users.push(data);
     return data;
   }
@@ -74,7 +82,7 @@ class UserStore extends BaseStore {
     return player
       ? player.transactions.filter(
           (t) =>
-            t.type === "buyin" && moment(t.created_at).isSame(moment(), "day")
+            t.type === 'buyin' && moment(t.created_at).isSame(moment(), 'day'),
         )
       : [];
   }
@@ -87,6 +95,18 @@ class UserStore extends BaseStore {
   }
   findUserByName(name: string) {
     return this.users.find((user) => user.name === name) || new User();
+  }
+  deleteUser(id: number) {
+    this.users = this.users.filter((user) => user.id !== id);
+    this.delete(`${this.url}/${id}`);
+  }
+  updateUser(id: number, user: IUser) {
+    const index = this.users.findIndex((user) => user.id === id);
+    if (index !== -1) {
+      this.users[index] = { ...this.users[index], ...user };
+      this.put(`${this.url}/${id}`, user);
+      this.getUsers();
+    }
   }
 }
 
