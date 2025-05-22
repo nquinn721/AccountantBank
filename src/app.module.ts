@@ -20,7 +20,7 @@ import { UserModule } from './User/User.module';
 const dbConfig = {
   type: 'mysql' as const,
   host: '10.11.33.5',
-  port: 8080,
+  port: 3306,
   username: 'accountantuser',
   password: 'Accountant1234',
   database: 'accountant',
