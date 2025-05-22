@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react';
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react';
-import { appStore } from '../store/App.store';
 import moment from 'moment';
 import { Box, Paper, TableContainer } from '@mui/material';
 import BackButton from './components/BackButton';

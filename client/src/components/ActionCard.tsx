@@ -1,6 +1,5 @@
-import React from "react";
-import Card from "@mui/material/Card";
-import BuyInIcon from "./sectionIcons/BuyInIcon";
+import React from 'react';
+import Card from '@mui/material/Card';
 
 interface ActionCardProps {
   title: string;
@@ -19,7 +18,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
   const renderedIcon = icon
     ? React.cloneElement(icon, {
         style: {
-          position: "absolute",
+          position: 'absolute',
           top: 30,
           left: 30,
           fontSize: 150,
@@ -32,7 +31,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
   return (
     <Card
       onClick={onClick}
-      className={` ${title.toLowerCase().replace(" ", "-")}-card card`}
+      className={` ${title.toLowerCase().replace(' ', '-')}-card card`}
     >
       {renderedIcon}
 

@@ -1,21 +1,17 @@
-import { Button, Checkbox, TextField, FormControlLabel } from "@mui/material";
-import React, { useState } from "react";
-import PlayerSearch from "./components/PlayerSearch";
-import { appStore } from "../../store/App.store";
-import { observer } from "mobx-react";
-import BuyInIcon from "../sectionIcons/BuyInIcon";
-import PaymentTypeList from "./components/PaymentTypeList"; // Make sure the path is correct
-import FormHeader from "./FormHeader";
-import transactionStore from "../../store/Transaction.store";
-import { IUser } from "../../store/User.store";
+import { Button, Checkbox, TextField, FormControlLabel } from '@mui/material';
+import React, { useState } from 'react';
+import PlayerSearch from './components/PlayerSearch';
+import { observer } from 'mobx-react';
+import BuyInIcon from '../sectionIcons/BuyInIcon';
+import FormHeader from './FormHeader';
+import transactionStore from '../../store/Transaction.store';
 interface BuyInFormProps {
   onSubmit: (amount: number) => void;
 }
 
 const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState<number>(0);
-  const [playerName, setPlayerName] = useState<string>("");
-  const [paymentMethod, setPaymentMethod] = useState<string>("cash");
+  const [playerName, setPlayerName] = useState<string>('');
   const [isSettled, setSettled] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -23,8 +19,7 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
     if (amount > 0) {
       transactionStore.addUserTransaction({
         userName: playerName,
-        type: "buyin",
-        paytype: paymentMethod,
+        type: 'buyin',
         isSettled: isSettled,
         amount: amount,
       });

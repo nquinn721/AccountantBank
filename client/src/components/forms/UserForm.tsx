@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import FormHeader from './FormHeader';
 import UserIcon from '../sectionIcons/UserIcon';
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Input,
-  TextField,
-} from '@mui/material';
-import { Check } from '@mui/icons-material';
+import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import userStore from '../../store/User.store';
 
 interface UserFormProps {

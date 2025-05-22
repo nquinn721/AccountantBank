@@ -1,12 +1,10 @@
-import { TextField, Button, Box, styled } from '@mui/material';
+import { TextField, Button, Box } from '@mui/material';
 import React, { useState } from 'react';
 import { tipStore } from '../../store/Tip.store';
 import PlayerSearch from './components/PlayerSearch';
-import { appStore } from '../../store/App.store';
 import { observer } from 'mobx-react';
 import DealerTipIcon from '../sectionIcons/DealerTipIcon';
 import FormHeader from './FormHeader';
-import DefaultDenominations from './components/DefaultDenominations';
 
 interface DealerTipFormProps {
   onSubmit: (amount: number) => void;
@@ -15,10 +13,6 @@ interface DealerTipFormProps {
 const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState(0);
   const dealer = tipStore.currentDealer;
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(Number(e.target.value));
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

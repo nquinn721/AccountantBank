@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
-import { Box, Paper, TableContainer, TextField } from '@mui/material';
+import { Box, Paper, TableContainer } from '@mui/material';
 import BackButton from './components/BackButton';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import userStore, { IUser } from '../store/User.store';
