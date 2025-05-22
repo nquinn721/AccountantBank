@@ -18,23 +18,23 @@ import { UserModule } from './User/User.module';
 //   database: 'accountant',
 // };
 console.log('app module');
-// const dbConfig = {
-//   type: 'mysql' as const,
-//   host: 'projects/heroic-footing-460117-k8/global/networks/default',
-//   port: 3306,
-//   username: 'accountantuser',
-//   password: 'Accountant1234',
-//   database: 'accountant',
-// };
-
 const dbConfig = {
   type: 'mysql' as const,
-  host: '35.223.91.8',
+  host: 'projects/heroic-footing-460117-k8/global/networks/default',
   port: 3306,
   username: 'accountantuser',
   password: 'Accountant1234',
   database: 'accountant',
 };
+
+// const dbConfig = {
+//   type: 'mysql' as const,
+//   host: '35.223.91.8',
+//   port: 3306,
+//   username: 'accountantuser',
+//   password: 'Accountant1234',
+//   database: 'accountant',
+// };
 
 @Module({
   imports: [
