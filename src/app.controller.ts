@@ -7,8 +7,7 @@ export class AppController {
 
   @Get()
   home(@Res() res) {
-    console.log('appp controleler');
-    // res.send('Hello World!');
+    console.log('appp contdwqfewfewfroleler');
     res.sendFile('index.html', { root: 'client/build' });
   }
 }
