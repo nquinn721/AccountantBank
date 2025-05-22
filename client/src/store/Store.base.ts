@@ -1,7 +1,7 @@
 export class BaseStore {
   isLoading: boolean = false;
   error: string | null = null;
-  baseUrl: string = '/'; //"http://localhost:8080";
+  baseUrl: string = ''; //"http://localhost:8080";
 
   async get(url: string) {
     this.setLoading(true);
