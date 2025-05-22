@@ -17,7 +17,6 @@ import { UserModule } from './User/User.module';
 //   password: 'password',
 //   database: 'accountant',
 // };
-console.log('app module');
 const dbConfig = {
   type: 'mysql' as const,
   host: 'projects/heroic-footing-460117-k8/global/networks/default',
