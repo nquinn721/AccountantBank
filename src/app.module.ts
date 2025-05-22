@@ -9,13 +9,13 @@ import { TipModule } from './Tip/Tip.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 // const dbConfig = {
-//    type: 'mysql' as const,
-//       host: 'localhost',
-//       port: 3306,
-//       username: 'admin',
-//       password: 'password',
-//       database: 'accountant',
-// }
+//   type: 'mysql' as const,
+//   host: 'localhost',
+//   port: 3306,
+//   username: 'admin',
+//   password: 'password',
+//   database: 'accountant',
+// };
 console.log('app module');
 const dbConfig = {
   type: 'mysql' as const,
