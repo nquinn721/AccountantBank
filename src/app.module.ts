@@ -22,8 +22,8 @@ const dbConfig = {
   type: 'mysql' as const,
   host: 'projects/heroic-footing-460117-k8/global/networks/default',
   port: 3306,
-  username: 'root',
-  password: 'Root1234',
+  username: 'accountantuser',
+  password: 'Accountant1234',
   database: 'accountant',
 };
 
