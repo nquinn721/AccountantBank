@@ -1,14 +1,12 @@
+import { Box, Paper, TableContainer } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
-import { Box, Paper, TableContainer } from '@mui/material';
-import BackButton from './components/BackButton';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import userStore, { IUser } from '../store/User.store';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
 import ConfirmBox from '../components/ConfirmBox';
 import UserIcon from '../components/sectionIcons/UserIcon';
+import userStore, { IUser } from '../store/User.store';
+import BackButton from './components/BackButton';
 import PageHeader from './components/PageHeader';
 
 const UserPage: React.FC = () => {
@@ -45,24 +43,24 @@ const UserPage: React.FC = () => {
         />
       ),
     },
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 100,
-      renderCell: (params) => (
-        <IconButton
-          color="error"
-          onClick={() => {
-            setSelectedUserId(params.row.id);
-            setConfirmNeeded(true);
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
-      ),
-      sortable: false,
-      filterable: false,
-    },
+    // {
+    //   field: 'actions',
+    //   headerName: 'Actions',
+    //   width: 100,
+    //   renderCell: (params) => (
+    //     <IconButton
+    //       color="error"
+    //       onClick={() => {
+    //         setSelectedUserId(params.row.id);
+    //         setConfirmNeeded(true);
+    //       }}
+    //     >
+    //       <DeleteIcon />
+    //     </IconButton>
+    //   ),
+    //   sortable: false,
+    //   filterable: false,
+    // },
   ];
 
   const rows = userStore.users;
