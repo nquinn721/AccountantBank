@@ -19,7 +19,7 @@ import { UserModule } from './User/User.module';
 // };
 const dbConfig = {
   type: 'mysql' as const,
-  host: 'projects/heroic-footing-460117-k8/global/networks/default',
+  host: 'heroic-footing-460117-k8:us-central1:accountant',
   port: 3306,
   username: 'accountantuser',
   password: 'Accountant1234',
