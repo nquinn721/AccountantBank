@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
-import { Button, Tab } from '@mui/material';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import { Button } from '@mui/material';
 import { rakeStore } from '../../store/Rake.store';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
 import Box from '@mui/material/Box';
-import RakesTable from './components/tables/RakesTable';
 import RakeIcon from '../sectionIcons/RakeIcon';
 import FormHeader from './FormHeader';
-import DefaultDenominations from './components/DefaultDenominations';
 interface RakeFormProps {
   onSubmit: (amount: number) => void;
 }
 
 const RakeForm: React.FC<RakeFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState<number>(0);
-  const [tabValue, setTabValue] = useState('1');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

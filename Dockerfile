@@ -1,5 +1,5 @@
 # Base image
-FROM node:22-alpine
+FROM node:18
 
 # Create app directory
 WORKDIR /app
@@ -12,10 +12,10 @@ RUN npm install
     
 # Bundle app source
 COPY . .
+RUN npm run build
 RUN npm run setup:client
 
 # Creates a "dist" folder with the production build
-RUN npm run build
 
 
 ENV PORT=8080

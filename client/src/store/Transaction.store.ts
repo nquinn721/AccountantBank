@@ -1,6 +1,6 @@
-import { makeAutoObservable, makeObservable } from "mobx";
-import { BaseStore } from "./Store.base";
-import userStore, { IUser } from "./User.store";
+import { makeObservable } from 'mobx';
+import { BaseStore } from './Store.base';
+import userStore from './User.store';
 
 export interface ITransaction {
   id: string;
@@ -24,7 +24,7 @@ export class TransactionStore extends BaseStore {
     isSettled = false,
     amount,
     payOut = 0,
-    paytype = "cash",
+    paytype = 'cash',
   }: {
     userName: string;
     type: string;
@@ -35,7 +35,7 @@ export class TransactionStore extends BaseStore {
   }) {
     const user = await userStore.getUser(userName);
     user.transactions.forEach(async (transaction) => {
-      if (transaction.type === "buyin" && !transaction.isSettled) {
+      if (transaction.type === 'buyin' && !transaction.isSettled) {
         await this.put(`/transaction/${transaction.id}`, {
           isSettled: true,
         });
@@ -54,7 +54,7 @@ export class TransactionStore extends BaseStore {
   async addUserTransaction({
     userName,
     type,
-    paytype = "cash",
+    paytype = 'cash',
     isSettled = false,
     amount,
     payOut = 0,
@@ -67,7 +67,7 @@ export class TransactionStore extends BaseStore {
     payOut?: number;
   }) {
     const user = await userStore.getUser(userName);
-    await this.post("/transaction", {
+    await this.post('/transaction', {
       user,
       type,
       paytype,

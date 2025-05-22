@@ -35,7 +35,7 @@ const DealerTipPage: React.FC = () => {
       total: allTips[index],
     }));
     setDataSet(data);
-  }, [tipStore.tips, playerData]);
+  }, [playerData]);
 
   const series = [{ label: 'Total', area: true, dataKey: 'total' }];
 

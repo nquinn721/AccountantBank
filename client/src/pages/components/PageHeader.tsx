@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import BackButton from './BackButton';
 
 interface PageHeaderProps {
   title: string;

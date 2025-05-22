@@ -1,8 +1,8 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BackButton from './components/BackButton';
 import { Box } from '@mui/material';
 import { LineChart } from '@mui/x-charts-pro';
-import { Rake, rakeStore } from '../store/Rake.store';
+import { rakeStore } from '../store/Rake.store';
 import RakeIcon from '../components/sectionIcons/RakeIcon';
 import PageHeader from './components/PageHeader';
 
@@ -13,7 +13,7 @@ const RakePage: React.FC = () => {
   useEffect(() => {
     setRakes(rakeStore.getAllRakeAmounts());
     setDates(rakeStore.getAllRakeDates());
-  }, [rakeStore.rakes]);
+  }, []);
   return (
     <Box sx={{ width: '100%', padding: 2 }}>
       <BackButton />

@@ -19,8 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "docker:build": "docker build -t nest-crud .",
-    "docker:run": "docker run -p 8080:8080 nest-crud"
+    "docker:build": "docker build -t poke .",
+    "docker:run": "docker run -p 8080:8080 poke"
   },
   "dependencies": {
     "@dataui/crud": "^5.3.4",

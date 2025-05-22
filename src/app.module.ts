@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'path';
+import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './User/User.module';
-import { TransactionModule } from './Transaction/Transaction.module';
 import { RakeModule } from './Rake/Rake.module';
 import { TipModule } from './Tip/Tip.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+import { TransactionModule } from './Transaction/Transaction.module';
+import { UserModule } from './User/User.module';
+
 // const dbConfig = {
 //   type: 'mysql' as const,
 //   host: 'localhost',
