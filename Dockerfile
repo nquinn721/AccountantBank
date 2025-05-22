@@ -24,4 +24,4 @@ ENV HOST=0.0.0.0
 EXPOSE 8080
  
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+CMD [ "node", "dist/src/main.js" ]
