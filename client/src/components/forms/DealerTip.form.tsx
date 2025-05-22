@@ -1,12 +1,12 @@
-import { TextField, Button, Box, styled } from "@mui/material";
-import React, { useState } from "react";
-import { tipStore } from "../../store/Tip.store";
-import PlayerSearch from "./components/PlayerSearch";
-import { appStore } from "../../store/App.store";
-import { observer } from "mobx-react";
-import DealerTipIcon from "../sectionIcons/DealerTipIcon";
-import FormHeader from "./FormHeader";
-import DefaultDenominations from "./components/DefaultDenominations";
+import { TextField, Button, Box, styled } from '@mui/material';
+import React, { useState } from 'react';
+import { tipStore } from '../../store/Tip.store';
+import PlayerSearch from './components/PlayerSearch';
+import { appStore } from '../../store/App.store';
+import { observer } from 'mobx-react';
+import DealerTipIcon from '../sectionIcons/DealerTipIcon';
+import FormHeader from './FormHeader';
+import DefaultDenominations from './components/DefaultDenominations';
 
 interface DealerTipFormProps {
   onSubmit: (amount: number) => void;
@@ -40,17 +40,17 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
       <Box className="modal-content">
         {dealer ? (
           <Box
-            className={tipStore.currentDealer ? "1" : ""}
+            className={tipStore.currentDealer ? '1' : ''}
             sx={{
               marginBottom: 5,
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
               paddingLeft: 2,
             }}
           >
-            <Box sx={{ fontWeight: "bold", fontSize: "20px" }}>
+            <Box sx={{ fontWeight: 'bold', fontSize: '20px' }}>
               {dealer.name}
             </Box>
             <Button
@@ -68,9 +68,6 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
             playerFound={(player) => tipStore.setCurrentDealer(player)}
           />
         )}
-        <br />
-        <DefaultDenominations onChange={(value) => setAmount(value)} />
-        <br />
         <TextField
           type="number"
           label="Dealer Tip Amount"
