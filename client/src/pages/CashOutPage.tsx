@@ -1,11 +1,11 @@
-import { observer } from 'mobx-react';
-import React from 'react';
-import moment from 'moment';
 import { Box, Paper, TableContainer } from '@mui/material';
-import BackButton from './components/BackButton';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import userStore from '../store/User.store';
+import { observer } from 'mobx-react';
+import moment from 'moment';
+import React from 'react';
 import CashOutIcon from '../components/sectionIcons/CashOutIcon';
+import userStore from '../store/User.store';
+import BackButton from './components/BackButton';
 import PageHeader from './components/PageHeader';
 
 const CashOutPage: React.FC = () => {
@@ -34,7 +34,7 @@ const CashOutPage: React.FC = () => {
     { field: 'date', headerName: 'Date', flex: 2 },
   ];
 
-  const rows = userStore.users.flatMap((user) =>
+  const rows = userStore.users?.flatMap((user) =>
     user.transactions
       .filter((tx) => tx.type === 'cashout')
       .map((transaction) => ({
