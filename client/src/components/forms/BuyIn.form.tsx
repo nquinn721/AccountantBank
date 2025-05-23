@@ -82,9 +82,15 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
           message={
             <Box>
               <p>Are you sure you want to buy in?</p>
-              <Box>Player: {playerName}</Box>
-              <Box>Amount: {amount}</Box>
-              <Box>Settled: {isSettled ? 'Yes' : 'No'}</Box>
+              <Box>
+                Player: <b>{playerName}</b>
+              </Box>
+              <Box>
+                Amount: <b>{amount}</b>
+              </Box>
+              <Box>
+                Settled: <b>{isSettled ? 'Yes' : 'No'}</b>
+              </Box>
             </Box>
           }
         />
