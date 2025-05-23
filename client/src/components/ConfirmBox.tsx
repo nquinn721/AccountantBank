@@ -1,15 +1,15 @@
-import React from 'react';
+import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import DialogTitle from '@mui/material/DialogTitle';
+import React from 'react';
 
 interface ConfirmBoxProps {
   open: boolean;
   title?: string;
-  message?: string;
+  message?: React.ReactNode;
   onConfirm: () => void;
   onCancel: () => void;
   confirmText?: string;
@@ -26,7 +26,7 @@ const ConfirmBox: React.FC<ConfirmBoxProps> = ({
   cancelText = 'No',
 }) => (
   <Dialog open={open} onClose={onCancel}>
-    <DialogTitle>{title}</DialogTitle>
+    <DialogTitle sx={{ minWidth: '300px' }}>{title}</DialogTitle>
     <DialogContent>
       <DialogContentText>{message}</DialogContentText>
     </DialogContent>

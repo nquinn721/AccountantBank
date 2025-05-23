@@ -1,11 +1,12 @@
 import { Box, Button, Checkbox, TextField } from '@mui/material';
-import React, { useState } from 'react';
-import PlayerSearch from './components/PlayerSearch';
 import { observer } from 'mobx-react';
-import FormHeader from './FormHeader';
+import React, { useState } from 'react';
 import transactionStore from '../../store/Transaction.store';
 import userStore from '../../store/User.store';
+import ConfirmBox from '../ConfirmBox';
 import CashOutIcon from '../sectionIcons/CashOutIcon';
+import PlayerSearch from './components/PlayerSearch';
+import FormHeader from './FormHeader';
 
 interface CashoutFormProps {
   onSubmit: (amount: number) => void;
@@ -15,6 +16,7 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState(0);
   const [payOut, setPayOut] = useState(0);
   const [playerName, setPlayerName] = useState<string>('');
+  const [showConfirm, setShowConfirm] = useState(false);
   const buyIns = userStore.getPlayerBuyIns(playerName);
   const totalOwed = buyIns.reduce((acc, buyIn) => {
     if (!buyIn.isSettled) {
@@ -26,16 +28,25 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount > 0 && playerName) {
-      transactionStore.cashOutPlayer({
-        userName: playerName,
-        type: 'cashout',
-        isSettled: true,
-        amount,
-        payOut,
-      });
-      setAmount(0);
-      onSubmit(amount);
+      setShowConfirm(true);
     }
+  };
+
+  const handleConfirm = () => {
+    transactionStore.cashOutPlayer({
+      userName: playerName,
+      type: 'cashout',
+      isSettled: true,
+      amount,
+      payOut,
+    });
+    setAmount(0);
+    onSubmit(amount);
+    setShowConfirm(false);
+  };
+
+  const handleCancel = () => {
+    setShowConfirm(false);
   };
 
   return (
@@ -112,7 +123,18 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
           label="Pay Out Amount"
         />
         <br />
-
+        <ConfirmBox
+          open={showConfirm}
+          onCancel={handleCancel}
+          onConfirm={handleConfirm}
+          title="Confirm Cash Out"
+          message={
+            <Box>
+              Are you sure you want to cash out <b>{playerName}</b> for{' '}
+              <b>${amount}</b>?
+            </Box>
+          }
+        />
         <Button
           variant="contained"
           type="submit"
