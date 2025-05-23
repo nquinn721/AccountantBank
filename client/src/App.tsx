@@ -1,13 +1,12 @@
-import React from 'react';
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
 import { createTheme, ThemeProvider } from '@mui/material';
-import DealerTip from './pages/DealerTipPage';
-import RakePage from './pages/RakePage';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import './App.css';
 import BuyInPage from './pages/BuyInPage';
 import CashOutPage from './pages/CashOutPage';
 import NavBar from './pages/components/Nav';
+import DealerTip from './pages/DealerTipPage';
+import Home from './pages/Home';
+import RakePage from './pages/RakePage';
 import UserPage from './pages/UserPage';
 const darkTheme = createTheme({
   palette: {

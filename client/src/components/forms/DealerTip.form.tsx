@@ -1,9 +1,10 @@
-import { TextField, Button, Box } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
+import { observer } from 'mobx-react';
 import React, { useState } from 'react';
 import { tipStore } from '../../store/Tip.store';
-import PlayerSearch from './components/PlayerSearch';
-import { observer } from 'mobx-react';
+import ConfirmBox from '../ConfirmBox';
 import DealerTipIcon from '../sectionIcons/DealerTipIcon';
+import PlayerSearch from './components/PlayerSearch';
 import FormHeader from './FormHeader';
 
 interface DealerTipFormProps {
@@ -14,13 +15,23 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState(0);
   const dealer = tipStore.currentDealer;
 
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const handleConfirm = () => {
+    tipStore.addTip(amount);
+    onSubmit(amount);
+    setAmount(0);
+    setShowConfirm(false);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (amount > 0) {
-      tipStore.addTip(amount);
-      onSubmit(amount);
-      setAmount(0);
+      setShowConfirm(true);
     }
+  };
+  const handleCancel = () => {
+    setShowConfirm(false);
   };
 
   return (
@@ -70,7 +81,18 @@ const DealerTipForm: React.FC<DealerTipFormProps> = ({ onSubmit }) => {
           required
         />
         <br />
-
+        <ConfirmBox
+          open={showConfirm}
+          onCancel={handleCancel}
+          onConfirm={handleConfirm}
+          title="Confirm Dealer Tip"
+          message={
+            <Box>
+              Are you sure you want to give a tip of <b>${amount}</b> to{' '}
+              <b>{dealer?.name}</b>?
+            </Box>
+          }
+        />
         <Button
           variant="contained"
           type="submit"
