@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SessionModule } from 'nestjs-session';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -28,6 +29,9 @@ const dbConfig = {
 
 @Module({
   imports: [
+    SessionModule.forRoot({
+      session: { secret: 'keyboard cat' },
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

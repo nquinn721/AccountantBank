@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, Session } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -11,13 +11,19 @@ export class AppController {
   }
 
   @Post('/login')
-  login(@Res() res, @Body() body) {
-    if (body.pw === 'p1o2k3e4r5!') return res.redirect('/site');
+  login(@Res() res, @Body() body, @Session() session) {
+    if (body.pw === 'p1o2k3e4r5!') {
+      session.isSignedIn = true;
+      return res.redirect('/site');
+    }
   }
 
   @Get('/site')
-  site(@Res() res) {
-    console.log('Site request received');
-    res.sendFile('index.html', { root: 'client/build' });
+  site(@Res() res, @Session() session) {
+    if (session.isSignedIn) {
+      res.sendFile('index.html', { root: 'client/build' });
+    } else {
+      res.sendFile('login.html', { root: 'src' });
+    }
   }
 }
