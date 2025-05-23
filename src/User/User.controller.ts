@@ -1,8 +1,6 @@
-import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
+import { Controller } from '@nestjs/common';
 
-import { User } from './User.entity';
-import { UserService } from './User.service';
 import {
   CallHandler,
   ExecutionContext,
@@ -10,6 +8,8 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
+import { User } from './User.entity';
+import { UserService } from './User.service';
 
 @Injectable()
 class DeleteUserTransactionsInterceptor implements NestInterceptor {
@@ -40,11 +40,12 @@ class DeleteUserTransactionsInterceptor implements NestInterceptor {
     },
   },
   routes: {
-    deleteOneBase: {
-      interceptors: [DeleteUserTransactionsInterceptor],
-      decorators: [],
-      returnDeleted: true,
-    },
+    // deleteOneBase: {
+    //   interceptors: [DeleteUserTransactionsInterceptor],
+    //   decorators: [],
+    //   returnDeleted: true,
+    // },
+    only: ['getManyBase', 'getOneBase', 'createOneBase', 'updateOneBase'],
   },
 })
 @Controller('user')

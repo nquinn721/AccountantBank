@@ -23,6 +23,7 @@ function App() {
             <NavBar />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/site" element={<Home />} />
               <Route path="/dealer-tips" element={<DealerTip />} />
               <Route path="/rakes" element={<RakePage />} />
               <Route path="/buy-ins" element={<BuyInPage />} />
