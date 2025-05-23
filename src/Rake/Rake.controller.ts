@@ -1,5 +1,5 @@
-import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
+import { Controller } from '@nestjs/common';
 
 import { Rake } from './Rake.entity';
 import { RakeService } from './Rake.service';
@@ -7,6 +7,9 @@ import { RakeService } from './Rake.service';
 @Crud({
   model: {
     type: Rake,
+  },
+  routes: {
+    only: ['getManyBase', 'getOneBase', 'createOneBase', 'updateOneBase'],
   },
 })
 @Controller('rake')
