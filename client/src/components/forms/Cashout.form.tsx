@@ -74,22 +74,24 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
           >
             {playerName && (
               <Box>
-                {buyIns.map((buyIn, idx) => (
-                  <Box
-                    key={idx}
-                    sx={{
-                      mb: 1,
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Box>
-                      {' '}
-                      Settled <Checkbox checked={buyIn.isSettled} />
+                {buyIns
+                  .filter((buyIn) => !buyIn.isSettled)
+                  .map((buyIn, idx) => (
+                    <Box
+                      key={idx}
+                      sx={{
+                        mb: 1,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <Box>
+                        {' '}
+                        Settled <Checkbox checked={buyIn.isSettled} />
+                      </Box>
+                      <Box>${buyIn.amount}</Box>
                     </Box>
-                    <Box>${buyIn.amount}</Box>
-                  </Box>
-                ))}
+                  ))}
                 <Box
                   sx={{
                     mb: 1,
@@ -99,7 +101,7 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
                     paddingTop: 1,
                   }}
                 >
-                  {playerName}: ${totalOwed}
+                  {playerName} owes: ${totalOwed}
                 </Box>
               </Box>
             )}

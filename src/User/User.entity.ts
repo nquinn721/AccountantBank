@@ -1,17 +1,17 @@
+import { Tip } from 'src/Tip/Tip.entity';
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  OneToMany,
   CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Transaction } from '../Transaction/Transaction.entity';
-import { Tip } from 'src/Tip/Tip.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn() id: number;
 
-  @Column() name: string;
+  @Column({ unique: true }) name: string;
 
   @Column({ default: false }) isPlayer: boolean;
 

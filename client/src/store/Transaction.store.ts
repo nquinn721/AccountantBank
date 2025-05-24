@@ -36,7 +36,7 @@ export class TransactionStore extends BaseStore {
     const user = await userStore.getUser(userName);
     user.transactions.forEach(async (transaction) => {
       if (transaction.type === 'buyin' && !transaction.isSettled) {
-        await this.put(`/transaction/${transaction.id}`, {
+        await this.patch(`/transaction/${transaction.id}`, {
           isSettled: true,
         });
       }

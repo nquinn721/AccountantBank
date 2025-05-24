@@ -81,7 +81,7 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
           title="Confirm Buy In"
           message={
             <Box>
-              <p>Are you sure you want to buy in?</p>
+              <Box>Are you sure you want to buy in?</Box>
               <Box>
                 Player: <b>{playerName}</b>
               </Box>

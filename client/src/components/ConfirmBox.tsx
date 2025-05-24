@@ -2,7 +2,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import React from 'react';
 
@@ -27,9 +26,7 @@ const ConfirmBox: React.FC<ConfirmBoxProps> = ({
 }) => (
   <Dialog open={open} onClose={onCancel}>
     <DialogTitle sx={{ minWidth: '300px' }}>{title}</DialogTitle>
-    <DialogContent>
-      <DialogContentText>{message}</DialogContentText>
-    </DialogContent>
+    <DialogContent>{message}</DialogContent>
     <DialogActions>
       <Button onClick={onCancel} color="primary">
         {cancelText}
