@@ -1,7 +1,6 @@
-import { makeObservable } from 'mobx';
-import { BaseStore } from './Store.base';
-import { observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import moment from 'moment';
+import { BaseStore } from './Store.base';
 import { ITransaction } from './Transaction.store';
 
 export interface IUser {
@@ -68,7 +67,11 @@ class UserStore extends BaseStore {
     isPlayer: boolean;
     isEmployee: boolean;
   }) {
-    const data = await this.post(this.url, { name, isPlayer, isEmployee });
+    const data = await this.post(this.url, {
+      name: name.trim(),
+      isPlayer,
+      isEmployee,
+    });
     this.users.push(data);
     return data;
   }
