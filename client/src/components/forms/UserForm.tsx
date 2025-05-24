@@ -19,8 +19,16 @@ const UserForm: React.FC<UserFormProps> = ({ onSubmit }) => {
   const [name, setName] = useState('');
   const [isPlayer, setIsPlayer] = useState(false);
   const [isEmployee, setIsEmployee] = useState(false);
+  const [error, setError] = useState(false);
 
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const updateName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setError(!userStore.hasUser(value));
+
+    setName(value);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,8 +62,10 @@ const UserForm: React.FC<UserFormProps> = ({ onSubmit }) => {
           placeholder="Name"
           value={name}
           variant="outlined"
-          onChange={(e) => setName(e.target.value)}
+          onChange={updateName}
           required
+          error={!error}
+          helperText={!error ? 'User already exists' : ''}
         />
         <br />
         <FormControlLabel
@@ -90,7 +100,7 @@ const UserForm: React.FC<UserFormProps> = ({ onSubmit }) => {
             </Box>
           }
         />
-        <Button variant="contained" type="submit" disabled={!name}>
+        <Button variant="contained" type="submit" disabled={!name || !error}>
           Submit
         </Button>
       </div>

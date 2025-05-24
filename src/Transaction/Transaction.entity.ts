@@ -1,9 +1,9 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
   CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '../User/User.entity';
 
@@ -19,7 +19,11 @@ export class Transaction {
 
   @Column({ default: 'buyin' }) type: string; // 'buyin' | 'cashout'
 
-  @Column({ default: 'cash' }) paytype: string; // 'cash' | 'venmo' | 'zelle' | 'paypal' | 'cashapp' | 'other'
+  @Column({
+    default: 'cash',
+    enum: ['cash', 'venmo', 'zelle', 'paypal', 'cashapp', 'other'],
+  })
+  paytype: string;
 
   @Column({ default: '' }) notes: string;
 

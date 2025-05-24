@@ -47,6 +47,22 @@ export class BaseStore {
     }
   }
 
+  async patch(url: string, data: any) {
+    this.setLoading(true);
+    try {
+      const response = await fetch(`${this.baseUrl}${url}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      this.setLoading(false);
+      return response.json();
+    } catch (error) {
+      this.setError('Failed to patch data');
+      this.setLoading(false);
+    }
+  }
+
   async delete(url: string) {
     this.setLoading(true);
     try {

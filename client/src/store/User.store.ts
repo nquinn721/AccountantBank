@@ -67,13 +67,17 @@ class UserStore extends BaseStore {
     isPlayer: boolean;
     isEmployee: boolean;
   }) {
-    const data = await this.post(this.url, {
-      name: name.trim(),
-      isPlayer,
-      isEmployee,
-    });
-    this.users.push(data);
-    return data;
+    try {
+      const data = await this.post(this.url, {
+        name: name.trim(),
+        isPlayer,
+        isEmployee,
+      });
+      this.users.push(data);
+      return data;
+    } catch (error) {
+      this.setError('Failed to add user');
+    }
   }
 
   getPlayerByName(name: string) {
@@ -91,7 +95,9 @@ class UserStore extends BaseStore {
   }
 
   hasUser(name: string) {
-    return this.users.find((user) => user.name === name);
+    return this.users.find(
+      (user) => user.name.trim().toLowerCase() === name.trim().toLowerCase(),
+    );
   }
   findUserById(id: number) {
     return this.users.find((user) => user.id === id) || new User();

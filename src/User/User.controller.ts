@@ -28,6 +28,20 @@ class DeleteUserTransactionsInterceptor implements NestInterceptor {
   }
 }
 
+@Injectable()
+class TrimUserNameInterceptor implements NestInterceptor {
+  async intercept(
+    context: ExecutionContext,
+    next: CallHandler,
+  ): Promise<Observable<any>> {
+    const request = context.switchToHttp().getRequest();
+    if (request.body && typeof request.body.name === 'string') {
+      request.body.name = request.body.name.trim();
+    }
+    return next.handle();
+  }
+}
+
 @Crud({
   model: {
     type: User,
@@ -40,6 +54,9 @@ class DeleteUserTransactionsInterceptor implements NestInterceptor {
     },
   },
   routes: {
+    createOneBase: {
+      interceptors: [TrimUserNameInterceptor],
+    },
     // deleteOneBase: {
     //   interceptors: [DeleteUserTransactionsInterceptor],
     //   decorators: [],
