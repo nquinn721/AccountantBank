@@ -1,5 +1,5 @@
 import { Crud, CrudController } from '@dataui/crud';
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 
 import { Transaction } from './Transaction.entity';
 import { TransactionService } from './Transaction.service';
@@ -17,7 +17,7 @@ export class TransactionController implements CrudController<Transaction> {
   constructor(public service: TransactionService) {}
 
   @Get('moneyOwed/:userId')
-  async getMoneyOwed(userId: number): Promise<number> {
+  async getMoneyOwed(@Param('userId') userId: number): Promise<number> {
     return this.service.getMoneyOwed(userId);
   }
 }
