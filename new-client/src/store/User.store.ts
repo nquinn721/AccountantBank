@@ -22,7 +22,6 @@ export class UserStore extends BaseStore {
   }
 
   async getCurrentPlayers() {
-    console.log('hiowefhoweij');
     return await this.get('current-players');
   }
 }
