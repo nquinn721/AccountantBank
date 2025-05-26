@@ -52,4 +52,3 @@ const dbConfig = {
   providers: [AppService],
 })
 export class AppModule {}
-console.log(join(__dirname, '..', '..', 'client', 'build'));
