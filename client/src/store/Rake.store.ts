@@ -38,12 +38,12 @@ class RakeStore extends BaseStore {
   }
 
   async getRakes() {
-    const data = await this.get(this.url);
+    const data = await this.get();
     this.rakes = data;
   }
 
   async addRake(amount: number) {
-    await this.post(this.url, { amount });
+    await this.post('', { amount });
     this.getRakes();
   }
 }

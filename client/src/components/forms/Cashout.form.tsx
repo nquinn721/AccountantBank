@@ -47,7 +47,7 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
       transactionStore.addUserTransaction({
         userId: player!.id,
         type: 'paid',
-        amount: totalOwed - amount < 0 ? totalOwed - amount : amount,
+        amount: amount > totalOwed ? totalOwed : amount,
       });
     }
     setAmount(0);

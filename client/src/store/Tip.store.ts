@@ -53,12 +53,12 @@ class TipStore extends BaseStore {
   }
 
   async getTips() {
-    const data = await this.get(this.url);
+    const data = await this.get();
     this.tips = data;
   }
 
   async addTip(amount: number) {
-    await this.post(this.url, {
+    await this.post('', {
       amount,
       user: this.currentDealer,
     });
