@@ -1,8 +1,8 @@
-import { action, makeObservable, observable } from "mobx";
-import { BaseStore } from "./Store.base";
-import moment from "moment";
-import { LogicHelper } from "./LogicHelper";
-import userStore, { IUser } from "./User.store";
+import { action, makeObservable, observable } from 'mobx';
+import moment from 'moment';
+import { LogicHelper } from './LogicHelper';
+import { BaseStore } from './Store.base';
+import userStore, { IUser } from './User.store';
 
 export interface ITip {
   id: number;
@@ -12,7 +12,7 @@ export interface ITip {
 }
 class TipStore extends BaseStore {
   tips: ITip[] = [];
-  url: string = "/tip";
+  url: string = '/tip';
   currentDealer: IUser | null = null;
 
   constructor() {
@@ -37,8 +37,8 @@ class TipStore extends BaseStore {
     return LogicHelper.GetAllDates(this.tips);
   }
 
-  setCurrentDealer(dealer: string) {
-    this.currentDealer = userStore.findUserByName(dealer);
+  setCurrentDealer(player: IUser) {
+    this.currentDealer = player;
   }
 
   clearCurrentDealer() {
@@ -48,7 +48,7 @@ class TipStore extends BaseStore {
   getTodayTips() {
     const today = moment();
     return this.tips.filter((tip) =>
-      moment(tip.created_at).isSame(today, "day")
+      moment(tip.created_at).isSame(today, 'day'),
     );
   }
 
@@ -78,4 +78,5 @@ class TipStore extends BaseStore {
   }
 }
 
-export const tipStore = new TipStore();
+const tipStore = new TipStore();
+export default tipStore;

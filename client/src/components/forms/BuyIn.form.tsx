@@ -8,6 +8,7 @@ import {
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
 import transactionStore from '../../store/Transaction.store';
+import { IUser } from '../../store/User.store';
 import ConfirmBox from '../ConfirmBox';
 import BuyInIcon from '../sectionIcons/BuyInIcon';
 import PlayerSearch from './components/PlayerSearch';
@@ -18,23 +19,34 @@ interface BuyInFormProps {
 
 const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState<number>(0);
-  const [playerName, setPlayerName] = useState<string>('');
+  const [player, setPlayer] = useState<IUser | null>(null);
   const [isSettled, setSettled] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', { amount, playerName, isSettled });
+    console.log('Form submitted:', {
+      amount,
+      playerName: player?.name,
+      isSettled,
+    });
     setShowConfirm(true);
   };
 
   const handleConfirm = () => {
     transactionStore.addUserTransaction({
-      userName: playerName,
-      type: 'buyin',
-      isSettled: isSettled,
+      userId: player?.id ?? 0,
+      type: 'borrow',
       amount: amount,
     });
+
+    if (isSettled) {
+      transactionStore.addUserTransaction({
+        userId: player?.id ?? 0,
+        type: 'paid',
+        amount: amount,
+      });
+    }
     setAmount(0);
     onSubmit(amount);
     setShowConfirm(false);
@@ -53,7 +65,7 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
         href="buy-ins"
       />
       <div className="modal-content">
-        <PlayerSearch playerFound={setPlayerName} />
+        <PlayerSearch playerFound={setPlayer} />
         <TextField
           id="buyin-amount"
           type="number"
@@ -83,7 +95,7 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
             <Box>
               <Box>Are you sure you want to buy in?</Box>
               <Box>
-                Player: <b>{playerName}</b>
+                Player: <b>{player?.name}</b>
               </Box>
               <Box>
                 Amount: <b>{amount}</b>
@@ -97,7 +109,7 @@ const BuyInForm: React.FC<BuyInFormProps> = ({ onSubmit }) => {
         <Button
           variant="contained"
           type="submit"
-          disabled={amount <= 0 || !playerName}
+          disabled={amount <= 0 || !player}
         >
           Submit
         </Button>

@@ -3,7 +3,7 @@ import { LineChart } from '@mui/x-charts-pro';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import RakeIcon from '../components/sectionIcons/RakeIcon';
-import { rakeStore } from '../store/Rake.store';
+import rakeStore from '../store/Rake.store';
 import BackButton from './components/BackButton';
 import PageHeader from './components/PageHeader';
 

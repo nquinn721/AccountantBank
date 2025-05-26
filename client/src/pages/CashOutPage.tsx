@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import moment from 'moment';
 import React from 'react';
 import CashOutIcon from '../components/sectionIcons/CashOutIcon';
+import { ITransaction } from '../store/Transaction.store';
 import userStore from '../store/User.store';
 import BackButton from './components/BackButton';
 import PageHeader from './components/PageHeader';
@@ -36,13 +37,11 @@ const CashOutPage: React.FC = () => {
 
   const rows = userStore.users?.flatMap((user) =>
     user.transactions
-      .filter((tx) => tx.type === 'cashout')
-      .map((transaction) => ({
+      .filter((tx: ITransaction) => tx.type === 'cashout')
+      .map((transaction: ITransaction) => ({
         id: transaction.id,
         name: user.name,
         amount: transaction.amount,
-        payOut: transaction.payOut,
-        isSettled: transaction.isSettled,
         type: transaction.type,
         date: moment(transaction.created_at).format('MMMM Do YYYY, h:mm:ss a'),
       })),

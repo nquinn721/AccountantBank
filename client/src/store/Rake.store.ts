@@ -1,16 +1,16 @@
-import { action, makeObservable, observable } from "mobx";
-import { BaseStore } from "./Store.base";
-import moment from "moment";
-import { LogicHelper } from "./LogicHelper";
+import { action, makeObservable, observable } from 'mobx';
+import moment from 'moment';
+import { LogicHelper } from './LogicHelper';
+import { BaseStore } from './Store.base';
 
-export interface Rake {
+export interface IRake {
   id: number;
   amount: number;
   created_at: Date;
 }
 class RakeStore extends BaseStore {
-  rakes: Rake[] = [];
-  url: string = "/rake";
+  rakes: IRake[] = [];
+  url: string = '/rake';
 
   constructor() {
     super();
@@ -25,7 +25,7 @@ class RakeStore extends BaseStore {
   getTodayRakes() {
     const today = moment();
     return this.rakes.filter((rake) =>
-      moment(rake.created_at).isSame(today, "day")
+      moment(rake.created_at).isSame(today, 'day'),
     );
   }
 
@@ -47,4 +47,5 @@ class RakeStore extends BaseStore {
     this.getRakes();
   }
 }
-export const rakeStore = new RakeStore();
+const rakeStore = new RakeStore();
+export default rakeStore;

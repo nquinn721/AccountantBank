@@ -1,8 +1,8 @@
-import { Box, Button, Checkbox, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import { observer } from 'mobx-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import transactionStore from '../../store/Transaction.store';
-import userStore from '../../store/User.store';
+import { IUser } from '../../store/User.store';
 import ConfirmBox from '../ConfirmBox';
 import CashOutIcon from '../sectionIcons/CashOutIcon';
 import PlayerSearch from './components/PlayerSearch';
@@ -15,31 +15,41 @@ interface CashoutFormProps {
 const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
   const [amount, setAmount] = useState(0);
   const [payOut, setPayOut] = useState(0);
-  const [playerName, setPlayerName] = useState<string>('');
+  const [player, setPlayer] = useState<IUser | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
-  const buyIns = userStore.getPlayerBuyIns(playerName);
-  const totalOwed = buyIns.reduce((acc, buyIn) => {
-    if (!buyIn.isSettled) {
-      return acc + buyIn.amount;
-    }
-    return acc;
-  }, 0);
+  const [totalOwed, setTotalOwed] = useState(0);
+
+  useEffect(() => {
+    const fetchOwed = async () => {
+      if (player) {
+        const owed = await transactionStore.getMoneyOwed(player.id);
+        setTotalOwed(owed);
+      }
+    };
+    fetchOwed();
+  }, [player]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (amount > 0 && playerName) {
+    if (amount > 0 && player?.name) {
       setShowConfirm(true);
     }
   };
 
   const handleConfirm = () => {
-    transactionStore.cashOutPlayer({
-      userName: playerName,
+    transactionStore.addUserTransaction({
+      userId: player!.id,
       type: 'cashout',
-      isSettled: true,
       amount,
-      payOut,
+      cashOutPaid: amount - totalOwed,
     });
+    if (totalOwed) {
+      transactionStore.addUserTransaction({
+        userId: player!.id,
+        type: 'paid',
+        amount: totalOwed - amount < 0 ? totalOwed - amount : amount,
+      });
+    }
     setAmount(0);
     onSubmit(amount);
     setShowConfirm(false);
@@ -58,60 +68,17 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
         href="cash-outs"
       />
       <div className="modal-content">
-        <PlayerSearch playerFound={setPlayerName} />
-        <Box>
-          <Box
-            sx={{
-              mb: 1,
-            }}
-          >
-            Buy In's
+        <PlayerSearch playerFound={setPlayer} />
+        {player?.name && (
+          <Box>
+            {player.name} owes: ${totalOwed}
           </Box>
-          <Box
-            sx={{
-              mb: 1,
-            }}
-          >
-            {playerName && (
-              <Box>
-                {buyIns
-                  .filter((buyIn) => !buyIn.isSettled)
-                  .map((buyIn, idx) => (
-                    <Box
-                      key={idx}
-                      sx={{
-                        mb: 1,
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      <Box>
-                        {' '}
-                        Settled <Checkbox checked={buyIn.isSettled} />
-                      </Box>
-                      <Box>${buyIn.amount}</Box>
-                    </Box>
-                  ))}
-                <Box
-                  sx={{
-                    mb: 1,
-                    display: 'flex',
-                    justifyContent: 'flex-end ',
-                    borderTop: '1px solid #555',
-                    paddingTop: 1,
-                  }}
-                >
-                  {playerName} owes: ${totalOwed}
-                </Box>
-              </Box>
-            )}
-          </Box>
-        </Box>
+        )}
         <br />
         <TextField
           type="number"
           defaultValue={amount}
-          label={`${playerName || 'Player'} is giving`}
+          label={`${player?.name || 'Player'} is giving`}
           onChange={(e) => {
             setAmount(Number(e.target.value));
             setPayOut(Number(e.target.value) - totalOwed);
@@ -132,7 +99,7 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
           title="Confirm Cash Out"
           message={
             <Box>
-              Are you sure you want to cash out <b>{playerName}</b> for{' '}
+              Are you sure you want to cash out <b>{player?.name}</b> for{' '}
               <b>${amount}</b>?
             </Box>
           }
@@ -140,7 +107,7 @@ const CashoutForm: React.FC<CashoutFormProps> = ({ onSubmit }) => {
         <Button
           variant="contained"
           type="submit"
-          disabled={amount <= 0 || !playerName}
+          disabled={amount <= 0 || !player}
         >
           Cash Out
         </Button>

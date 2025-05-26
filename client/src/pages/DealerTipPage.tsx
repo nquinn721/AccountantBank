@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { LineChart } from '@mui/x-charts/LineChart';
-import { tipStore } from '../store/Tip.store';
-import PlayerSearch from '../components/forms/components/PlayerSearch';
-import { observer } from 'mobx-react';
 import { Box } from '@mui/material';
-import BackButton from './components/BackButton';
+import { LineChart } from '@mui/x-charts/LineChart';
+import { observer } from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import PlayerSearch from '../components/forms/components/PlayerSearch';
 import DealerTipIcon from '../components/sectionIcons/DealerTipIcon';
+import tipStore from '../store/Tip.store';
+import { IUser } from '../store/User.store';
+import BackButton from './components/BackButton';
 import PageHeader from './components/PageHeader';
 
 const DealerTipPage: React.FC = () => {
   const [playerData, setPlayerData] = useState<{ [key: string]: number }>({});
-  const [playerName, setPlayerName] = useState<string>('');
+  const [player, setPlayer] = useState<IUser | null>(null);
 
   const [dataSet, setDataSet] = useState<
     { date: string; player: number; total: number }[]
   >([]);
 
-  const onPlayerFound = (playerName: string) => {
+  const onPlayerFound = (player: IUser) => {
     const playerTipObject: { [key: string]: number } = {};
-    const tts = tipStore.getPlayerTipsByDate(playerName);
+    const tts = tipStore.getPlayerTipsByDate(player.name);
     tts.dates.forEach((date, index) => {
       playerTipObject[date] = tts.amounts[index];
     });
     setPlayerData(playerTipObject);
-    setPlayerName(playerName);
+    setPlayer(player);
   };
 
   useEffect(() => {
@@ -39,8 +40,8 @@ const DealerTipPage: React.FC = () => {
 
   const series = [{ label: 'Total', area: true, dataKey: 'total' }];
 
-  if (playerName)
-    series.push({ label: playerName, area: true, dataKey: 'player' });
+  if (player)
+    series.push({ label: player.name, area: true, dataKey: 'player' });
   return (
     <Box sx={{ width: '100%', padding: 2 }}>
       <BackButton />
@@ -52,7 +53,7 @@ const DealerTipPage: React.FC = () => {
       <p>Choose a player to see historical Tips.</p>
       <PlayerSearch
         playerFound={onPlayerFound}
-        onClear={() => setPlayerName('')}
+        onClear={() => setPlayer(null)}
       />
       <h2>All Player Tips</h2>
       <LineChart

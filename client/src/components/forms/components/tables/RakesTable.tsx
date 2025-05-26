@@ -1,20 +1,19 @@
-import React from "react";
 import {
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-} from "@mui/material";
-import { Rake, rakeStore } from "../../../../store/Rake.store";
-import { observer } from "mobx-react";
-import TablePagination from "@mui/material/TablePagination";
-import { useState } from "react";
+} from '@mui/material';
+import TablePagination from '@mui/material/TablePagination';
+import { observer } from 'mobx-react';
+import React, { useState } from 'react';
+import { IRake } from '../../../../store/Rake.store';
 
 interface RakesTableProps {
-  data: Rake[];
+  data: IRake[];
 }
 
 const RakesTable: React.FC<RakesTableProps> = ({ data }) => {
@@ -26,7 +25,7 @@ const RakesTable: React.FC<RakesTableProps> = ({ data }) => {
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -48,8 +47,8 @@ const RakesTable: React.FC<RakesTableProps> = ({ data }) => {
               <TableRow key={row.id}>
                 <TableCell>${row.amount}</TableCell>
                 <TableCell>
-                  {new Intl.DateTimeFormat("en-US").format(
-                    new Date(row.created_at)
+                  {new Intl.DateTimeFormat('en-US').format(
+                    new Date(row.created_at),
                   )}
                 </TableCell>
               </TableRow>
