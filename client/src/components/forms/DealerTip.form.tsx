@@ -1,7 +1,7 @@
 import { Box, Button, TextField } from '@mui/material';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
-import { tipStore } from '../../store/Tip.store';
+import tipStore from '../../store/Tip.store';
 import ConfirmBox from '../ConfirmBox';
 import DealerTipIcon from '../sectionIcons/DealerTipIcon';
 import PlayerSearch from './components/PlayerSearch';

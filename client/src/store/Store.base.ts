@@ -2,11 +2,14 @@ export class BaseStore {
   isLoading: boolean = false;
   error: string | null = null;
   baseUrl: string = process.env.REACT_APP_IS_DEV ? 'http://localhost:8080' : '';
+  url: string = '';
 
-  async get(url: string) {
+  async get(url?: string) {
     this.setLoading(true);
     try {
-      const response = await fetch(`${this.baseUrl}${url}`);
+      const response = await fetch(
+        `${this.baseUrl}${this.url}${url ? `/${url}` : ''}`,
+      );
       this.setLoading(false);
       return response.json();
     } catch (error) {
@@ -18,7 +21,7 @@ export class BaseStore {
   async post(url: string, data: any) {
     this.setLoading(true);
     try {
-      const response = await fetch(`${this.baseUrl}${url}`, {
+      const response = await fetch(`${this.baseUrl}${this.url}${url}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

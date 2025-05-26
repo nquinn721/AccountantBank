@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import React, { useState } from 'react';
-import { rakeStore } from '../../store/Rake.store';
+import rakeStore from '../../store/Rake.store';
 import ConfirmBox from '../ConfirmBox';
 import RakeIcon from '../sectionIcons/RakeIcon';
 import FormHeader from './FormHeader';

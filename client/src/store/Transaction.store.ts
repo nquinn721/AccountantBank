@@ -1,81 +1,66 @@
 import { makeObservable } from 'mobx';
 import { BaseStore } from './Store.base';
-import userStore from './User.store';
+import { IUser } from './User.store';
 
 export interface ITransaction {
   id: string;
+  user: IUser;
   amount: number;
-  payOut: number;
-  type: string; // "buyin" | "cashout"
+  cashOutPaid: number;
+  type: string; // "borrow" | "paid"
+  paySource: string; // "cash" | "venmo" | "zelle" | "paypal" | "cashapp" | "other"
+  notes: string;
   created_at: Date;
   isSettled: boolean;
 }
-export class TransactionStore extends BaseStore {
+class TransactionStore extends BaseStore {
+  url: string = '/transaction';
   transactions: ITransaction[] = [];
 
   constructor() {
     super();
     makeObservable(this);
+    this.getTransactions();
   }
 
-  async cashOutPlayer({
-    userName,
-    type,
-    isSettled = false,
-    amount,
-    payOut = 0,
-    paytype = 'cash',
-  }: {
-    userName: string;
-    type: string;
-    isSettled?: boolean;
-    amount: number;
-    payOut?: number;
-    paytype?: string;
-  }) {
-    const user = await userStore.getUser(userName);
-    user.transactions.forEach(async (transaction) => {
-      if (transaction.type === 'buyin' && !transaction.isSettled) {
-        await this.patch(`/transaction/${transaction.id}`, {
-          isSettled: true,
-        });
-      }
-    });
-    this.addUserTransaction({
-      userName,
-      type,
-      paytype,
-      isSettled,
-      amount,
-      payOut,
-    });
+  async getTransactions() {
+    const data = await this.get('');
+    this.transactions = data;
+  }
+  async getMoneyOwed(userId: number) {
+    const moneyOwed = await this.get(`moneyOwed/${userId}`);
+    return moneyOwed;
   }
 
   async addUserTransaction({
-    userName,
+    userId,
     type,
     paytype = 'cash',
-    isSettled = false,
     amount,
-    payOut = 0,
+    cashOutPaid = 0,
   }: {
-    userName: string;
+    userId: number;
     type: string;
     paytype?: string;
-    isSettled?: boolean;
     amount: number;
-    payOut?: number;
+    cashOutPaid?: number;
   }) {
-    const user = await userStore.getUser(userName);
-    await this.post('/transaction', {
-      user,
+    console.log('Adding transaction:', {
+      userId,
       type,
       paytype,
       amount,
-      isSettled,
-      payOut,
+      cashOutPaid,
     });
-    userStore.getUsers();
+    await this.post('', {
+      user: userId,
+      type,
+      paytype,
+      amount,
+      cashOutPaid,
+    });
+
+    this.getTransactions();
   }
 }
 

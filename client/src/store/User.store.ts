@@ -49,13 +49,13 @@ class UserStore extends BaseStore {
 
   async getUser(userName: string, options: any = {}) {
     if (!this.hasUser(userName)) {
-      const data = await this.post(this.url, { name: userName, ...options });
+      const data = await this.post('', { name: userName, ...options });
       this.users.push(data);
     }
     return this.users.find((user) => user.name === userName) || new User();
   }
   async getUsers() {
-    const data = await this.get(this.url);
+    const data = await this.get();
     this.users = data;
   }
   async addUser({
@@ -68,7 +68,7 @@ class UserStore extends BaseStore {
     isEmployee: boolean;
   }) {
     try {
-      const data = await this.post(this.url, {
+      const data = await this.post('', {
         name: name.trim(),
         isPlayer,
         isEmployee,
@@ -107,13 +107,13 @@ class UserStore extends BaseStore {
   }
   deleteUser(id: number) {
     this.users = this.users.filter((user) => user.id !== id);
-    this.delete(`${this.url}/${id}`);
+    this.delete(`/${id}`);
   }
   updateUser(id: number, user: IUser) {
     const index = this.users.findIndex((user) => user.id === id);
     if (index !== -1) {
       this.users[index] = { ...this.users[index], ...user };
-      this.put(`${this.url}/${id}`, user);
+      this.put(`/${id}`, user);
       this.getUsers();
     }
   }
