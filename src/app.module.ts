@@ -24,7 +24,7 @@ const dbConfig = {
   port: 3306,
   username: 'accountantuser',
   password: 'Accountant1234',
-  database: 'accountant',
+  database: 'acesfull',
 };
 
 @Module({
