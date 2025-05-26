@@ -5,7 +5,7 @@ import { CrudRequest, Override } from '@dataui/crud';
 import { HttpException } from '@nestjs/common';
 import { TipService } from 'src/Tip/Tip.service';
 import { TransactionService } from 'src/Transaction/Transaction.service';
-import { DeepPartial } from 'typeorm';
+import { DeepPartial, MoreThanOrEqual } from 'typeorm';
 import { User } from './User.entity';
 export class UserService extends TypeOrmCrudService<User> {
   constructor(
@@ -54,5 +54,24 @@ export class UserService extends TypeOrmCrudService<User> {
       const tipIds = user.tips.map((tip) => tip.id);
       await this.tipService.deleteMany(tipIds);
     }
+  }
+
+  // Get all users who have borrowed money in the last 24 hours
+  async currentPlayers(): Promise<User[]> {
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const transactions = await this.transactionService.find({
+      where: {
+        created_at: MoreThanOrEqual(twentyFourHoursAgo),
+        type: 'borrow',
+      },
+      relations: ['user'],
+    });
+    const users = {};
+    transactions.forEach((transaction) => {
+      if (transaction.user) {
+        users[transaction.user.id] = transaction.user;
+      }
+    });
+    return Object.values(users);
   }
 }

@@ -1,5 +1,5 @@
 import { Crud, CrudController } from '@dataui/crud';
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
 import {
   CallHandler,
@@ -68,4 +68,9 @@ class TrimUserNameInterceptor implements NestInterceptor {
 @Controller('user')
 export class UserController implements CrudController<User> {
   constructor(public service: UserService) {}
+
+  @Get('/current-players')
+  async currentPlayers() {
+    return this.service.currentPlayers();
+  }
 }
