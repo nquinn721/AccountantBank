@@ -5,7 +5,7 @@ import { CrudRequest, Override } from '@dataui/crud';
 import { HttpException } from '@nestjs/common';
 import { TipService } from 'src/Tip/Tip.service';
 import { TransactionService } from 'src/Transaction/Transaction.service';
-import { DeepPartial, MoreThanOrEqual } from 'typeorm';
+import { DeepPartial, In, MoreThanOrEqual } from 'typeorm';
 import { User } from './User.entity';
 export class UserService extends TypeOrmCrudService<User> {
   constructor(
@@ -63,15 +63,22 @@ export class UserService extends TypeOrmCrudService<User> {
     const transactions = await this.transactionService.find({
       where: {
         created_at: MoreThanOrEqual(startTime),
-        type: 'borrow',
+        type: In(['borrow', 'cashout']),
       },
       relations: ['user'],
     });
     const users = {};
     transactions.forEach((transaction) => {
-      if (transaction.user) {
-        users[transaction.user.id] = transaction.user;
+      if (!users[transaction.user.id]) {
+        users[transaction.user.id] = {};
       }
+      users[transaction.user.id] = {
+        ...transaction.user,
+        transactions: [
+          ...(users[transaction.user.id].transactions || []),
+          transaction,
+        ],
+      };
     });
     return Object.values(users);
   }
