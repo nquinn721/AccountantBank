@@ -15,23 +15,17 @@ const CashOutPage: React.FC = () => {
     { field: 'name', headerName: 'Name', flex: 1 },
     {
       field: 'amount',
-      headerName: 'Amount',
+      headerName: 'Cash Out Amount',
       flex: 1,
       renderCell: (params) => `$${params.value}`,
     },
     {
-      field: 'payOut',
-      headerName: 'Pay Out',
+      field: 'cashOutPaid',
+      headerName: 'Cash Out Paid',
       flex: 1,
       renderCell: (params) => `$${params.value}`,
     },
-    {
-      field: 'isSettled',
-      headerName: 'Is Settled',
-      flex: 1,
-      renderCell: (params) => (params.value ? 'Settled' : 'Pending'),
-    },
-    { field: 'type', headerName: 'Type', flex: 1 },
+
     { field: 'date', headerName: 'Date', flex: 2 },
   ];
 
@@ -41,6 +35,7 @@ const CashOutPage: React.FC = () => {
       .map((transaction: ITransaction) => ({
         id: transaction.id,
         name: user.name,
+        cashOutPaid: transaction.cashOutPaid,
         amount: transaction.amount,
         type: transaction.type,
         date: moment(transaction.created_at).format('MMMM Do YYYY, h:mm:ss a'),
