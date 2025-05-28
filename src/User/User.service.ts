@@ -63,7 +63,7 @@ export class UserService extends TypeOrmCrudService<User> {
     const transactions = await this.transactionService.find({
       where: {
         created_at: MoreThanOrEqual(startTime),
-        type: In(['borrow', 'cashout']),
+        type: In(['borrow', 'paid', 'cashout']),
       },
       relations: ['user'],
     });

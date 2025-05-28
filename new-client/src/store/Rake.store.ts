@@ -1,25 +1,32 @@
-import { makeAutoObservable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import { BaseStore } from './Base.store';
+
+export interface IRake {
+  id: string;
+  amount: number;
+  date: Date;
+}
 
 // RakeStore extends BaseStore
 class RakeStore extends BaseStore {
-  rakes: any[] = [];
+  rakes: IRake[] = [];
 
   constructor() {
     super();
-    makeAutoObservable(this);
+    makeObservable(this, {
+      rakes: observable,
+    });
+    this.getRakes();
   }
 
-  setRakes(rakes: any[]) {
-    this.rakes = rakes;
+  async getRakes() {
+    const data = await this.get();
+    this.rakes = data;
   }
 
-  addRake(rake: any) {
-    this.rakes.push(rake);
-  }
-
-  clearRakes() {
-    this.rakes = [];
+  async addRake(rake: IRake) {
+    const newRake = await this.post(rake);
+    this.rakes.push(newRake);
   }
 }
 

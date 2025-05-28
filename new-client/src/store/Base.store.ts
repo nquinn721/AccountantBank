@@ -21,14 +21,17 @@ export class BaseStore {
     }
   }
 
-  async post(url: string, data: any) {
+  async post(data: any, url: string = '') {
     this.setLoading(true);
     try {
-      const response = await fetch(`${this.baseUrl}${this.url}${url}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${this.baseUrl}${this.url}${data.url || ''}${url}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        },
+      );
       this.setLoading(false);
       return response.json();
     } catch (error) {
