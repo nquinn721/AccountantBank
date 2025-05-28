@@ -21,8 +21,13 @@ export class TipStore extends BaseStore {
     });
   }
 
+  async getTips() {
+    const data = await this.get();
+    this.tips = data;
+  }
+
   async addTip(tip: Tip) {
-    const newTip = await this.post(this.url, tip);
+    const newTip = await this.post(tip);
     this.tips.push(newTip);
   }
 
@@ -32,4 +37,4 @@ export class TipStore extends BaseStore {
 }
 
 const tipStore = new TipStore();
-export default tipStore;
+export { tipStore };
