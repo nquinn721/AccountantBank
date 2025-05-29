@@ -40,7 +40,10 @@ const AddNewPlayer: React.FC<{
         </Box>
         <Box sx={{ mb: 4 }}>
           <PlayerSearch
-            playerFound={setPlayer}
+            playerFound={(user) => {
+              setPlayer(user);
+              setNewPlayer(null);
+            }}
             newUser={(name) => {
               setNewPlayer(name);
               setPlayer(null);

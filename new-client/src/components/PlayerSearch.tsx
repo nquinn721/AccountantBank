@@ -16,9 +16,13 @@ const PlayerSearch = ({
   const label = 'Player Name';
   const placeholder = 'Search for a player...';
   const handleInputChange = (value: string) => {
-    if (value.trim()) {
-      const foundUser = options.find((user) => user.name === value);
+    value = value.trim();
+    if (value) {
+      const foundUser = userStore.users.find(
+        (user) => user.name.toLowerCase() === value.toLowerCase(),
+      );
       if (foundUser) {
+        console.log('player found', value, foundUser, value);
         playerFound?.(foundUser);
       } else {
         newUser?.(value);
