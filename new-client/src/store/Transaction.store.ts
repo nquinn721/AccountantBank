@@ -76,6 +76,7 @@ class TransactionStore extends BaseStore {
     amount: number;
     cashOutPaid?: number;
   }) {
+    if (!userId) return;
     await this.post({
       user: userId,
       type,
