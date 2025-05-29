@@ -7,6 +7,7 @@ import {
   ListItemText,
   TextField,
 } from '@mui/material';
+import { observer } from 'mobx-react';
 import moment from 'moment';
 import React from 'react';
 import { rakeStore } from '../store/Rake.store';
@@ -82,7 +83,7 @@ const Rake: React.FC = () => {
           </Box>
         </Box>
         <List>
-          {rakeStore.rakes.map((rake) => (
+          {rakeStore.currentRakes.map((rake) => (
             <Box
               key={rake.id}
               sx={{
@@ -95,7 +96,7 @@ const Rake: React.FC = () => {
                 marginBottom: 1,
               }}
             >
-              <ListItemText secondary={`$${rake.amount}`} />
+              <ListItemText primary="Total:" secondary={`$${rake.amount}`} />
               <ListItemText
                 primary={moment(rake.date).fromNow()}
                 secondary={moment(rake.date).format('h:mm MM/DD/YYYY')}
@@ -106,7 +107,7 @@ const Rake: React.FC = () => {
         <ConfirmBox
           open={showConfirm}
           title="Add Rake?"
-          message={`Add rake $${amount} '}?`}
+          message={`Add rake $${amount}?`}
           onConfirm={() => {
             rakeStore.addRake(amount);
             setShowConfirm(false);
@@ -122,4 +123,4 @@ const Rake: React.FC = () => {
   );
 };
 
-export default Rake;
+export default observer(Rake);

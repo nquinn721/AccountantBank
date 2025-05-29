@@ -13,6 +13,7 @@ export interface Tip {
 export class TipStore extends BaseStore {
   url: string = '/tip';
   tips: Tip[] = [];
+  currentTips: Tip[] = [];
 
   constructor() {
     super();
@@ -21,6 +22,7 @@ export class TipStore extends BaseStore {
       addTip: action,
       totalAmount: computed,
       getCurrentTips: action,
+      currentTips: observable,
     });
     this.getCurrentTips();
   }
@@ -30,13 +32,13 @@ export class TipStore extends BaseStore {
       Date.now() - 24 * 60 * 60 * 1000,
     ).toISOString();
     const data = await this.get(`?created_at[gte]=${twentyFourHoursAgo}`);
-    this.tips = data;
+    this.currentTips = data;
   }
 
   async addTip({ tip, user }: { tip: number; user: IUser | null }) {
     console.log('Adding tip:', tip, 'for user:', user);
     const newTip = await this.post({ user, amount: tip });
-    this.tips.push(newTip);
+    this.getCurrentTips();
   }
 
   get totalAmount() {

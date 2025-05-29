@@ -7,6 +7,7 @@ import {
   ListItemText,
   TextField,
 } from '@mui/material';
+import { observer } from 'mobx-react';
 import moment from 'moment';
 import React from 'react';
 import { tipStore } from '../store/Tip.store';
@@ -93,7 +94,7 @@ const Tip: React.FC = () => {
           </Box>
         </Box>
         <List>
-          {tipStore.tips.map((tip) => (
+          {tipStore.currentTips.map((tip) => (
             <Box
               key={tip.id}
               sx={{
@@ -138,4 +139,4 @@ const Tip: React.FC = () => {
   );
 };
 
-export default Tip;
+export default observer(Tip);
