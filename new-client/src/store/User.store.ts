@@ -1,14 +1,16 @@
-import { makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { BaseStore } from './Base.store';
-import { ITransaction } from './Transaction.store';
+import { ITransaction, transactionStore } from './Transaction.store';
 
 export interface IUser {
-  id: string;
+  id: number;
   name: string;
   isPlayer?: boolean;
   isEmployee?: boolean;
   isAdmin?: boolean;
   transactions?: ITransaction[];
+  moneyOwed?: number;
+  totalBuyIn?: number;
 }
 
 class UserStore extends BaseStore {
@@ -21,8 +23,13 @@ class UserStore extends BaseStore {
     makeObservable(this, {
       users: observable,
       currentPlayers: observable,
+      getUsers: action,
+      getCurrentPlayers: action,
+      getMoneyOwed: action,
+      addUser: action,
     });
     this.getUsers();
+    this.getCurrentPlayers();
   }
 
   async getUsers() {
@@ -30,8 +37,17 @@ class UserStore extends BaseStore {
   }
 
   async getCurrentPlayers() {
-    console.log('Fetching current players');
-    this.currentPlayers = await this.get('current-players');
+    const players = await this.get('current-players');
+    this.currentPlayers = players.map((user: IUser) => {
+      return {
+        ...user,
+        totalBuyIn: transactionStore.getTotalBuyIns(user.transactions || []),
+      };
+    });
+  }
+
+  getMoneyOwed(userId: number): Promise<number> {
+    return this.get(`moneyOwed/${userId}`);
   }
 
   async addUser(name: string): Promise<IUser> {

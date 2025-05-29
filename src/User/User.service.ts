@@ -68,18 +68,23 @@ export class UserService extends TypeOrmCrudService<User> {
       relations: ['user'],
     });
     const users = {};
-    transactions.forEach((transaction) => {
+    for (const transaction of transactions) {
       if (!users[transaction.user.id]) {
         users[transaction.user.id] = {};
       }
+
+      const moneyOwed = await this.transactionService.getMoneyOwed(
+        transaction.user.id,
+      );
       users[transaction.user.id] = {
         ...transaction.user,
+        moneyOwed,
         transactions: [
           ...(users[transaction.user.id].transactions || []),
           transaction,
         ],
       };
-    });
+    }
     return Object.values(users);
   }
 }
