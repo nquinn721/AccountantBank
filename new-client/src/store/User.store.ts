@@ -11,6 +11,7 @@ export interface IUser {
   transactions?: ITransaction[];
   moneyOwed?: number;
   totalBuyIn?: number;
+  isCashedOut?: boolean;
 }
 
 class UserStore extends BaseStore {
@@ -42,6 +43,9 @@ class UserStore extends BaseStore {
       return {
         ...user,
         totalBuyIn: transactionStore.getTotalBuyIns(user.transactions || []),
+        isCashedOut: user.transactions?.some(
+          (transaction) => transaction.type === 'cashout',
+        ),
       };
     });
   }
