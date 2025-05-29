@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
-import { transactionStore } from '../../store/Transaction.store';
 import { IUser } from '../../store/User.store';
-import ConfirmBox from '../ConfirmBox';
+import BuyInConfirmation from './BuyInConfirmation';
+import CashOutConfirmation from './CashOutConfirmation';
 
 interface PlayerInfoProps {
   player: IUser;
@@ -14,8 +14,9 @@ interface PlayerInfoProps {
 const PlayerInfoModal: React.FC<
   PlayerInfoProps & { open: boolean; onClose: () => void }
 > = ({ player, open, onClose }) => {
-  const [buyIn, setBuyIn] = useState<number>(0);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [amount, setAmount] = useState<number>(0);
+  const [showBuyInConfirm, setShowBuyInConfirm] = useState(false);
+  const [showCashOutConfirm, setShowCashOutConfirm] = useState(false);
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -50,50 +51,50 @@ const PlayerInfoModal: React.FC<
             size="small"
             fullWidth
             onChange={(e) => {
-              setBuyIn(Number(e.target.value));
-            }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ width: '50%' }}
-            disabled={buyIn <= 0}
-            onClick={() => buyIn > 0 && setShowConfirm(true)}
-          >
-            Add Buy In
-          </Button>
-          <ConfirmBox
-            open={showConfirm}
-            onCancel={() => setShowConfirm(false)}
-            title="Confirm Buy In"
-            message={
-              <Box>
-                Are you sure you want to add a buy-in of <b>${buyIn}</b> for{' '}
-                <b>{player.name}</b>?
-              </Box>
-            }
-            onConfirm={() => {
-              if (player?.id) {
-                transactionStore.addTransaction({
-                  userId: player.id,
-                  type: 'borrow',
-                  amount: buyIn,
-                });
-                setBuyIn(0);
-                onClose();
-                setShowConfirm(false);
-              }
+              setAmount(Number(e.target.value));
             }}
           />
         </Box>
-        <Button
-          sx={{ width: '100%' }}
-          variant="contained"
-          color="error"
-          onClick={onClose}
-        >
-          Cash Out
-        </Button>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+          <Button
+            variant="contained"
+            sx={{ flex: 1 }}
+            color="primary"
+            disabled={amount <= 0}
+            onClick={() => amount > 0 && setShowBuyInConfirm(true)}
+          >
+            Add Buy In
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            disabled={amount <= 0}
+            sx={{ flex: 1 }}
+            onClick={() => amount > 0 && setShowCashOutConfirm(true)}
+          >
+            Cash Out
+          </Button>
+          {showCashOutConfirm && (
+            <CashOutConfirmation
+              player={player}
+              amount={amount}
+              onCancel={() => {
+                setShowCashOutConfirm(false);
+                onClose();
+              }}
+            />
+          )}
+          {showBuyInConfirm && (
+            <BuyInConfirmation
+              player={player}
+              amount={amount}
+              onCancel={() => {
+                setShowBuyInConfirm(false);
+                onClose();
+              }}
+            />
+          )}
+        </Box>
       </Box>
     </Modal>
   );

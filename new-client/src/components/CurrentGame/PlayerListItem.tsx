@@ -33,7 +33,13 @@ const PlayerListItem: React.FC<PlayerListItemProps> = ({ player, onClick }) => {
       </Box>
       <Box>
         <Box sx={{ fontSize: '12px' }}>Owes: ${player.moneyOwed}</Box>
-        <Box>Text</Box>
+        <Box>
+          {player.isCashedOut ? (
+            <span style={{ color: 'red' }}>Cashed Out</span>
+          ) : (
+            <span style={{ color: 'green' }}>Active</span>
+          )}
+        </Box>
       </Box>
     </ListItem>
   );
