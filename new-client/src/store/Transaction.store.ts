@@ -7,6 +7,7 @@ export interface ITransaction {
   user: IUser;
   amount: number;
   cashOutPaid: number;
+  paySource?: string; // "cash" | "venmo" | "zelle" | "paypal" | "cashapp" | "other"
   type: string; // "borrow" | "paid"
 }
 class TransactionStore extends BaseStore {
@@ -33,23 +34,52 @@ class TransactionStore extends BaseStore {
     return moneyOwed;
   }
 
+  async cashOut({
+    playerOwed,
+    userId,
+    amount,
+    paySource = 'cash',
+  }: {
+    playerOwed: number;
+    userId: number;
+    amount: number;
+    paySource?: string;
+  }) {
+    if (playerOwed > 0) {
+      this.addTransaction({
+        userId,
+        type: 'paid',
+        amount: playerOwed < amount ? playerOwed : amount,
+        paySource,
+      });
+    }
+
+    this.addTransaction({
+      userId,
+      type: 'cashout',
+      amount,
+      cashOutPaid: amount > playerOwed ? amount - playerOwed : 0, // Cash out minus what they owe
+      paySource,
+    });
+  }
+
   async addTransaction({
     userId,
     type,
-    paytype = 'cash',
+    paySource = 'cash',
     amount,
     cashOutPaid = 0,
   }: {
     userId: number;
     type: string;
-    paytype?: string;
+    paySource?: string;
     amount: number;
     cashOutPaid?: number;
   }) {
     await this.post({
       user: userId,
       type,
-      paytype,
+      paySource,
       amount,
       cashOutPaid,
     });

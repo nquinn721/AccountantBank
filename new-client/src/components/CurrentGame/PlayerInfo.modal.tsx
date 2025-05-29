@@ -3,7 +3,9 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
+import { transactionStore } from '../../store/Transaction.store';
 import { IUser } from '../../store/User.store';
+import PaymentTypeList from '../icons/PaymentTypeList';
 import BuyInConfirmation from './BuyInConfirmation';
 import CashOutConfirmation from './CashOutConfirmation';
 
@@ -17,6 +19,7 @@ const PlayerInfoModal: React.FC<
   const [amount, setAmount] = useState<number>(0);
   const [showBuyInConfirm, setShowBuyInConfirm] = useState(false);
   const [showCashOutConfirm, setShowCashOutConfirm] = useState(false);
+  const [paySource, setPaySource] = useState<string>('');
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -43,17 +46,18 @@ const PlayerInfoModal: React.FC<
           </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+        <Box sx={{ gap: 1, mb: 3, mt: 2 }}>
           <TextField
             type="number"
-            placeholder="Enter buy in"
+            placeholder="Enter amount"
             variant="outlined"
-            size="small"
             fullWidth
+            sx={{ mb: 2 }}
             onChange={(e) => {
               setAmount(Number(e.target.value));
             }}
           />
+          <PaymentTypeList onSelect={setPaySource} />
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
           <Button
@@ -82,6 +86,17 @@ const PlayerInfoModal: React.FC<
                 setShowCashOutConfirm(false);
                 onClose();
               }}
+              onConfirm={() => {
+                transactionStore.cashOut({
+                  userId: player.id,
+                  amount,
+                  paySource,
+                  playerOwed: player.moneyOwed || 0,
+                });
+                setShowCashOutConfirm(false);
+                setAmount(0);
+                onClose();
+              }}
             />
           )}
           {showBuyInConfirm && (
@@ -90,6 +105,17 @@ const PlayerInfoModal: React.FC<
               amount={amount}
               onCancel={() => {
                 setShowBuyInConfirm(false);
+                onClose();
+              }}
+              onConfirm={() => {
+                transactionStore.addTransaction({
+                  userId: player.id,
+                  type: 'borrow',
+                  amount,
+                  paySource,
+                });
+                setShowBuyInConfirm(false);
+                setAmount(0);
                 onClose();
               }}
             />

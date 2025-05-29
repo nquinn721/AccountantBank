@@ -16,18 +16,17 @@ const style = {
 const AddNewUser: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [paymentType, setPaymentType] = useState<string | null>(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setName('');
-    setEmail('');
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim()) return;
+    if (!name.trim() || !paymentType) return;
     handleClose();
   };
 
@@ -50,15 +49,7 @@ const AddNewUser: React.FC = () => {
               fullWidth
               margin="normal"
             />
-            <TextField
-              label="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              fullWidth
-              margin="normal"
-            />
+
             <Box mt={2} display="flex" justifyContent="flex-end" gap={1}>
               <Button onClick={handleClose}>Cancel</Button>
               <Button type="submit" variant="contained">
