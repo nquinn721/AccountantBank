@@ -1,6 +1,6 @@
 import { action, makeObservable, observable } from 'mobx';
 import { BaseStore } from './Base.store';
-import { ITransaction, transactionStore } from './Transaction.store';
+import { ITransaction } from './Transaction.store';
 
 export interface IUser {
   id: number;
@@ -42,7 +42,6 @@ class UserStore extends BaseStore {
     this.currentPlayers = players.map((user: IUser) => {
       return {
         ...user,
-        totalBuyIn: transactionStore.getTotalBuyIns(user.transactions || []),
         isCashedOut: user.transactions?.some(
           (transaction) => transaction.type === 'cashout',
         ),

@@ -17,4 +17,10 @@ export class TransactionUtil {
     });
     return totalOwed;
   }
+
+  static getTotalBuyIns(transactions: Transaction[]): number {
+    return transactions
+      .filter((t) => t.type === 'borrow')
+      .reduce((sum, t) => sum + t.amount, 0);
+  }
 }
