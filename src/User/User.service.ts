@@ -59,7 +59,7 @@ export class UserService extends TypeOrmCrudService<User> {
 
   // Get all users who have borrowed money in the last 24 hours
   async currentPlayers(): Promise<IUser[]> {
-    const hoursAgo = 24;
+    const hoursAgo = 12;
     const startTime = new Date(Date.now() - hoursAgo * 60 * 60 * 1000);
     const transactions = await this.transactionService.find({
       where: {

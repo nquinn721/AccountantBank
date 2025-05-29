@@ -1,4 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { Box, Button, Grid, List, ListItemText } from '@mui/material';
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
@@ -44,18 +45,54 @@ const CurrentGame: React.FC = () => {
         </Button>
         <AddNewPlayer open={open} onClose={() => setOpen(false)} />
       </Box>
-      <List>
-        {currentPlayers?.map((player) => (
-          <PlayerListItem
-            onClick={() => {
-              console.log('Player clicked:', player);
-              setCurrentPlayer(player);
-            }}
-            key={player.id}
-            player={player}
-          />
-        ))}
-      </List>
+      {currentPlayers.length ? (
+        <List
+          sx={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            borderRadius: 2,
+            paddingTop: 2,
+            paddingX: 2,
+          }}
+        >
+          {currentPlayers?.map((player) => (
+            <PlayerListItem
+              onClick={() => {
+                console.log('Player clicked:', player);
+                setCurrentPlayer(player);
+              }}
+              key={player.id}
+              player={player}
+            />
+          ))}
+        </List>
+      ) : (
+        <Box
+          sx={{
+            height: '400px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+            background: 'rgba(255, 255, 255, 0.05)',
+            borderRadius: 2,
+          }}
+        >
+          <Box>
+            <PeopleAltIcon
+              sx={{
+                fontSize: 150,
+                color: 'rgba(255, 255, 255, 0.1)',
+                position: 'absolute',
+                top: 100,
+                left: '22%',
+              }}
+            />
+            <Box sx={{ color: 'rgba(255, 255, 255, 0.3)', mt: 2 }}>
+              No players currently in the game.
+            </Box>
+          </Box>
+        </Box>
+      )}
       <PlayerInfoModal
         player={currentPlayer || ({} as IUser)}
         open={currentPlayer !== null}
