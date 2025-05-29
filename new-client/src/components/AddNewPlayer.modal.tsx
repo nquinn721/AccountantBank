@@ -4,6 +4,7 @@ import { transactionStore } from '../store/Transaction.store';
 import { IUser, userStore } from '../store/User.store';
 import ConfirmBox from './ConfirmBox';
 import PlayerSearch from './PlayerSearch';
+import PaymentTypeList from './icons/PaymentTypeList';
 
 const AddNewPlayer: React.FC<{
   open: boolean;
@@ -13,6 +14,7 @@ const AddNewPlayer: React.FC<{
   const [newPlayer, setNewPlayer] = useState<string | null>(null);
   const [buyin, setBuyin] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [paySource, setPaySource] = useState<string>('cash');
 
   const handleSubmit = async () => {
     let p = player;
@@ -21,6 +23,7 @@ const AddNewPlayer: React.FC<{
       userId: p ? Number(p.id) : 0,
       type: 'borrow',
       amount: buyin,
+      paySource,
     });
     setPlayer(null);
     setBuyin(0);
@@ -50,6 +53,7 @@ const AddNewPlayer: React.FC<{
         </Box>
         <Box sx={{ mb: 4 }}>
           <TextField
+            sx={{ mb: 2 }}
             autoFocus
             label="Buy-in Amount"
             type="number"
@@ -58,6 +62,7 @@ const AddNewPlayer: React.FC<{
             defaultValue={buyin}
             onChange={(e) => setBuyin(Number(e.target.value))}
           />
+          <PaymentTypeList onSelect={setPaySource} />
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
           <ConfirmBox

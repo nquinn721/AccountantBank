@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import { transactionStore } from '../../store/Transaction.store';
 import { IUser } from '../../store/User.store';
 import ConfirmBox from '../ConfirmBox';
 
@@ -8,17 +7,23 @@ interface BuyInConfirmationProps {
   player: IUser;
   amount: number;
   onCancel: () => void;
+  onConfirm: () => void;
 }
 
 const CashOutConfirmation: React.FC<BuyInConfirmationProps> = ({
   player,
   amount,
   onCancel,
+  onConfirm,
 }) => {
-  const playerOwed = player.moneyOwed || 0;
+  const [open, setOpen] = React.useState(true);
+  const handleOnConfirm = () => {
+    onConfirm();
+    setOpen(false);
+  };
   return (
     <ConfirmBox
-      open={true}
+      open={open}
       onCancel={onCancel}
       title="Confirm Cash Out"
       message={
@@ -27,24 +32,7 @@ const CashOutConfirmation: React.FC<BuyInConfirmationProps> = ({
           <b>{player.name}</b>?
         </Box>
       }
-      onConfirm={() => {
-        console.log({ amount, playerOwed });
-        if (playerOwed > 0) {
-          transactionStore.addTransaction({
-            userId: player.id,
-            type: 'paid',
-            amount: playerOwed < amount ? playerOwed : amount,
-          });
-        }
-
-        transactionStore.addTransaction({
-          userId: player.id,
-          type: 'cashout',
-          amount,
-          cashOutPaid: amount > playerOwed ? amount - playerOwed : 0, // Cash out minus what they owe
-        });
-        onCancel();
-      }}
+      onConfirm={handleOnConfirm}
     />
   );
 };
