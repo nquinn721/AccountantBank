@@ -1,6 +1,6 @@
-import { makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { BaseStore } from './Base.store';
-import { IUser } from './User.store';
+import { IUser, userStore } from './User.store';
 
 export interface ITransaction {
   id: string;
@@ -17,6 +17,8 @@ class TransactionStore extends BaseStore {
     super();
     makeObservable(this, {
       transactions: observable,
+      getTransactions: action,
+      getMoneyOwed: action,
     });
     this.getTransactions();
   }
@@ -44,13 +46,6 @@ class TransactionStore extends BaseStore {
     amount: number;
     cashOutPaid?: number;
   }) {
-    console.log('Adding transaction:', {
-      userId,
-      type,
-      paytype,
-      amount,
-      cashOutPaid,
-    });
     await this.post({
       user: userId,
       type,
@@ -58,6 +53,14 @@ class TransactionStore extends BaseStore {
       amount,
       cashOutPaid,
     });
+    userStore.getUsers();
+    userStore.getCurrentPlayers();
+  }
+
+  getTotalBuyIns(transactions: ITransaction[]) {
+    return transactions
+      .filter((t) => t.type === 'borrow')
+      .reduce((sum, t) => sum + t.amount, 0);
   }
 }
 

@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { In } from 'typeorm';
 import { Transaction } from './Transaction.entity';
+import { TransactionUtil } from './Transaction.Util';
 
 @Injectable()
 export class TransactionService extends TypeOrmCrudService<Transaction> {
@@ -17,18 +18,9 @@ export class TransactionService extends TypeOrmCrudService<Transaction> {
   }
 
   async getMoneyOwed(userId: number): Promise<number> {
-    const transactions = await this.repo.find({
+    const transactions: Transaction[] = await this.repo.find({
       where: { user: { id: userId }, type: In(['borrow', 'paid']) },
     });
-    let totalOwed = 0;
-    transactions.forEach((tx) => {
-      if (tx.type === 'borrow') {
-        totalOwed += tx.amount;
-      }
-      if (tx.type === 'paid') {
-        totalOwed -= tx.amount;
-      }
-    });
-    return totalOwed;
+    return TransactionUtil.getTotalOwed(transactions);
   }
 }

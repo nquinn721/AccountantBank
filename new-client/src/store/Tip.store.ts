@@ -18,6 +18,7 @@ export class TipStore extends BaseStore {
       tips: observable,
       addTip: action,
       totalAmount: computed,
+      getTips: action,
     });
   }
 

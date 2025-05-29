@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { BaseStore } from './Base.store';
 
 export interface IRake {
@@ -15,6 +15,8 @@ class RakeStore extends BaseStore {
     super();
     makeObservable(this, {
       rakes: observable,
+      addRake: action,
+      getRakes: action,
     });
     this.getRakes();
   }

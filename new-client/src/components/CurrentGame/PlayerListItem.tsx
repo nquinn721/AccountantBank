@@ -11,16 +11,30 @@ const PlayerListItem: React.FC<PlayerListItemProps> = ({ player, onClick }) => {
   return (
     <ListItem
       key={player.id}
+      onClick={onClick}
       sx={{
         background: '#181818',
         color: '#fff',
         borderRadius: 2,
+        cursor: 'pointer',
         mb: 1,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.29)',
       }}
     >
-      <ListItemText primary={player.name ?? player.id} />
-      <Box sx={{ color: 'green' }}>${player.transactions?.[0].amount}</Box>
+      <Box>
+        <ListItemText primary={player.name ?? player.id} />
+        <Box sx={{ fontSize: '14px' }}>
+          Buy In:{' '}
+          <span style={{ color: 'green' }}>${player.totalBuyIn ?? 0}</span>
+        </Box>
+      </Box>
+      <Box>
+        <Box sx={{ fontSize: '12px' }}>Owes: ${player.moneyOwed}</Box>
+        <Box>Text</Box>
+      </Box>
     </ListItem>
   );
 };
