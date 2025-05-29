@@ -22,6 +22,10 @@ export class BaseStore {
   }
 
   async post(data: any, url: string = '') {
+    console.log(
+      'post in base store',
+      `${this.baseUrl}${this.url}${data.url || ''}${url}`,
+    );
     this.setLoading(true);
     try {
       const response = await fetch(

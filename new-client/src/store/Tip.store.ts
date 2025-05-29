@@ -1,16 +1,19 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { BaseStore } from './Base.store';
+import { IUser } from './User.store';
 
 export interface Tip {
   id: string;
   message: string;
   amount: number;
   date: Date;
+  user: IUser;
 }
 
 export class TipStore extends BaseStore {
-  url: string = 'tips';
+  url: string = '/tip';
   tips: Tip[] = [];
+  currentTips: Tip[] = [];
 
   constructor() {
     super();
@@ -18,18 +21,24 @@ export class TipStore extends BaseStore {
       tips: observable,
       addTip: action,
       totalAmount: computed,
-      getTips: action,
+      getCurrentTips: action,
+      currentTips: observable,
     });
+    this.getCurrentTips();
   }
 
-  async getTips() {
-    const data = await this.get();
-    this.tips = data;
+  async getCurrentTips() {
+    const twentyFourHoursAgo = new Date(
+      Date.now() - 24 * 60 * 60 * 1000,
+    ).toISOString();
+    const data = await this.get(`?created_at[gte]=${twentyFourHoursAgo}`);
+    this.currentTips = data;
   }
 
-  async addTip(tip: Tip) {
-    const newTip = await this.post(tip);
-    this.tips.push(newTip);
+  async addTip({ tip, user }: { tip: number; user: IUser | null }) {
+    console.log('Adding tip:', tip, 'for user:', user);
+    const newTip = await this.post({ user, amount: tip });
+    this.getCurrentTips();
   }
 
   get totalAmount() {

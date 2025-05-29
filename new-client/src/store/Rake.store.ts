@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { BaseStore } from './Base.store';
 
 export interface IRake {
@@ -10,25 +10,35 @@ export interface IRake {
 // RakeStore extends BaseStore
 class RakeStore extends BaseStore {
   rakes: IRake[] = [];
+  currentRakes: IRake[] = [];
+  url: string = '/rake';
 
   constructor() {
     super();
     makeObservable(this, {
       rakes: observable,
       addRake: action,
-      getRakes: action,
+      getCurrentRakes: action,
+      totalAmount: computed,
+      currentRakes: observable,
     });
-    this.getRakes();
+    this.getCurrentRakes();
   }
 
-  async getRakes() {
-    const data = await this.get();
-    this.rakes = data;
+  async getCurrentRakes() {
+    const twentyFourHoursAgo = new Date(
+      Date.now() - 24 * 60 * 60 * 1000,
+    ).toISOString();
+    const data = await this.get(`?created_at[gte]=${twentyFourHoursAgo}`);
+    this.currentRakes = data;
   }
 
-  async addRake(rake: IRake) {
-    const newRake = await this.post(rake);
-    this.rakes.push(newRake);
+  async addRake(amount: number) {
+    const newRake = await this.post({ amount });
+    this.currentRakes.push(newRake);
+  }
+  get totalAmount() {
+    return this.currentRakes.reduce((sum, rake) => sum + rake.amount, 0);
   }
 }
 
