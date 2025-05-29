@@ -5,8 +5,9 @@ import { CrudRequest, Override } from '@dataui/crud';
 import { HttpException } from '@nestjs/common';
 import { TipService } from 'src/Tip/Tip.service';
 import { TransactionService } from 'src/Transaction/Transaction.service';
+import { TransactionUtil } from 'src/Transaction/Transaction.Util';
 import { DeepPartial, In, MoreThanOrEqual } from 'typeorm';
-import { User } from './User.entity';
+import { IUser, User } from './User.entity';
 export class UserService extends TypeOrmCrudService<User> {
   constructor(
     @InjectRepository(User) repo,
@@ -57,7 +58,7 @@ export class UserService extends TypeOrmCrudService<User> {
   }
 
   // Get all users who have borrowed money in the last 24 hours
-  async currentPlayers(): Promise<User[]> {
+  async currentPlayers(): Promise<IUser[]> {
     const hoursAgo = 24;
     const startTime = new Date(Date.now() - hoursAgo * 60 * 60 * 1000);
     const transactions = await this.transactionService.find({
@@ -67,24 +68,28 @@ export class UserService extends TypeOrmCrudService<User> {
       },
       relations: ['user'],
     });
-    const users = {};
+    const users = {} as Record<number, IUser>;
     for (const transaction of transactions) {
       if (!users[transaction.user.id]) {
-        users[transaction.user.id] = {};
+        users[transaction.user.id] = {
+          id: transaction.user.id,
+          name: transaction.user.name,
+          isPlayer: transaction.user.isPlayer,
+          isAdmin: transaction.user.isAdmin,
+          isEmployee: transaction.user.isEmployee,
+          transactions: [],
+          moneyOwed: 0,
+          totalBuyIn: 0,
+        };
       }
 
-      const moneyOwed = await this.transactionService.getMoneyOwed(
-        transaction.user.id,
-      );
-      users[transaction.user.id] = {
-        ...transaction.user,
-        moneyOwed,
-        transactions: [
-          ...(users[transaction.user.id].transactions || []),
-          transaction,
-        ],
-      };
+      users[transaction.user.id].transactions.push(transaction);
     }
-    return Object.values(users);
+
+    for (const user of Object.values(users) as IUser[]) {
+      user.moneyOwed = TransactionUtil.getTotalOwed(user.transactions || []);
+      user.totalBuyIn = TransactionUtil.getTotalBuyIns(user.transactions || []);
+    }
+    return Object.values(users) as IUser[];
   }
 }

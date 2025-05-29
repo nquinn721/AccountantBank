@@ -7,6 +7,17 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Transaction } from '../Transaction/Transaction.entity';
+export interface IUser {
+  id: number;
+  name: string;
+  isPlayer: boolean;
+  isAdmin: boolean;
+  isEmployee: boolean;
+  transactions: Transaction[];
+  moneyOwed?: number;
+  totalBuyIn?: number;
+  isCashedOut?: boolean;
+}
 @Entity()
 export class User {
   @PrimaryGeneratedColumn() id: number;
