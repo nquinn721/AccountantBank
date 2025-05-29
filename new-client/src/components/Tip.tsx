@@ -1,0 +1,141 @@
+import AddIcon from '@mui/icons-material/Add';
+import {
+  Box,
+  Button,
+  Grid,
+  List,
+  ListItemText,
+  TextField,
+} from '@mui/material';
+import moment from 'moment';
+import React from 'react';
+import { tipStore } from '../store/Tip.store';
+import { IUser } from '../store/User.store';
+import ConfirmBox from './ConfirmBox';
+import PlayerSearch from './PlayerSearch';
+
+const typeColors = {
+  info: '#2f86eb',
+  success: '#28a745',
+  warning: '#ffc107',
+  error: '#dc3545',
+};
+
+const Tip: React.FC = () => {
+  const [playerFound, setPlayerFound] = React.useState<IUser | null>(null);
+  const [tip, setTip] = React.useState<number>(0);
+  const [showConfirm, setShowConfirm] = React.useState(false);
+
+  return (
+    <Grid
+      size={{ xs: 12, md: 6 }}
+      sx={{
+        background: '#222',
+        p: 3,
+        borderRadius: 2,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <Box mb={2}>
+        <ListItemText
+          primary="Tip"
+          primaryTypographyProps={{ variant: 'h5', sx: { color: '#fff' } }}
+        />
+        <ListItemText
+          secondary={`Total Tips: $${tipStore.totalAmount}`}
+          secondaryTypographyProps={{ sx: { color: '#fff' } }}
+        />
+      </Box>
+      <Box
+        sx={{
+          background: 'rgba(255, 255, 255, 0.05)',
+          borderRadius: 2,
+          paddingY: 2,
+          paddingX: 2,
+          height: '100%',
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: 'rgb(24, 24, 24)',
+            gap: 2,
+            padding: 2,
+          }}
+        >
+          <PlayerSearch playerFound={setPlayerFound} sx={{ mb: 2 }} />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mb: 2,
+            }}
+          >
+            <TextField
+              label="Tip Amount"
+              value={tip || ''}
+              size="small"
+              sx={{ flexGrow: 1, mr: 1 }}
+              onChange={(e) =>
+                setTip(e.target.value === '' ? 0 : Number(e.target.value))
+              }
+            />
+            <Button
+              variant="contained"
+              disabled={!playerFound || tip === null || tip <= 0}
+              onClick={() => {
+                if (playerFound && tip) setShowConfirm(true);
+              }}
+            >
+              <AddIcon />
+            </Button>
+          </Box>
+        </Box>
+        <List>
+          {tipStore.tips.map((tip) => (
+            <Box
+              key={tip.id}
+              sx={{
+                backgroundColor: '#333',
+                color: '#aaa',
+                padding: 1,
+                display: 'flex',
+                justifyContent: 'space-between',
+                borderRadius: 1,
+                marginBottom: 1,
+              }}
+            >
+              <ListItemText
+                primary={tip.user?.name || 'Unknown User'}
+                secondary={`$${tip.amount}`}
+              />
+              <ListItemText
+                primary={moment(tip.date).fromNow()}
+                secondary={moment(tip.date).format('h:mm MM/DD/YYYY')}
+              />
+            </Box>
+          ))}
+        </List>
+        <ConfirmBox
+          open={showConfirm}
+          title="Add Tip?"
+          message={`Add tip $${tip} for ${playerFound?.name || 'Unknown User'}?`}
+          onConfirm={() => {
+            tipStore.addTip({ user: playerFound, tip });
+            setShowConfirm(false);
+            setTip(0);
+            setPlayerFound(null);
+          }}
+          onCancel={() => {
+            setTip(0);
+            setPlayerFound(null);
+            setShowConfirm(false);
+          }}
+        />
+      </Box>
+    </Grid>
+  );
+};
+
+export default Tip;

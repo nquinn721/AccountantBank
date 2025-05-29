@@ -1,3 +1,4 @@
+import { Box, SxProps, Theme } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { observer } from 'mobx-react';
@@ -7,10 +8,12 @@ const PlayerSearch = ({
   playerFound,
   newUser,
   onClear,
+  sx = {},
 }: {
   playerFound?: (player: IUser) => void;
   newUser?: (name: string) => void;
   onClear?: () => void;
+  sx?: SxProps<Theme>;
 }) => {
   const options = userStore.users || [];
   const label = 'Player Name';
@@ -33,7 +36,7 @@ const PlayerSearch = ({
   };
 
   return (
-    <div className="player-search">
+    <Box className="player-search" sx={sx}>
       <Autocomplete
         className="player-search-autocomplete"
         options={options ? options.map((user) => user.name) : []}
@@ -49,7 +52,7 @@ const PlayerSearch = ({
         )}
         fullWidth
       />
-    </div>
+    </Box>
   );
 };
 

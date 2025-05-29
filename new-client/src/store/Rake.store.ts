@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { BaseStore } from './Base.store';
 
 export interface IRake {
@@ -17,6 +17,7 @@ class RakeStore extends BaseStore {
       rakes: observable,
       addRake: action,
       getRakes: action,
+      totalAmount: computed,
     });
     this.getRakes();
   }
@@ -26,9 +27,12 @@ class RakeStore extends BaseStore {
     this.rakes = data;
   }
 
-  async addRake(rake: IRake) {
-    const newRake = await this.post(rake);
+  async addRake(amount: number) {
+    const newRake = await this.post({ amount });
     this.rakes.push(newRake);
+  }
+  get totalAmount() {
+    return this.rakes.reduce((sum, rake) => sum + rake.amount, 0);
   }
 }
 
