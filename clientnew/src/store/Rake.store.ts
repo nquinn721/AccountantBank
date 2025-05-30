@@ -26,10 +26,7 @@ class RakeStore extends BaseStore {
   }
 
   async getCurrentRakes() {
-    const twentyFourHoursAgo = new Date(
-      Date.now() - 24 * 60 * 60 * 1000,
-    ).toISOString();
-    const data = await this.get(`?created_at[gte]=${twentyFourHoursAgo}`);
+    const data = await this.get(`current-rakes`);
     this.currentRakes = data || [];
   }
 
