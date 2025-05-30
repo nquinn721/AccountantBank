@@ -77,7 +77,7 @@ const Rake: React.FC = () => {
           </Box>
         </Box>
         <List sx={{ maxHeight: '300px', overflowY: 'auto' }}>
-          {rakeStore.currentRakes.map((rake) => (
+          {rakeStore.currentRakes?.map((rake) => (
             <Box
               key={rake.id}
               sx={{
