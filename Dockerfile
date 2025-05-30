@@ -12,7 +12,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 # Bundle app source
-RUN npm run setup:new-client
+RUN npm run setup:clientnew
 RUN npm run build
 
 # Creates a "dist" folder with the production build
