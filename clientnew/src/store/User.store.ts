@@ -39,14 +39,16 @@ class UserStore extends BaseStore {
 
   async getCurrentPlayers() {
     const players = await this.get('current-players');
-    this.currentPlayers = players.map((user: IUser) => {
-      return {
-        ...user,
-        isCashedOut: user.transactions?.some(
-          (transaction) => transaction.type === 'cashout',
-        ),
-      };
-    });
+    if (players) {
+      this.currentPlayers = players.map((user: IUser) => {
+        return {
+          ...user,
+          isCashedOut: user.transactions?.some(
+            (transaction) => transaction.type === 'cashout',
+          ),
+        };
+      });
+    }
   }
 
   getMoneyOwed(userId: number): Promise<number> {
