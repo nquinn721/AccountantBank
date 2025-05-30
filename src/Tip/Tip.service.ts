@@ -22,6 +22,7 @@ export class TipService extends TypeOrmCrudService<Tip> {
       where: {
         created_at: MoreThanOrEqual(startTime),
       },
+      relations: ['user'],
     });
   }
 }

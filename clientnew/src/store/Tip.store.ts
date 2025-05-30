@@ -33,7 +33,6 @@ export class TipStore extends BaseStore {
   }
 
   async addTip({ tip, user }: { tip: number; user: IUser | null }) {
-    console.log('Adding tip:', tip, 'for user:', user);
     const newTip = await this.post({ user, amount: tip });
     this.getCurrentTips();
   }
