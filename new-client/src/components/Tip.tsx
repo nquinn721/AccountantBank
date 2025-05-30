@@ -1,12 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
-import {
-  Box,
-  Button,
-  Grid,
-  List,
-  ListItemText,
-  TextField,
-} from '@mui/material';
+import { Box, Button, Grid, List, TextField } from '@mui/material';
 import { observer } from 'mobx-react';
 import moment from 'moment';
 import React from 'react';
@@ -39,15 +32,16 @@ const Tip: React.FC = () => {
         flexDirection: 'column',
       }}
     >
-      <Box mb={2}>
-        <ListItemText
-          primary="Tip"
-          primaryTypographyProps={{ variant: 'h5', sx: { color: '#fff' } }}
-        />
-        <ListItemText
-          secondary={`Total Tips: $${tipStore.totalAmount}`}
-          secondaryTypographyProps={{ sx: { color: '#fff' } }}
-        />
+      <Box
+        sx={{
+          mb: 2,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Box sx={{ fontSize: 25 }}>Rake</Box>
+        <Box>Total: ${tipStore.totalAmount}</Box>
       </Box>
       <Box
         sx={{
@@ -62,6 +56,7 @@ const Tip: React.FC = () => {
             backgroundColor: 'rgb(24, 24, 24)',
             gap: 2,
             padding: 2,
+            borderRadius: 1,
           }}
         >
           <PlayerSearch playerFound={setPlayerFound} sx={{ mb: 2 }} />
@@ -70,7 +65,6 @@ const Tip: React.FC = () => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              mb: 2,
             }}
           >
             <TextField
