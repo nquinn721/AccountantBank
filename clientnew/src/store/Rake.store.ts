@@ -38,7 +38,7 @@ class RakeStore extends BaseStore {
     this.currentRakes.push(newRake);
   }
   get totalAmount() {
-    return this.currentRakes.reduce((sum, rake) => sum + rake.amount, 0);
+    return this.currentRakes?.reduce((sum, rake) => sum + rake.amount, 0);
   }
 }
 
