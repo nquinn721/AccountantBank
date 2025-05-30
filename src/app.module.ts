@@ -26,7 +26,7 @@ import { UserModule } from './User/User.module';
       synchronize: true,
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'client', 'build'),
+      rootPath: join(__dirname, '..', '..', 'clientnew', 'build'),
     }),
     UserModule,
     TransactionModule,

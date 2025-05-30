@@ -33,6 +33,7 @@ function App() {
               {/* <NavBar /> */}
               <Routes>
                 <Route path="/" element={<Dashboard />} />
+                <Route path="/site" element={<Dashboard />} />
               </Routes>
             </Router>
           </Grid>

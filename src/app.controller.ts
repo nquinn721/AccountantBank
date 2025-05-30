@@ -21,9 +21,10 @@ export class AppController {
   @Get('/site')
   site(@Res() res, @Session() session) {
     if (session.isSignedIn) {
-      res.sendFile('index.html', { root: 'new-client/build' });
+      console.log('User is signed in');
+      res.sendFile('index.html', { root: 'clientnew/build' });
     } else {
-      res.sendFile('login.html', { root: 'src' });
+      res.redirect('/');
     }
   }
 }
