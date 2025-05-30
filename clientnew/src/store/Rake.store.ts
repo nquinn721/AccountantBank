@@ -30,7 +30,7 @@ class RakeStore extends BaseStore {
       Date.now() - 24 * 60 * 60 * 1000,
     ).toISOString();
     const data = await this.get(`?created_at[gte]=${twentyFourHoursAgo}`);
-    this.currentRakes = data;
+    this.currentRakes = data || [];
   }
 
   async addRake(amount: number) {

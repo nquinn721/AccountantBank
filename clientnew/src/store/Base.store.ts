@@ -1,7 +1,7 @@
 export class BaseStore {
   isLoading: boolean = false;
   error: string | null = null;
-  baseUrl: string = 'http://localhost:8080';
+  baseUrl: string = process.env.REACT_APP_IS_DEV ? 'http://localhost:8080' : '';
   url: string = '';
 
   async get(url?: string) {
