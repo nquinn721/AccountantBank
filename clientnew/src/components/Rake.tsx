@@ -91,7 +91,7 @@ const Rake: React.FC = () => {
               }}
             >
               <span>{`$${rake.amount}`}</span>
-              <span>{moment(rake.date).format('h:mm A')}</span>
+              <span>{moment(rake.created_at).format('h:mm a MM/DD')}</span>
             </Box>
           ))}
         </List>

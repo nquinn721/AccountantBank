@@ -40,7 +40,7 @@ const Tip: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        <Box sx={{ fontSize: 25 }}>Rake</Box>
+        <Box sx={{ fontSize: 25 }}>Tip</Box>
         <Box>Total: ${tipStore.totalAmount}</Box>
       </Box>
       <Box
@@ -104,7 +104,7 @@ const Tip: React.FC = () => {
             >
               {tip.user?.name || 'Unknown User'}
               <span>{`$${tip.amount}`}</span>
-              {moment(tip.created_at).format('h:mm a')}
+              {moment(tip.created_at).format('h:mm a MM/DD')}
             </Box>
           ))}
         </List>

@@ -4,7 +4,7 @@ import { BaseStore } from './Base.store';
 export interface IRake {
   id: string;
   amount: number;
-  date: Date;
+  created_at: Date;
 }
 
 // RakeStore extends BaseStore

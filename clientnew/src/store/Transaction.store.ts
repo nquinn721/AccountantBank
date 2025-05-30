@@ -9,6 +9,7 @@ export interface ITransaction {
   cashOutPaid: number;
   paySource?: string; // "cash" | "venmo" | "zelle" | "paypal" | "cashapp" | "other"
   type: string; // "borrow" | "paid"
+  created_at: Date;
 }
 class TransactionStore extends BaseStore {
   url: string = '/transaction';
