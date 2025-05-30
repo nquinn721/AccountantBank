@@ -40,7 +40,7 @@ const Tip: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        <Box sx={{ fontSize: 25 }}>Rake</Box>
+        <Box sx={{ fontSize: 25 }}>Tip</Box>
         <Box>Total: ${tipStore.totalAmount}</Box>
       </Box>
       <Box
