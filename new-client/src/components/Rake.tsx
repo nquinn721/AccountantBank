@@ -96,11 +96,8 @@ const Rake: React.FC = () => {
                 marginBottom: 1,
               }}
             >
-              <ListItemText primary="Total:" secondary={`$${rake.amount}`} />
-              <ListItemText
-                primary={moment(rake.date).fromNow()}
-                secondary={moment(rake.date).format('h:mm MM/DD/YYYY')}
-              />
+              <span>{`$${rake.amount}`}</span>
+              <span>{moment(rake.date).format('h:mm A')}</span>
             </Box>
           ))}
         </List>

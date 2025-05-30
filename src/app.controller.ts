@@ -21,7 +21,7 @@ export class AppController {
   @Get('/site')
   site(@Res() res, @Session() session) {
     if (session.isSignedIn) {
-      res.sendFile('index.html', { root: 'client/build' });
+      res.sendFile('index.html', { root: 'new-client/build' });
     } else {
       res.sendFile('login.html', { root: 'src' });
     }
