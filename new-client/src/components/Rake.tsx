@@ -19,10 +19,11 @@ const Rake: React.FC = () => {
 
   return (
     <Grid
-      size={{ xs: 12, md: 6 }}
+      size={{ xs: 12, md: 4 }}
       sx={{
         background: '#222',
         p: 3,
+        height: '100%',
         borderRadius: 2,
         display: 'flex',
         flexDirection: 'column',
@@ -44,7 +45,6 @@ const Rake: React.FC = () => {
           borderRadius: 2,
           paddingY: 2,
           paddingX: 2,
-          height: '100%',
         }}
       >
         <Box
@@ -82,7 +82,7 @@ const Rake: React.FC = () => {
             </Button>
           </Box>
         </Box>
-        <List>
+        <List sx={{ maxHeight: '300px', overflowY: 'auto' }}>
           {rakeStore.currentRakes.map((rake) => (
             <Box
               key={rake.id}

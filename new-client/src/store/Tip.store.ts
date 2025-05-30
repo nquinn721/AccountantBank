@@ -6,7 +6,7 @@ export interface Tip {
   id: string;
   message: string;
   amount: number;
-  date: Date;
+  created_at: Date;
   user: IUser;
 }
 
@@ -42,7 +42,7 @@ export class TipStore extends BaseStore {
   }
 
   get totalAmount() {
-    return this.tips.reduce((sum, tip) => sum + tip.amount, 0);
+    return this.currentTips.reduce((sum, tip) => sum + tip.amount, 0);
   }
 }
 

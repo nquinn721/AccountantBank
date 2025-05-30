@@ -1,4 +1,4 @@
-import { Box, Button, Modal, TextField } from '@mui/material';
+import { Box, Button, Checkbox, Modal, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { transactionStore } from '../store/Transaction.store';
 import { IUser, userStore } from '../store/User.store';
@@ -15,15 +15,16 @@ const AddNewPlayer: React.FC<{
   const [buyin, setBuyin] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
   const [paySource, setPaySource] = useState<string>('cash');
+  const [isPaid, setIsPaid] = useState(false);
 
   const handleSubmit = async () => {
     let p = player;
     if (newPlayer) p = await userStore.addUser(newPlayer);
-    transactionStore.addTransaction({
+    transactionStore.buyIn({
       userId: p ? Number(p.id) : 0,
-      type: 'borrow',
       amount: buyin,
       paySource,
+      isPaid,
     });
     setPlayer(null);
     setBuyin(0);
@@ -87,6 +88,17 @@ const AddNewPlayer: React.FC<{
             onConfirm={handleSubmit}
             onCancel={() => setShowConfirm(false)}
           />
+          <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
+            <Checkbox
+              id="isPaid"
+              checked={isPaid}
+              onChange={(e) => setIsPaid(e.target.checked)}
+              sx={{ p: 0, mr: 1 }}
+            />
+            <label htmlFor="isPaid" style={{ fontSize: 14 }}>
+              Is Paid?
+            </label>
+          </Box>
           <Button
             onClick={() => setShowConfirm(true)}
             color="primary"
