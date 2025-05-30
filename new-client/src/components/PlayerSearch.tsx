@@ -41,6 +41,7 @@ const PlayerSearch = ({
         className="player-search-autocomplete"
         options={options ? options.map((user) => user.name) : []}
         freeSolo
+        size="small"
         onInputChange={(_, newInputValue) => handleInputChange(newInputValue)}
         renderInput={(params) => (
           <TextField
