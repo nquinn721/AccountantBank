@@ -104,7 +104,7 @@ const Tip: React.FC = () => {
             >
               {tip.user?.name || 'Unknown User'}
               <span>{`$${tip.amount}`}</span>
-              {moment(tip.created_at).format('h:mm a')}
+              {moment(tip.created_at).format('h:mm a MM/DD')}
             </Box>
           ))}
         </List>
