@@ -34,6 +34,33 @@ class TransactionStore extends BaseStore {
     return moneyOwed;
   }
 
+  async buyIn({
+    userId,
+    amount,
+    paySource = 'cash',
+    isPaid = false,
+  }: {
+    userId: number;
+    amount: number;
+    paySource?: string;
+    isPaid?: boolean;
+  }) {
+    await this.addTransaction({
+      userId,
+      type: 'borrow',
+      amount,
+      paySource,
+    });
+    if (isPaid) {
+      await this.addTransaction({
+        userId,
+        type: 'paid',
+        amount,
+        paySource,
+      });
+    }
+  }
+
   async cashOut({
     playerOwed,
     userId,

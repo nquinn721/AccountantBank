@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { Button, Checkbox, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { observer } from 'mobx-react';
@@ -20,6 +20,7 @@ const PlayerInfoModal: React.FC<
   const [showBuyInConfirm, setShowBuyInConfirm] = useState(false);
   const [showCashOutConfirm, setShowCashOutConfirm] = useState(false);
   const [paySource, setPaySource] = useState<string>('');
+  const [isPaid, setIsPaid] = useState(false);
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -46,13 +47,13 @@ const PlayerInfoModal: React.FC<
           </Box>
         </Box>
 
-        <Box sx={{ gap: 1, mb: 3, mt: 2 }}>
+        <Box sx={{ gap: 1, my: 3 }}>
           <TextField
             type="number"
             placeholder="Enter amount"
             variant="outlined"
             fullWidth
-            sx={{ mb: 2 }}
+            sx={{ mb: 3 }}
             onChange={(e) => {
               setAmount(Number(e.target.value));
             }}
@@ -60,6 +61,17 @@ const PlayerInfoModal: React.FC<
           <PaymentTypeList onSelect={setPaySource} />
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+          <Box>
+            <Checkbox
+              checked={isPaid}
+              onChange={(e) => {
+                setIsPaid(e.target.checked);
+              }}
+            />
+            <label htmlFor="isPaid" style={{ fontSize: 14 }}>
+              Is Paid?
+            </label>
+          </Box>
           <Button
             variant="contained"
             sx={{ flex: 1 }}

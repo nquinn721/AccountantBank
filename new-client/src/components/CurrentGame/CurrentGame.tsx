@@ -23,7 +23,7 @@ const CurrentGame: React.FC = () => {
 
   return (
     <Grid
-      size={{ xs: 12, md: 6 }}
+      size={{ xs: 12, md: 4 }}
       sx={{ background: '#222', p: 3, borderRadius: 2 }}
     >
       <Box
@@ -52,6 +52,8 @@ const CurrentGame: React.FC = () => {
             borderRadius: 2,
             paddingTop: 2,
             paddingX: 2,
+            maxHeight: '800px',
+            overflowY: 'auto',
           }}
         >
           {currentPlayers?.map((player) => (

@@ -29,10 +29,11 @@ const Tip: React.FC = () => {
 
   return (
     <Grid
-      size={{ xs: 12, md: 6 }}
+      size={{ xs: 12, md: 4 }}
       sx={{
         background: '#222',
         p: 3,
+        height: '100%',
         borderRadius: 2,
         display: 'flex',
         flexDirection: 'column',
@@ -54,7 +55,6 @@ const Tip: React.FC = () => {
           borderRadius: 2,
           paddingY: 2,
           paddingX: 2,
-          height: '100%',
         }}
       >
         <Box
@@ -93,28 +93,24 @@ const Tip: React.FC = () => {
             </Button>
           </Box>
         </Box>
-        <List>
+        <List sx={{ maxHeight: '400px', overflowY: 'auto' }}>
           {tipStore.currentTips.map((tip) => (
             <Box
               key={tip.id}
               sx={{
                 backgroundColor: '#333',
                 color: '#aaa',
+                width: '100%',
+                justifyContent: 'space-between',
                 padding: 1,
                 display: 'flex',
-                justifyContent: 'space-between',
                 borderRadius: 1,
                 marginBottom: 1,
               }}
             >
-              <ListItemText
-                primary={tip.user?.name || 'Unknown User'}
-                secondary={`$${tip.amount}`}
-              />
-              <ListItemText
-                primary={moment(tip.date).fromNow()}
-                secondary={moment(tip.date).format('h:mm MM/DD/YYYY')}
-              />
+              {tip.user?.name || 'Unknown User'}
+              <span>{`$${tip.amount}`}</span>
+              {moment(tip.created_at).format('h:mm a')}
             </Box>
           ))}
         </List>
